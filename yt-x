@@ -99,8 +99,9 @@ readonly CLI_STATE_DIR="$CLI_CACHE_DIR/state"
 readonly CLI_CURRENT_STATE_DIR="$CLI_STATE_DIR/${CLI_START_TIME}-$$"
 
 readonly CLI_PREVIEW_DIR="$CLI_CACHE_DIR/previews"
-readonly CLI_PREVIEW_IMGS_DIR="$CLI_CACHE_DIR/previews/images"
-readonly CLI_PREVIEW_SCRIPTS_DIR="$CLI_CACHE_DIR/previews/text"
+readonly CLI_PREVIEW_IMGS_DIR="$CLI_PREVIEW_DIR/images"
+readonly CLI_PREVIEW_SCRIPTS_DIR="$CLI_PREVIEW_DIR/text"
+readonly CLI_FZF_PREVIEW_SCRIPT="$CLI_PREVIEW_SCRIPTS_DIR/fzf-preview.sh"
 
 readonly CLI_AUTO_GEN_PLAYLISTS="$CLI_CACHE_DIR/generated-playlists"
 readonly CLI_DOWNLOAD_ARCHIVE_DIR="$CLI_CACHE_DIR/archives"
@@ -857,9 +858,12 @@ __ui_fzf_launcher_with_preview() {
   local multi_select
   local preview_script
 
-  preview_script="
-preview_txt='{1}'
-[ -s \"\$preview_txt\" ] && exec sh \"\$preview_txt\"
+  preview_script="\
+CONFIG_IMAGE_RENDERER='$CONFIG_IMAGE_RENDERER'
+CLI_PLATFORM='$CLI_PLATFORM'
+THEME_FZF_PREVIEW_DIVIDER='$THEME_FZF_PREVIEW_DIVIDER'
+preview_script_path='{1}'
+[ -s \"\$preview_script_path\" ] && . \"\$preview_script_path\"\
 "
 
   multi_select="$2"
@@ -1103,14 +1107,13 @@ ui_load() {
 # Previews
 # ==============================================================================
 __preview_fzf_create_shared_script() {
-  local shared_script_path
-  local fzf_preview
+  if ! [ -s "$CLI_FZF_PREVIEW_SCRIPT" ]; then
+    cat <<'EOF' >"$CLI_FZF_PREVIEW_SCRIPT"
+#!/usr/bin/env sh
+# ==============================================================================
+# Shared script for fzf previews
+# ==============================================================================
 
-  shared_script_path="$CLI_PREVIEW_SCRIPTS_DIR/fzf-preview.sh"
-
-  if ! [ -s "$shared_script_path" ]; then
-    fzf_preview="$(
-      cat <<'EOF'
 draw_divider() {
   ll=1
   while [ $ll -le $FZF_PREVIEW_COLUMNS ];do printf "${THEME_FZF_PREVIEW_DIVIDER}─${THEME_RESET}" ;ll=$(( ll + 1 ));done;
@@ -1162,22 +1165,12 @@ fzf_preview() {
   fi
 }
 EOF
-    )"
-    fzf_preview="
-CONFIG_IMAGE_RENDERER=\"$CONFIG_IMAGE_RENDERER\"
-CLI_PLATFORM=\"$CLI_PLATFORM\"
-THEME_FZF_PREVIEW_DIVIDER=\"$THEME_FZF_PREVIEW_DIVIDER\"
-
-$fzf_preview
-    "
-    echo "$fzf_preview" >"$shared_script_path"
   else
     return
   fi
 }
 
 __preview_fzf_generate_script_for_item() {
-  local shared_script_path
   local data_item
   local title
   local raw_title
@@ -1194,7 +1187,6 @@ __preview_fzf_generate_script_for_item() {
   local script
   local img_url
 
-  shared_script_path="$CLI_PREVIEW_SCRIPTS_DIR/fzf-preview.sh"
   data_item="$1"
 
   eval "$(printf "%s\n" "$data_item" | jq -r '
@@ -1281,8 +1273,8 @@ __preview_fzf_generate_script_for_item() {
 
   image_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s\n" "$img_url" | _util_generate_hash).jpg"
 
-  script="$(
-    cat <<EOF
+  cat <<EOF >"$preview_script_path"
+#!/usr/bin/env sh
 # ==============================================================================
 # This script is generated dynamically for each preview item and is executed 
 # by fzf when that item is previewed. You can customize the content and layout 
@@ -1291,12 +1283,12 @@ __preview_fzf_generate_script_for_item() {
 # item's data through the variables defined at the beginning (title, image_path,
 # view_count, live_status, description, channel, duration, timestamp).
 # You can also use any utilities or functions defined in the shared script 
-# (fzf-preview.sh) to render images or format text.
+# ($CLI_FZF_PREVIEW_SCRIPT) to render images or format text.
 # ==============================================================================
 
-. "$shared_script_path"
+. "$CLI_FZF_PREVIEW_SCRIPT"
 
-if [ '$CONFIG_ENABLE_PREVIEW' = 'true' ];then
+if [ '$CONFIG_ENABLE_PREVIEW_IMAGES' = 'true' ];then
   if [ -s "$image_path" ];then 
     fzf_preview "$image_path" 2>/dev/null;
   else
@@ -1342,9 +1334,6 @@ if ! [ $description = "null" ];then
   printf "%s\n" $description|fold -s -w "\$FZF_PREVIEW_COLUMNS"
 fi
 EOF
-  )"
-
-  printf "%s" "$script" >"$preview_script_path"
 }
 
 _preview_fzf_generate_script() {
@@ -3795,6 +3784,7 @@ _app_update_script() {
   [ -z "$update" ] && ui_notify_critical "Failed to fetch update information"
 
   if printf "%s" "$update" >"$CLI_PATH"; then
+    rm "$CLI_FZF_PREVIEW_SCRIPT"
     if ui_confirm "Script has been updated! Would you like to re-execute it?"; then
       # shellcheck disable=SC2086
       exec "$CLI_PATH" $CLI_ARGS
