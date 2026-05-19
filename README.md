@@ -1249,14 +1249,8 @@ so its one hell of a learning xp
 <summary><b>Why did you decide to write your own version and not just use magic-tape?</b></summary>
 <br>
 
-Initially  previews on kitty did not work and it took sometime before my issue was answered and solved,
-and by then i had already decided to write my own on github(what am use to) in contrast with magic tape on gitlab.
-I also did not like fact that you had to use an installer(did not feel scripty) to set things up and prefer the script to just work
-out of the box.
-
-Plus i did not personally like the way it was written, i found it hard to read and understand whats going on 
-and i had a ton of features in mind from just seeing it that i wanted to implement.
-And i dont think its cool opening a pr where you have rewritten nearly the entire script and wait for an unknown duration for it to be merged
+Initially  previews on kitty did not work and it took sometime before my [issue](https://gitlab.com/christosangel/magic-tape/-/work_items/2) was answered and solved,
+and a month later i decided to write my own on github(what am use to) in contrast with magic tape on gitlab.
 
 And thus in my first year, during orientation week, yt-x was born and became my second popular oss project.
 </details>
