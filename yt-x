@@ -843,7 +843,6 @@ _ui_launcher() {
   fzf) __ui_fzf_launcher "$@" ;;
   *) ui_notify_critical "$TXT_LAUNCHER_UNKNOWN: $CONFIG_LAUNCHER" ;;
   esac
-
 }
 
 ui_launcher() {
@@ -3924,6 +3923,7 @@ Options:
   -E, --generate-desktop-entry   Print a .desktop file to stdout and exit
   -U, --update                   Check for and apply an update for $CLI_NAME
   -l, --launcher <launcher>      Menu launcher: fzf or rofi
+  --config-write                 Write the current runtime config to the config file
   --preview                      Enable the preview window (images/text)
   --no-preview                   Disable the preview window
   --preview-images               Enable the image preview window
@@ -4131,6 +4131,7 @@ complete -c $CLI_NAME -n "__fish_use_subcommand" -s v -l version -d "Show versio
 complete -c $CLI_NAME -n "__fish_use_subcommand" -s e -l edit-config -d "Edit config file"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -s E -l generate-desktop-entry -d "Print desktop entry info"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -s U -l update -d "Update the script"
+complete -c $CLI_NAME -n "__fish_use_subcommand" -l config-write -d "Write current config to file"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l launcher -s l -d "Preferred launcher" --require-parameter --no-files -a "fzf rofi"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l preview -d "Enable preview window"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l no-preview -d "Disable preview window"
@@ -4240,6 +4241,7 @@ _app_cmd_line_parser() {
     -ce | --cmd-exit) CMD_EXIT=true ;;
     -ps | --playlist-skip) CMD_PLAYLIST_RESULTS_SKIP=true ;;
     -me | --media-exit) CMD_MEDIA_EXIT=true ;;
+    --config-write) _print_config >"$CLI_CONFIG_FILE" ;;
     --preview) CONFIG_ENABLE_PREVIEW=true ;;
     --no-preview) CONFIG_ENABLE_PREVIEW=false ;;
     --preview-images) CONFIG_ENABLE_PREVIEW_IMAGES=true ;;

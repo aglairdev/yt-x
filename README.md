@@ -306,10 +306,10 @@ yt-x
 #### 🖥️ UI & Interface
 
 - `-l, --launcher <fzf|rofi>` : Override the default menu launcher.
-- `--preview` Enable the preview window (images/text)
-- `--no-preview` Disable the preview window
-- `--preview-images` Enable the image preview window
-- `--no-preview-images` Disable the image preview window
+- `--preview` : Enable the preview window (images/text)
+- `--no-preview` : Disable the preview window
+- `--preview-images` : Enable the image preview window
+- `--no-preview-images` : Disable the image preview window
 - `-x, --extension <ext>` : Load a specific extension file (absolute path or relative to `~/.config/yt-x/extensions/`; _supports fish tab complete_).
 - `-ce, --cmd-exit` : Exit after shortcut menu command‑line options (useful for scripting).
 - `-ps, --playlist-skip` : Skip the item selection menu and automatically pick the first entry in a playlist.
@@ -345,6 +345,7 @@ yt-x
 - `-E, --generate-desktop-entry` : Print a `.desktop` application entry to `stdout` (useful for Linux application menus).
 - `-v, --version` : Print version information and exit.
 - `-h, --help` : Show the help message and exit.
+- `--config-write` : Write the current runtime config to the config file
 
 #### 🎨 Rofi Theming
 
