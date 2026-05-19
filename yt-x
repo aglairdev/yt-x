@@ -3783,7 +3783,7 @@ _app_update_script() {
   [ -z "$update" ] && ui_notify_critical "Something went wrong fetching the update, can't proceed with the update"
 
   if printf "%s" "$update" >"$CLI_PATH"; then
-    rm "$CLI_FZF_PREVIEW_SCRIPT"
+    rm "$CLI_FZF_PREVIEW_SCRIPT" >/dev/null 2>&1
     if ui_confirm "Script has been updated! Would you like to re-execute it?"; then
       # shellcheck disable=SC2086
       exec "$CLI_PATH" $CLI_ARGS
