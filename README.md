@@ -306,8 +306,10 @@ yt-x
 #### 🖥️ UI & Interface
 
 - `-l, --launcher <fzf|rofi>` : Override the default menu launcher.
-- `-i, --preview` : Enable the media preview window (images and metadata).
-- `-I, --no-preview` : Disable the media preview window.
+- `--preview` Enable the preview window (images/text)
+- `--no-preview` Disable the preview window
+- `--preview-images` Enable the image preview window
+- `--no-preview-images` Disable the image preview window
 - `-x, --extension <ext>` : Load a specific extension file (absolute path or relative to `~/.config/yt-x/extensions/`; _supports fish tab complete_).
 - `-ce, --cmd-exit` : Exit after shortcut menu command‑line options (useful for scripting).
 - `-ps, --playlist-skip` : Skip the item selection menu and automatically pick the first entry in a playlist.
@@ -452,14 +454,14 @@ Almost all CLI options can be permanently set in `~/.config/yt-x/config` or over
 Search for a specific topic instantly while enabling image previews:
 
 ```bash
-yt-x --preview -s "cyberpunk 2077 ost"
+yt-x --preview --preview-images -s "cyberpunk 2077 ost"
 ```
 
 **2. Desktop/GUI Mode**  
 Launch `yt-x` as a graphical application using Rofi (great for mapping to a keyboard shortcut in your Window Manager):
 
 ```bash
-yt-x --launcher rofi --preview --no-disown-player
+yt-x --launcher rofi --preview --preview-images --no-disown-player
 ```
 
 **3. Audio‑Only Background Music**  
@@ -1018,7 +1020,7 @@ yt-x -l rofi
 yt-x -p vlc
 
 # Combine with other options
-yt-x -l rofi -p vlc --preview
+yt-x -l rofi -p vlc --preview --preview-images
 ```
 
 </details>
@@ -1194,11 +1196,11 @@ Combine these with `--cmd-exit` for non‑interactive workflows.
 <summary><b>what window manager is that and how do i make mine look like that?</b></summary>
 <br>
 
-i am using niri as my compositer and noctalia does all the theming for me. 
+i am using niri as my compositer and noctalia does all the theming for me.
 Though am planning to create my own riced setup when i gate free time, and
 maybe even a my own widget system which should also function as an sddm alternative since i personally
 dont like quickshell since its a resource hog and one of the reasons i like linux is low resource usage;
-especially since my  first laptop was not powerful (celeron, 4gb ram, 1tb harddisk),
+especially since my first laptop was not powerful (celeron, 4gb ram, 1tb harddisk),
 so i still have the over optimizing mindset.
 I even have a name for it lol, i cant remember it now but i know it has an 'x' in it lol
 its probably going to be based on iced-rs and the config language rhai
@@ -1209,6 +1211,7 @@ does that mean am a rust fanatic, nope just dont want to deal with a class of bu
 though i still plan to master zig after rust since i like its concept of explicit memory management
 it helps in reducing cognitive overload in large systems and there are times where manual memory management
 is useful like when you need to squeeze every single bit of performance plus its syntax looks interesting
+
 </details>
 
 <details>
@@ -1217,13 +1220,14 @@ is useful like when you need to squeeze every single bit of performance plus its
 
 its kitty's quake terminal mode, you can set one using quake-terminal kitten for kitty users.
 Other terminals also implement may also implement a similar feature.
+
 </details>
 
 <details>
 <summary><b>How can i get mpv to look like the one in the demos (just look nicer)?</b></summary>
 <br>
 
-I personaly use [uosc](https://github.com/tomasklaen/uosc) which in my opinion its by far the best ui for 
+I personaly use [uosc](https://github.com/tomasklaen/uosc) which in my opinion its by far the best ui for
 mpv. They have even implemented rendering yt's heatmap in the timeline.
 You can even also install [thumbfast](https://github.com/po5/thumbfast) which will add timeline previews.
 
@@ -1237,22 +1241,24 @@ Honestly, it was initially cause at the time the project where i first saw the c
 [magictape](https://gitlab.com/christosangel/magic-tape).
 Other than that i had know meaningful reason then.
 But now i can say its portability(runs in zsh, dash, bash, ksh; posix compliant systems) and its really easy to
-modify, audit and build upon a shell script since the excutable is just one file and you can open it up in your 
+modify, audit and build upon a shell script since the excutable is just one file and you can open it up in your
 editor anytime or easily modify it to do what you want without having to open a pr have a fork etc.
-I have also grown to like writing shell scripts and the challenge involved its kinda cool 
+I have also grown to like writing shell scripts and the challenge involved its kinda cool
 and ais suck at writing it esp long ones lol, so yeah.
 Though for the same reason it makes it had to find reliable material or information on some concepts,
 so its one hell of a learning xp
+
 </details>
 
 <details>
 <summary><b>Why did you decide to write your own version and not just use magic-tape?</b></summary>
 <br>
 
-Initially  previews on kitty did not work and it took sometime before my [issue](https://gitlab.com/christosangel/magic-tape/-/work_items/2) was answered and solved,
+Initially previews on kitty did not work and it took sometime before my [issue](https://gitlab.com/christosangel/magic-tape/-/work_items/2) was answered and solved,
 and a month later i decided to write my own on github(what am use to) in contrast with magic tape on gitlab.
 
 And thus in my first year, during orientation week, yt-x was born and became my second popular oss project.
+
 </details>
 
 <details>
@@ -1262,13 +1268,14 @@ And thus in my first year, during orientation week, yt-x was born and became my 
 well non really just there to show the progression to a stable version `v1.0.0`.
 where i wont wake up one night with a ton of ideas and implement them before i go back to sleep the next day lol.
 
-Other than that i dont think going forward there will be that many changes esp since the heavy lifting is done by its dependencies like yt-dlp. 
+Other than that i dont think going forward there will be that many changes esp since the heavy lifting is done by its dependencies like yt-dlp.
 The script will proabably work for many years to come as long as yt-dlp exists, which i think it will.
 And ways the last major change i have made before `v1.0.0` was the rewrite `v0.5.0` which was done in a separate
-branch and  took a week ~8hrs a day to write and i aint doing that again lol
+branch and took a week ~8hrs a day to write and i aint doing that again lol
 
 Plus the update process is pretty transparent since you always get to see what changed. Which i think its unique to
 yt-x.
+
 </details>
 
 <details>
@@ -1277,6 +1284,7 @@ yt-x.
 
 My goal with this was to make it easier to build ontop of a feature or menu without losing the original functionality eg in extensions.
 In other languages this would be trivial without need for the redundancy but in shell this is the best idea i have so far
+
 </details>
 
 <details>
@@ -1292,8 +1300,8 @@ yes
 Well i only have so much time and i really do have to sleep lol such is the fate of organic lifeforms lol.
 Though prs are mighty welcomed
 
-Like i have so many ideas, though i decided not to implement some due to the illusion of how long it will take 
-like v0.5.0, thought i could do the rewrite in a day lol, ended up being a week working nearly most of the day. 
+Like i have so many ideas, though i decided not to implement some due to the illusion of how long it will take
+like v0.5.0, thought i could do the rewrite in a day lol, ended up being a week working nearly most of the day.
 There are even somethings i mentioned i will do at the start of the pr that i got so tired i decided not to
 implement.
 
@@ -1301,8 +1309,8 @@ And for the same reason if you want to request a feature its fine, though whethe
 entirely whether i find it interesting enough or i will use it.
 
 Otherwise you will probably have to open a pr or wait for someone else to implement it
-</details>
 
+</details>
 
 <details>
 <summary><b>Why such a long faq?</b></summary>
@@ -1313,6 +1321,7 @@ and i thought why not just share all the knowledge i have on the tools the scrip
 shown in my demos.
 Plus i remember how hard and long it took to solve some issues and want the script to be something you install
 and it just works.
+
 </details>
 
 ## 🤝 Support & Contribution

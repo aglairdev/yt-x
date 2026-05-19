@@ -3924,8 +3924,10 @@ Options:
   -E, --generate-desktop-entry   Print a .desktop file to stdout and exit
   -U, --update                   Check for and apply an update for $CLI_NAME
   -l, --launcher <launcher>      Menu launcher: fzf or rofi
-  -i, --preview                  Enable the preview window (images/text)
-  -I, --no-preview               Disable the preview window
+  --preview                      Enable the preview window (images/text)
+  --no-preview                   Disable the preview window
+  --preview-images               Enable the image preview window
+  --no-preview-images            Disable the image preview window
   -p, --player <player>          Media player: mpv, vlc or tplay
   --mpv-args                     Pass custom mpv args at runtime
   --vlc-args                     Pass custom vlc args at runtime
@@ -4010,7 +4012,7 @@ Examples:
   $CLI_NAME -s 'onepiece elbaf trailer'     # Search immediately
   $CLI_NAME -sp 'rust tutorial'             # Search playlists immediately
   $CLI_NAME -sc 'learn coding'              # Search channels immediately
-  $CLI_NAME --launcher rofi --preview       # Use rofi with previews
+  $CLI_NAME --launcher rofi --preview --preview-images       # Use rofi with previews
 
   # Media action shortcuts
   $CLI_NAME --play                          # Play the selected video (interactive selection)
@@ -4132,6 +4134,8 @@ complete -c $CLI_NAME -n "__fish_use_subcommand" -s U -l update -d "Update the s
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l launcher -s l -d "Preferred launcher" --require-parameter --no-files -a "fzf rofi"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l preview -d "Enable preview window"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l no-preview -d "Disable preview window"
+complete -c $CLI_NAME -n "__fish_use_subcommand" -l preview-images -d "Enable image previews"
+complete -c $CLI_NAME -n "__fish_use_subcommand" -l no-preview-images -d "Disable image previews"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l player -s p -d "Media player" --require-parameter --no-files -a "mpv vlc tplay"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l mpv-args -d "Pass custom mpv args at runtime"
 complete -c $CLI_NAME -n "__fish_use_subcommand" -l vlc-args -d "Pass custom vlc args at runtime"
@@ -4233,11 +4237,13 @@ _app_cmd_line_parser() {
     -U | --update) _app_update_check || echo "No updates found" && exit 1 ;;
     -e | --edit-config) _app_edit_config ;;
     -E | --generate-desktop-entry) _app_generate_desktop_entry ;;
-    -i | --preview) CONFIG_ENABLE_PREVIEW=true ;;
-    -I | --no-preview) CONFIG_ENABLE_PREVIEW=false ;;
     -ce | --cmd-exit) CMD_EXIT=true ;;
     -ps | --playlist-skip) CMD_PLAYLIST_RESULTS_SKIP=true ;;
     -me | --media-exit) CMD_MEDIA_EXIT=true ;;
+    --preview) CONFIG_ENABLE_PREVIEW=true ;;
+    --no-preview) CONFIG_ENABLE_PREVIEW=false ;;
+    --preview-images) CONFIG_ENABLE_PREVIEW_IMAGES=true ;;
+    --no-preview-images) CONFIG_ENABLE_PREVIEW_IMAGES=false ;;
     -x | --extension)
       [ -n "$2" ] || _app_usage 1
       if [ "${2#/}" != "$2" ]; then
