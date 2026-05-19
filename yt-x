@@ -3779,8 +3779,8 @@ _app_update_script() {
     fi
   fi
 
-  update=$(curl -s "$CLI_URL")
-  [ -z "$update" ] && ui_notify_critical "Failed to fetch update information"
+  update="$1"
+  [ -z "$update" ] && ui_notify_critical "Something went wrong fetching the update, can't proceed with the update"
 
   if printf "%s" "$update" >"$CLI_PATH"; then
     rm "$CLI_FZF_PREVIEW_SCRIPT"
@@ -3797,15 +3797,16 @@ _app_update_script() {
 
 _app_update_check() {
   local update
+  local is_update
 
   update=$(curl -s "$CLI_URL")
   [ -z "$update" ] && return 1
 
-  update="$(printf "%s" "$update" | diff -u "$CLI_PATH" -)"
+  is_update="$(printf "%s" "$update" | diff -u "$CLI_PATH" -)"
 
-  if [ -n "$update" ]; then
-    ui_confirm "An update has been found would you like to see the changes before deciding whether to update?" && echo "$update" | ui_pager
-    ui_confirm "Would you like to proceed with the update?" && _app_update_script
+  if [ -n "$is_update" ]; then
+    ui_confirm "An update has been found would you like to see the changes before deciding whether to update?" && echo "$is_update" | ui_pager
+    ui_confirm "Would you like to proceed with the update?" && _app_update_script "$update"
   else
     return 1
   fi
