@@ -38,6 +38,17 @@ TXT_ROFI_PAGER_PROMPT="Digite para filtrar linhas..."
 TXT_MENU_INVALID_ACTION="Ação inválida"
 TXT_EDITOR_NOT_FOUND="Nenhum editor adequado encontrado. Por favor, defina CONFIG_EDITOR para um comando de editor de texto válido ou certifique-se de que \$EDITOR esteja configurado."
 
+# core: confirm
+TXT_YES="s"
+TXT_NO="n"
+TXT_CONFIRM_DEFAULT="Padrão"
+
+# core: loader
+TXT_LOADING="Carregando..."
+
+# core: preview
+TXT_PREVIEW_INSTALL_VIEWER="por favor instale um visualizador de imagens no terminal\nuse icat para terminal kitty e wezterm ou imgcat ou chafa"
+
 # config
 TXT_CONFIG_BROWSER_NOT_SET="Por favor, defina CONFIG_BROWSER para continuar"
 
@@ -56,6 +67,16 @@ TXT_MENU_MAIN_FEED="Seu Feed"
 TXT_MENU_MAIN_TRENDING="Em Alta"
 TXT_MENU_MAIN_PLAYLISTS="Playlists"
 TXT_MENU_MAIN_SEARCH="Pesquisar"
+TXT_MENU_MAIN_SEARCH_PROMPT="Digite a consulta de busca"
+TXT_MENU_MAIN_SEARCH_OR_HISTORY_PROMPT="Digite a consulta de busca ou selecione do histórico"
+TXT_SEARCH_FILTER_HELP="\
+Filtrar por data de envio –  :hour, :today, :week, :month, :year
+Filtrar por conteúdo      –  :video, :movie, :live, :short, :long
+Filtrar por recursos      –  :4k, :hd, :hdr, :subtitles, :360, :vr, :3d, :local
+Ordenar por               –  :newest, :views, :rating
+Relembrar histórico       –  !1, !2, … (mais recente = 1)"
+TXT_MENU_MAIN_RECENT_SEARCHES="Buscas recentes:"
+TXT_MENU_MAIN_NEW_SEARCH="Nova busca…"
 TXT_MENU_MAIN_WATCH_LATER="Assistir Mais Tarde"
 TXT_MENU_MAIN_SUBS_FEED="Feed de Inscrições"
 
@@ -63,8 +84,10 @@ TXT_MENU_MAIN_CHANNELS="Canais"
 TXT_MENU_MAIN_CHANNELS_PROMPT="Selecionar Canal"
 
 TXT_MENU_MAIN_CUSTOM_PLAYLISTS="Playlists Personalizadas"
+TXT_MENU_MAIN_CUSTOM_PLAYLISTS_PROMPT="Selecionar Playlist"
 TXT_MENU_MAIN_LIKED="Vídeos Curtidos"
 TXT_MENU_MAIN_SAVED="Vídeos Salvos"
+TXT_MENU_MAIN_SAVED_PROMPT="Selecionar vídeo"
 TXT_MENU_MAIN_HISTORY="Histórico de Reprodução"
 TXT_MENU_MAIN_RECENT="Recentes"
 TXT_MENU_MAIN_CLIPS="Clipes"
@@ -80,6 +103,12 @@ TXT_MENU_MISC_EXPLORE_CHANNELS="Explorar Canais"
 TXT_MENU_MISC_EXPLORE_CHANNELS_PROMPT="Digite o nome do canal"
 TXT_MENU_MISC_EXPLORE_PLAYLISTS="Explorar Playlists"
 TXT_MENU_MISC_EXPLORE_PLAYLISTS_PROMPT="Digite o nome da playlist"
+
+TXT_MENU_MISC_EXPLORE_SHORTS="Explorar Shorts"
+TXT_MENU_MISC_EXPLORE_SHORTS_PROMPT="Digite o termo de busca de shorts"
+
+TXT_MENU_MISC_EXPLORE_MOVIES="Explorar Filmes"
+TXT_MENU_MISC_EXPLORE_MOVIES_PROMPT="Digite o termo de busca de filmes"
 
 TXT_MENU_MISC_SEARCH_HISTORY="Histórico de Busca"
 TXT_MENU_MISC_SEARCH_HISTORY_PROMPT="Buscar por"
@@ -145,6 +174,11 @@ TXT_MENU_PLAYLISTS_EXPLORER_PROMPT="Selecionar Playlist"
 # playlist explorer
 TXT_MENU_PLAYLIST_EXPLORER_PROMPT="Selecionar Mídia"
 
+# playlist actions shell
+TXT_MENU_PLAYLIST_ACTIONS_SHELL_WELCOME="Bem-vindo ao shell do $CLI_NAME."
+TXT_MENU_PLAYLIST_ACTIONS_SHELL_INTRO="Você pode usar o seguinte:"
+TXT_MENU_PLAYLIST_ACTIONS_SHELL_VARIABLES="variáveis:"
+
 # Playlist actions
 TXT_MENU_PLAYLIST_PROMPT_ACTION="Selecionar Ação de Mídia"
 TXT_MENU_PLAYLIST_ACTIONS_WATCH="Assistir"
@@ -166,6 +200,8 @@ TXT_MENU_PLAYLIST_ACTIONS_BROWSER="Abrir no Navegador"
 TXT_MENU_PLAYLIST_ACTIONS_TOGGLE_ENUM="Alternar Numeração de Downloads"
 TXT_MENU_PLAYLIST_ACTIONS_SHELL="Shell"
 TXT_MENU_PLAYLIST_ACTIONS_CHANNEL_NOT_FOUND="Não foi possível determinar a URL do canal para este vídeo"
+TXT_MENU_PLAYLIST_ACTIONS_OPEN_IN_BROWSER_ERROR="Não foi possível encontrar um abridor de URLs suportado (open, xdg-open, wslview ou cmd.exe)"
+TXT_MENU_PLAYLIST_ACTIONS_SUBSCRIBE_UNSUPPORTED="Contribua com o projeto adicionando este recurso"
 
 TXT_ENTER_PLAYLIST_TITLE="Digite o título da playlist"
 
@@ -177,3 +213,218 @@ TXT_MENU_PLAYLIST_ACTIONS_PROMPT_SAVE_PLAYLIST="Digite o nome da playlist"
 
 # others
 TXT_DOWNLOAD_COMPLETED="Download concluído de "
+
+# updates
+TXT_UPDATE_ROOT_WARNING="Parece que você instalou $CLI_NAME como root, o que não é recomendado. Ainda deseja atualizar usando sudo? (recomendo reinstalar a cli como usuário não root)"
+TXT_UPDATE_SUDO_MISSING="Permissões insuficientes para atualizar e não foi encontrado sudo no PATH"
+TXT_UPDATE_SCRIPT_REEXECUTE="O script foi atualizado! Deseja reexecutá-lo?"
+TXT_UPDATE_FAILED="Não foi possível atualizar por algum motivo!"
+TXT_UPDATE_FETCH_FAILED="Algo deu errado ao buscar a atualização, não é possível prosseguir"
+TXT_UPDATE_FOUND="Uma atualização foi encontrada. Deseja ver as mudanças antes de decidir se vai atualizar?"
+TXT_UPDATE_CONFIRM="Deseja prosseguir com a atualização?"
+TXT_UPDATE_NOT_FOUND="Nenhuma atualização encontrada"
+
+# dependencies
+TXT_DEP_MISSING_YTDLP="yt-dlp não está instalado e é uma dependência principal. Instale-o para continuar"
+TXT_DEP_MISSING_JQ="jq não está instalado e é uma dependência principal. Instale-o para continuar"
+TXT_DEP_MISSING_FZF="fzf não está instalado e é uma dependência principal. Instale-o para continuar"
+
+# desktop entry
+TXT_DESKTOP_ENTRY_PROMPT="Para qual launcher você gostaria de configurar uma entrada de desktop"
+TXT_DESKTOP_ENTRY_COMMENT="Navegue no YouTube pelo terminal e em outros sites que o yt-dlp suporta"
+TXT_LAUNCHER_LABEL_ROFI="rofi"
+TXT_LAUNCHER_LABEL_FZF="fzf"
+
+# usage
+TXT_APP_USAGE="\
+Um script para navegar no YouTube e em outros sites compatíveis com yt‑dlp pelo terminal.
+
+Uso: $CLI_NAME [OPÇÕES]
+       $CLI_NAME completions [--fish|--bash|--zsh|--help]
+       $CLI_NAME channels [OPÇÕES]
+
+Todas as opções também podem ser definidas permanentemente no arquivo de configuração ($CLI_CONFIG_FILE).
+Variáveis de ambiente (YT_X_*) sobrescrevem a configuração.
+
+────────────────────────────────────────────────────────────────────
+Opções:
+  -h, --help                     Exibe esta mensagem de ajuda e sai
+  -v, --version                  Exibe informações da versão e sai
+  -e, --edit-config              Abre o arquivo de configuração no editor
+  -x, --extension <ext>          Carrega um arquivo de extensão (caminho absoluto ou relativo a $CLI_CONFIG_DIR/extensions)
+  -E, --generate-desktop-entry   Imprime um arquivo .desktop na saída padrão e sai
+  -U, --update                   Verifica e aplica uma atualização para $CLI_NAME
+  -l, --launcher <launcher>      Lançador de menu: fzf ou rofi
+  --config-write                 Grava a configuração atual de execução no arquivo de configuração
+  --preview                      Ativa a janela de pré‑visualização (imagens/texto)
+  --no-preview                   Desativa a janela de pré‑visualização
+  --preview-images               Ativa a pré‑visualização de imagens
+  --no-preview-images            Desativa a pré‑visualização de imagens
+  -p, --player <player>          Reprodutor de mídia: mpv, vlc ou tplay
+  --mpv-args                     Passa argumentos personalizados para o mpv em tempo de execução
+  --vlc-args                     Passa argumentos personalizados para o vlc
+  --tplay-args                   Passa argumentos personalizados para o tplay
+  --disown-player                Desvincula o processo do reprodutor do terminal
+  --no-disown-player             Mantém o reprodutor vinculado (padrão)
+  --rofi-theme-main <caminho>    Caminho para o arquivo de tema principal do rofi
+  --rofi-theme-preview <caminho> Caminho para o tema de pré‑visualização do rofi
+  --rofi-theme-prompt <caminho>  Caminho para o tema de prompt do rofi
+  --rofi-theme-confirm <caminho> Caminho para o tema de confirmação do rofi
+  --rofi-theme-pager <caminho>   Caminho para o tema do paginador do rofi
+
+────────────────────────────────────────────────────────────────────
+Atalhos diretos para ações de mídia (pula o menu de ação de mídia):
+  -me, --media-exit              Sai após executar uma ação de mídia (assistir, ouvir etc.)
+  --play                         Reproduz imediatamente o vídeo selecionado (você ainda escolhe na lista)
+  --play-all                     Reproduz imediatamente toda a playlist (implica --playlist-skip)
+  --listen                       Ouve imediatamente o áudio do vídeo selecionado
+  --listen-all                   Ouve toda a playlist (apenas áudio, implica --playlist-skip)
+  --download                     Baixa o vídeo selecionado
+  --download-all                 Baixa toda a playlist (vídeo, implica --playlist-skip)
+  --download-audio               Baixa apenas o áudio do vídeo selecionado
+  --download-audio-all           Baixa toda a playlist como áudio (implica --playlist-skip)
+  --save                         Salva o vídeo selecionado na lista de vídeos salvos
+  --save-playlist                Salva a playlist atual nas playlists personalizadas (implica --playlist-skip)
+  --shell                        Abre um subshell com as variáveis de contexto atuais
+
+────────────────────────────────────────────────────────────────────
+Atalhos diretos de menu
+  -ce, --cmd-exit                Sai após as opções de linha de comando do menu de atalhos
+  -ps, --playlist-skip           Pula o menu de seleção de item e escolhe automaticamente a primeira entrada
+  -s, --search <termo>           Pesquisa vídeos diretamente
+  -sp, --search-playlist <termo> Pesquisa playlists diretamente
+  -sc, --search-channel <termo>  Pesquisa canais diretamente
+  -ss, --search-short <termo>    Pesquisa shorts diretamente
+  -sm, --search-movie <termo>    Pesquisa filmes diretamente
+  -cp, --custom-playlist <nome>  Abre uma playlist personalizada específica pelo nome salvo
+  -cc, --custom-cmd <nome>       Executa um comando personalizado específico pelo nome salvo
+  -sv, --saved-video <título>    Abre um vídeo salvo específico pelo título
+  --feed                         Abre seu feed personalizado
+  --subscriptions-feed           Mostra os vídeos mais recentes das inscrições
+  --watch-later                  Abre a playlist \"Assistir mais tarde\"
+  --playlists                    Mostra playlists salvas do YouTube
+  --custom-playlists             Navega pelas playlists personalizadas que você salvou
+  --saved                        Abre vídeos salvos
+  --recent                       Mostra vídeos assistidos recentemente
+  --liked                        Abre sua playlist de vídeos curtidos
+  --watch-history                Mostra seu histórico de visualização
+  --clips                        Navega pelos seus clipes
+  --new-custom-cmd               Vai direto para a criação de um comando personalizado
+  --custom-cmds                  Executa um comando personalizado existente
+  --search-history               Navega pelo histórico de buscas
+  --edit-search-history          Edita o arquivo de histórico de buscas
+  --edit-custom-playlists        Edita o arquivo JSON de playlists personalizadas
+  --edit-mpv-config              Edita o arquivo de configuração do mpv
+  --edit-yt-dlp-config           Edita o arquivo de configuração do yt‑dlp
+  --edit-custom-cmds             Edita o arquivo JSON de comandos personalizados
+
+────────────────────────────────────────────────────────────────────
+Subcomandos:
+  channels                       Navega ou pesquisa dentro de um canal específico
+    -n, --name <canal>           Escolhe o canal pelo nome (correspondência exata)
+    -s, --search <consulta>      Pesquisa nos envios do canal
+    -v, --videos                 Lista os vídeos do canal
+    -f, --featured               Mostra as playlists em destaque do canal
+    -p, --playlists              Lista as playlists do canal
+    -sh, --shorts                Mostra os shorts do canal
+    -st, --streams               Mostra transmissões ao vivo e anteriores
+    -po, --podcasts              Mostra os podcasts do canal
+
+  completions                    Gera definições de completions para shell
+    --fish                       Completions para Fish shell
+    --bash                       Completions para Bash shell
+    --zsh                        Completions para Zsh shell
+    --help                       Mostra ajuda sobre completions
+
+────────────────────────────────────────────────────────────────────
+Exemplos:
+  $CLI_NAME                                 # Inicia o navegador interativo
+  $CLI_NAME --feed                          # Abre o feed diretamente
+  $CLI_NAME --subscriptions-feed            # Abre o feed de inscrições
+  $CLI_NAME -s 'trailer onepiece elbaf'     # Pesquisa imediatamente
+  $CLI_NAME -sp 'tutorial rust'             # Pesquisa playlists imediatamente
+  $CLI_NAME -sc 'aprender programação'      # Pesquisa canais imediatamente
+  $CLI_NAME --launcher rofi --preview --preview-images       # Usa rofi com pré‑visualizações
+
+  # Atalhos para ações de mídia
+  $CLI_NAME --play                          # Reproduz o vídeo selecionado (seleção interativa)
+  $CLI_NAME --playlist-skip --play          # Reproduz automaticamente o primeiro vídeo sem seleção
+  $CLI_NAME --play-all                      # Reproduz toda a playlist atual (sem seleção)
+  $CLI_NAME --listen-all                    # Ouve toda a playlist como áudio
+  $CLI_NAME --download-all                  # Baixa toda a playlist (vídeo)
+  $CLI_NAME --download-audio-all            # Baixa toda a playlist como áudio
+  $CLI_NAME --save-playlist                 # Salva a playlist atual (sem necessidade de seleção)
+
+  $CLI_NAME --save                          # Salva o vídeo atual na lista de salvos
+  $CLI_NAME --shell                         # Abre um subshell com variáveis de estado
+
+  # Auxiliares para pular e sair
+  $CLI_NAME --playlist-skip --play          # Reproduz automaticamente o primeiro item
+  $CLI_NAME --media-exit --download         # Baixa e depois sai do script
+  $CLI_NAME -cp 'Jazz Favourites'           # Abre uma playlist personalizada salva pelo nome
+  $CLI_NAME -sv 'My favourite video'        # Abre um vídeo salvo específico pelo título
+  $CLI_NAME -cc 'My Custom Search'          # Executa um comando personalizado específico pelo nome
+
+  # Extensões e entrada de desktop
+  $CLI_NAME -x themes/catppuccin.theme      # Carrega uma extensão de tema
+  $CLI_NAME -x langs/es.lang                # Carrega uma extensão de idioma
+  $CLI_NAME -x sites/dailymotion.site       # Carrega uma extensão de site
+  $CLI_NAME -x cmd/downloads                # Executa uma extensão de comando
+  $CLI_NAME completions --fish              # Imprime completions para fish
+  $CLI_NAME -E > ~/.local/share/applications/yt-x.desktop
+
+  # Exemplos do subcomando channels
+  $CLI_NAME channels -n 'Linus Tech Tips' -v   # Navega pelos vídeos do canal
+  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools' # pesquisa dentro de um canal
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Navega pelas playlists do freecodecamp e sai ao voltar
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # útil para criar apelidos, ex: atalho para ir sempre ao canal freecodecamp
+  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # ou como um aplicativo, ex: 'freecodecamp-app'
+
+Para mais detalhes visite a FAQ:
+  https://github.com/Benexl/yt-x#-frequently-asked-questions-faq"
+
+TXT_APP_USAGE_CHANNELS="\
+Navegue por canais do YouTube ou pesquise dentro deles diretamente pela linha de comando.
+
+Uso: $CLI_NAME channels [OPÇÕES]
+
+Opções:
+  -n, --name <canal>        Especifica o nome do canal (correspondência exata, sensível a maiúsculas)
+  -s, --search <consulta>   Pesquisa nos envios do canal
+  -v, --videos              Lista os vídeos enviados pelo canal
+  -f, --featured            Mostra as playlists em destaque do canal
+  -p, --playlists           Lista as playlists do canal
+  -sh, --shorts             Mostra os vídeos curtos (shorts) do canal
+  -st, --streams            Mostra transmissões ao vivo e anteriores
+  -po, --podcasts           Mostra os podcasts do canal
+
+Exemplos:
+  $CLI_NAME channels -n 'Linus Tech Tips' -v     # Abre o canal e lista os vídeos
+  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools'   # Pesquisa dentro de um canal
+  $CLI_NAME channels -n 'StarTalk' -p          # Mostra as playlists do canal
+  $CLI_NAME channels -n 'The PrimeTime' -st         # Mostra as transmissões do canal
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Navega pelas playlists do freecodecamp e sai imediatamente ao voltar
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # útil para criar apelidos, ex: atalho para ir sempre ao canal freecodecamp
+  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # ou como um aplicativo, ex: 'freecodecamp-app'
+
+Se --name for omitido, você será solicitado a escolher um canal de suas inscrições.
+Se --name for fornecido sem uma ação, o menu interativo do canal será aberto.
+
+Nota: O nome do canal deve corresponder exatamente ao que aparece em suas inscrições.
+      Use o recurso Miscelânea → Explorar Canais se você ainda não se inscreveu."
+
+TXT_APP_USAGE_COMPLETIONS="\
+Gera definições de completions para $CLI_NAME
+
+Opções:
+  --fish
+    imprime completions para fish e sai
+  --bash
+    imprime completions para bash e sai
+  --zsh
+    imprime completions para zsh e sai
+
+Exemplo:
+  $CLI_NAME completions --fish
+  $CLI_NAME completions --bash
+  $CLI_NAME completions --zsh"
