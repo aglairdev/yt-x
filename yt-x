@@ -295,6 +295,17 @@ __load_default_lang() {
   TXT_MENU_INVALID_ACTION="Invalid Action"
   TXT_EDITOR_NOT_FOUND="No suitable editor found. Please set CONFIG_EDITOR to a valid text editor command or ensure \$EDITOR is set."
 
+  # core: confirm
+  TXT_YES="y"
+  TXT_NO="n"
+  TXT_CONFIRM_DEFAULT="Default"
+
+  # core: loader
+  TXT_LOADING="Loading..."
+
+  # core: preview
+  TXT_PREVIEW_INSTALL_VIEWER="please install a terminal image viewer\neither icat for kitty terminal and wezterm or imgcat or chafa"
+
   # config
   TXT_CONFIG_BROWSER_NOT_SET="Please set CONFIG_BROWSER to proceed"
 
@@ -456,6 +467,234 @@ NOTE: There are base options which are given to yt-dlp but can be overriden
 
   # others
   TXT_DOWNLOAD_COMPLETED="Completed downloading of "
+
+  # updates
+  TXT_UPDATE_ROOT_WARNING="It seems you have installed $CLI_NAME as root, which is not recommended. Do you still want to update using sudo? (I recommended reinstalling the cli as non root)"
+  TXT_UPDATE_SUDO_MISSING="Insufficient permissions to update and can't find sudo in PATH"
+  TXT_UPDATE_SCRIPT_REEXECUTE="Script has been updated! Would you like to re-execute it?"
+  TXT_UPDATE_FAILED="Can't update for some reason!"
+  TXT_UPDATE_FETCH_FAILED="Something went wrong fetching the update, can't proceed with the update"
+  TXT_UPDATE_FOUND="An update has been found would you like to see the changes before deciding whether to update?"
+  TXT_UPDATE_CONFIRM="Would you like to proceed with the update?"
+  TXT_UPDATE_NOT_FOUND="No updates found"
+
+  # dependencies
+  TXT_DEP_MISSING_YTDLP="yt-dlp is not installed and is a core dep please install it to proceed"
+  TXT_DEP_MISSING_JQ="jq is not installed and is a core dep please install it to proceed"
+  TXT_DEP_MISSING_FZF="fzf is not installed and is a core dep please install it to proceed"
+
+  # playlist actions shell
+  TXT_MENU_PLAYLIST_ACTIONS_SHELL_WELCOME="Welcome to the $CLI_NAME shell."
+  TXT_MENU_PLAYLIST_ACTIONS_SHELL_INTRO="You can use the following:"
+  TXT_MENU_PLAYLIST_ACTIONS_SHELL_VARIABLES="variables:"
+
+  # playlist actions
+  TXT_MENU_PLAYLIST_ACTIONS_OPEN_IN_BROWSER_ERROR="Could not find a supported URL opener (open, xdg-open, wslview, or cmd.exe)"
+  TXT_MENU_PLAYLIST_ACTIONS_SUBSCRIBE_UNSUPPORTED="contribute to the project by adding this feature"
+
+  # main search
+  TXT_MENU_MAIN_RECENT_SEARCHES="Recent searches:"
+  TXT_MENU_MAIN_NEW_SEARCH="New search…"
+
+  # desktop entry
+  TXT_DESKTOP_ENTRY_PROMPT="Which launcher would you like to configure a desktop entry for"
+  TXT_DESKTOP_ENTRY_COMMENT="Browse Youtube from the terminal plus other sites yt-dlp supports"
+  TXT_LAUNCHER_LABEL_ROFI="rofi"
+  TXT_LAUNCHER_LABEL_FZF="fzf"
+
+  # usage
+  TXT_APP_USAGE="\
+A script written to browse YouTube and other yt‑dlp supported sites from the terminal.
+
+Usage: $CLI_NAME [OPTIONS]
+       $CLI_NAME completions [--fish|--bash|--zsh|--help]
+       $CLI_NAME channels [OPTIONS]
+
+All options can also be set permanently in the config file ($CLI_CONFIG_FILE).
+Environment variables (YT_X_*) override the config.
+
+────────────────────────────────────────────────────────────────────
+Options:
+  -h, --help                     Show this help message and exit
+  -v, --version                  Print version information and exit
+  -e, --edit-config              Open the config file in your editor
+  -x, --extension <ext>          Load an extension file (absolute path or relative to $CLI_CONFIG_DIR/extensions)
+  -E, --generate-desktop-entry   Print a .desktop file to stdout and exit
+  -U, --update                   Check for and apply an update for $CLI_NAME
+  -l, --launcher <launcher>      Menu launcher: fzf or rofi
+  --config-write                 Write the current runtime config to the config file
+  --preview                      Enable the preview window (images/text)
+  --no-preview                   Disable the preview window
+  --preview-images               Enable the image preview window
+  --no-preview-images            Disable the image preview window
+  -p, --player <player>          Media player: mpv, vlc or tplay
+  --mpv-args                     Pass custom mpv args at runtime
+  --vlc-args                     Pass custom vlc args at runtime
+  --tplay-args                   Pass custom tplay args at runtime
+  --disown-player                Detach the player process from the terminal
+  --no-disown-player             Keep player attached (default)
+  --rofi-theme-main <path>       Path to the rofi main theme file
+  --rofi-theme-preview <path>    Path to the rofi preview theme file
+  --rofi-theme-prompt <path>     Path to the rofi prompt theme file
+  --rofi-theme-confirm <path>    Path to the rofi confirm theme file
+  --rofi-theme-pager <path>      Path to the rofi pager theme file
+
+────────────────────────────────────────────────────────────────────
+Direct media action shortcuts (skip the media action menu):
+  -me, --media-exit              Exit after performing a media action (watch, listen, etc.)
+  --play                         Immediately watch the selected video (you still choose from the list)
+  --play-all                     Immediately play the whole playlist (implies --playlist-skip)
+  --listen                       Immediately listen to the audio of the selected video
+  --listen-all                   Immediately listen to the whole playlist (audio only, implies --playlist-skip)
+  --download                     Download the selected video
+  --download-all                 Download the whole playlist (video, implies --playlist-skip)
+  --download-audio               Download only the audio of the selected video
+  --download-audio-all           Download the whole playlist as audio (implies --playlist-skip)
+  --save                         Save the selected video to your saved videos list
+  --save-playlist                Save the current playlist to your custom playlists (implies --playlist-skip)
+  --shell                        Open a subshell with current context variables
+
+────────────────────────────────────────────────────────────────────
+Direct menu shortcuts
+  -ce, --cmd-exit                Exit after shortcut menu commandline options
+  -ps, --playlist-skip           Skip the item selection menu and automatically pick the first entry
+  -s, --search <term>            Search for videos directly
+  -sp, --search-playlist <term>  Search for playlists directly
+  -sc, --search-channel <term>   Search for channels directly
+  -ss, --search-short <term>     Search for shorts directly
+  -sm, --search-movie <term>     Search for movies directly
+  -cp, --custom-playlist <name>  Open a specific custom playlist by its saved name
+  -cc, --custom-cmd <name>       Execute a specific custom command by its saved name
+  -sv, --saved-video <title>     Open a specific saved video by its title
+  --feed                         Open your personalised feed
+  --subscriptions-feed           Show latest videos from subscriptions
+  --watch-later                  Open the Watch Later playlist
+  --playlists                    Show saved YouTube playlists
+  --custom-playlists             Browse custom playlists you've saved
+  --saved                        Open saved videos
+  --recent                       Show recently watched videos
+  --liked                        Open your Liked Videos playlist
+  --watch-history                Show your watch history
+  --clips                        Browse your clips
+  --new-custom-cmd               Go straight to creating a custom command
+  --custom-cmds                  Execute an existing custom command
+  --search-history               Browse your search history
+  --edit-search-history          Edit the search history file
+  --edit-custom-playlists        Edit the custom playlists JSON file
+  --edit-mpv-config              Edit mpv's configuration file
+  --edit-yt-dlp-config           Edit yt‑dlp's configuration file
+  --edit-custom-cmds             Edit the custom commands JSON file
+
+────────────────────────────────────────────────────────────────────
+Sub‑commands:
+  channels                       Browse or search within a specific channel
+    -n, --name <channel>         Choose the channel by name (exact match)
+    -s, --search <query>         Search within the channel's uploads
+    -v, --videos                 List the channel's videos
+    -f, --featured               Show the channel's featured playlists
+    -p, --playlists              List the channel's playlists
+    -sh, --shorts                Show the channel's shorts
+    -st, --streams               Show live streams & past broadcasts
+    -po, --podcasts              Show the channel's podcasts
+
+  completions                    Generate shell completion definitions
+    --fish                       Fish shell completions
+    --bash                       Bash shell completions
+    --zsh                        Zsh shell completions
+    --help                       Show help for completions
+
+────────────────────────────────────────────────────────────────────
+Examples:
+  $CLI_NAME                                 # Start the interactive browser
+  $CLI_NAME --feed                          # Open the feed directly
+  $CLI_NAME --subscriptions-feed            # Open subscriptions feed
+  $CLI_NAME -s 'onepiece elbaf trailer'     # Search immediately
+  $CLI_NAME -sp 'rust tutorial'             # Search playlists immediately
+  $CLI_NAME -sc 'learn coding'              # Search channels immediately
+  $CLI_NAME --launcher rofi --preview --preview-images       # Use rofi with previews
+
+  # Media action shortcuts
+  $CLI_NAME --play                          # Play the selected video (interactive selection)
+  $CLI_NAME --playlist-skip --play          # Automatically play the first video without selection
+  $CLI_NAME --play-all                      # Play the entire current playlist (no selection)
+  $CLI_NAME --listen-all                    # Listen to the whole playlist as audio
+  $CLI_NAME --download-all                  # Download the whole playlist (video)
+  $CLI_NAME --download-audio-all            # Download the whole playlist as audio
+  $CLI_NAME --save-playlist                 # Save the current playlist (no selection needed)
+
+  $CLI_NAME --save                          # Save the current video to saved list
+  $CLI_NAME --shell                         # Open a subshell with state variables
+
+  # Skip and exit helpers
+  $CLI_NAME --playlist-skip --play          # Automatically play the first item
+  $CLI_NAME --media-exit --download         # Download and then exit the script
+  $CLI_NAME -cp 'Jazz Favourites'           # Open a saved custom playlist by name
+  $CLI_NAME -sv 'My favourite video'        # Open a specific saved video by title
+  $CLI_NAME -cc 'My Custom Search'          # Execute a specific custom command by name
+
+  # Extensions and desktop entry
+  $CLI_NAME -x themes/catppuccin.theme      # Load a theme extension
+  $CLI_NAME -x langs/es.lang                # Load a language extension
+  $CLI_NAME -x sites/dailymotion.site       # Load a site extension
+  $CLI_NAME -x cmd/downloads                # Execute a cmd extension
+  $CLI_NAME completions --fish              # Print fish completions
+  $CLI_NAME -E > ~/.local/share/applications/yt-x.desktop
+
+  # Channel subcommand examples
+  $CLI_NAME channels -n 'Linus Tech Tips' -v   # Browse channel videos
+  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools' # search within a channel
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Browse freecodecamp playlists and exit on back
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # useful for setting aliases eg a shortcut to always go to freecodecamp channel 'freecodecamp'
+  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # or as an app eg  'freecodecamp-app'
+
+For more details visit the FAQ:
+  https://github.com/Benexl/yt-x#-frequently-asked-questions-faq"
+
+  TXT_APP_USAGE_CHANNELS="\
+Browse YouTube channels or search within them directly from the command line.
+
+Usage: $CLI_NAME channels [OPTIONS]
+
+Options:
+  -n, --name <channel>        Specify the channel name (exact match, case‑sensitive)
+  -s, --search <query>        Search inside the channel's uploads
+  -v, --videos                List the channel's uploaded videos
+  -f, --featured              Show the channel's featured playlists
+  -p, --playlists             List the channel's playlists
+  -sh, --shorts               Show the channel's short videos
+  -st, --streams              Show live streams & past broadcasts
+  -po, --podcasts             Show the channel's podcasts
+
+Examples:
+  $CLI_NAME channels -n 'Linus Tech Tips' -v     # Open channel and list videos
+  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools'   # Search within a channel
+  $CLI_NAME channels -n 'StarTalk' -p          # Show channel playlists
+  $CLI_NAME channels -n 'The PrimeTime' -st         # Show channel streams
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Browse freecodecamp playlists and immediately exit on back
+  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # useful for setting aliases eg a shortcut to always go to freecodecamp channel 'freecodecamp'
+  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # or as an app eg  'freecodecamp-app'
+
+If --name is omitted, you'll be asked to pick a channel from your subscriptions.
+If --name is given without an action, the interactive channel menu will open.
+
+Note: The channel name must match what appears in your subscriptions exactly.
+      Use the Miscellaneous → Explore Channels feature if you haven't subscribed yet."
+
+  TXT_APP_USAGE_COMPLETIONS="\
+Generate shell completions for $CLI_NAME
+
+Options:
+  --fish
+    print fish completions and exit
+  --bash
+    print bash completions and exit
+  --zsh
+    print zsh completions and exit
+
+Example:
+  $CLI_NAME completions --fish
+  $CLI_NAME completions --bash
+  $CLI_NAME completions --zsh"
 
   [ -s "$CLI_DEFAULT_LANG_FILE" ] && . "$CLI_DEFAULT_LANG_FILE"
 }
@@ -858,6 +1097,7 @@ __ui_fzf_launcher_with_preview() {
   local preview_script
 
   preview_script="\
+TXT_PREVIEW_INSTALL_VIEWER='$TXT_PREVIEW_INSTALL_VIEWER'
 CONFIG_IMAGE_RENDERER='$CONFIG_IMAGE_RENDERER'
 CLI_PLATFORM='$CLI_PLATFORM'
 THEME_FZF_PREVIEW_DIVIDER='$THEME_FZF_PREVIEW_DIVIDER'
@@ -967,8 +1207,8 @@ _ui_default_confirm() {
   local default
   local default_index
 
-  yes="${3:-y}"
-  no="${4:-n}"
+  yes="${3:-$TXT_YES}"
+  no="${4:-$TXT_NO}"
   default="${2:-$no}"
 
   if [ "$default" = "$yes" ]; then
@@ -980,7 +1220,7 @@ _ui_default_confirm() {
   if _dep_ch gum; then
     gum confirm "$1" --default="$default_index" --affirmative="$yes" --negative="$no"
   else
-    printf "%s ($yes/$no; Default: $default): " "$1" >/dev/stderr
+    printf "%s ($yes/$no; $TXT_CONFIRM_DEFAULT: $default): " "$1" >/dev/stderr
     read -r CONFIRMED
     case "$CONFIRMED" in
     "$yes")
@@ -1008,8 +1248,8 @@ _ui_rofi_confirm() {
   local default_index
   local selection
 
-  yes="${3:-y}"
-  no="${4:-n}"
+  yes="${3:-$TXT_YES}"
+  no="${4:-$TXT_NO}"
   default="${2:-$no}"
 
   if [ "$default" = "$yes" ]; then
@@ -1077,7 +1317,7 @@ __ui_default_loader() {
     # shellcheck disable=SC2086
     gum spin --show-output -- $cmd
   else
-    echo "Loading..." >/dev/stderr
+    echo "$TXT_LOADING" >/dev/stderr
     $cmd
   fi
 
@@ -1087,7 +1327,7 @@ __ui_rofi_loader() {
   local cmd
   cmd="$*"
 
-  ui_notify "Loading..."
+  ui_notify "$TXT_LOADING"
   $cmd
 }
 
@@ -1159,8 +1399,7 @@ fzf_preview() {
     imgcat -W "${dim%%x*}" -H "${dim##*x}" "$file"
 
   else
-    echo please install a terminal image viewer
-    echo either icat for kitty terminal and wezterm or imgcat or chafa
+    printf "%s" "$TXT_PREVIEW_INSTALL_VIEWER"
   fi
 }
 EOF
@@ -2435,10 +2674,10 @@ __menu_playlist_actions_shell() {
   export CLI_NAME CONFIG_DOWNLOAD_DIR CLI_DOWNLOAD_ARCHIVE_DIR
 
   init_text="\
-$CLI_HEADER
-Welcome to the $CLI_NAME shell.
-You can use the following:
- variables:
+ $CLI_HEADER
+ $TXT_MENU_PLAYLIST_ACTIONS_SHELL_WELCOME
+ $TXT_MENU_PLAYLIST_ACTIONS_SHELL_INTRO
+  $TXT_MENU_PLAYLIST_ACTIONS_SHELL_VARIABLES
   - CLI_ARCHIVE_DIR
   - CONFIG_DOWNLOAD_DIR
   - STATE_CURRENT_CHANNEL_RESULTS
@@ -2476,7 +2715,7 @@ EOF
 }
 
 __menu_playlist_actions_open_in_browser() {
-  _util_open "$STATE_CURRENT_VIDEO_URL" || ui_notify_error "Could not find a supported URL opener (open, xdg-open, wslview, or cmd.exe)"
+  _util_open "$STATE_CURRENT_VIDEO_URL" || ui_notify_error "$TXT_MENU_PLAYLIST_ACTIONS_OPEN_IN_BROWSER_ERROR"
 }
 
 __menu_playlist_actions_visit_channel() {
@@ -2551,7 +2790,7 @@ __menu_playlist_actions_visit_channel() {
 
 __menu_playlist_actions_subscribe_to_channel() {
   # TODO: use youtube oembed and yt-dlp to enable channel subscriptions
-  ui_notify_error "contribute to the project by adding this feature"
+  ui_notify_error "$TXT_MENU_PLAYLIST_ACTIONS_SUBSCRIBE_UNSUPPORTED"
 }
 
 __menu_playlist_actions_toggle_enumerate_downloads() {
@@ -3409,14 +3648,14 @@ __menu_main_search() {
     if [ "$CONFIG_ENABLE_SEARCH_HISTORY" = "true" ] && [ -s "$CLI_SEARCH_HISTORY_FILE" ]; then
       hist_list=$(tail -n 10 "$CLI_SEARCH_HISTORY_FILE" | awk '{a[i++]=$0} END {for (j=i-1; j>=0; j--) print a[j]}')
       recent=$(printf "%s\n" "$hist_list" | head -n 5)
-      header="Recent searches:
+      header="$TXT_MENU_MAIN_RECENT_SEARCHES
 ${recent}
 
 "
-      choice=$(printf "New search…\n%s" "$hist_list" | ui_launcher "$TXT_MENU_MAIN_SEARCH_OR_HISTORY_PROMPT" || true)
+      choice=$(printf "%s\n%s" "$TXT_MENU_MAIN_NEW_SEARCH" "$hist_list" | ui_launcher "$TXT_MENU_MAIN_SEARCH_OR_HISTORY_PROMPT" || true)
       if [ -z "$choice" ]; then
         return
-      elif [ "$choice" != "New search…" ]; then
+      elif [ "$choice" != "$TXT_MENU_MAIN_NEW_SEARCH" ]; then
         raw_search_term="$choice"
         use_history=1
       fi
@@ -3771,27 +4010,27 @@ _app_update_script() {
   local update
 
   if ! [ -w "$CLI_PATH" ]; then
-    ui_confirm "It seems you have installed $CLI_NAME as root, which is not recommended. Do you still want to update using sudo? (I recommended reinstalling the cli as non root)" || exit 1
+    ui_confirm "$TXT_UPDATE_ROOT_WARNING" || exit 1
     if _dep_ch sudo; then
       exec sudo -s "$CLI_PATH" "-u"
     else
-      ui_notify_critical "Insufficient permissions to update and can't find sudo in PATH"
+      ui_notify_critical "$TXT_UPDATE_SUDO_MISSING"
     fi
   fi
 
   update="$1"
-  [ -z "$update" ] && ui_notify_critical "Something went wrong fetching the update, can't proceed with the update"
+  [ -z "$update" ] && ui_notify_critical "$TXT_UPDATE_FETCH_FAILED"
 
   if printf "%s" "$update" >"$CLI_PATH"; then
     rm "$CLI_FZF_PREVIEW_SCRIPT" >/dev/null 2>&1
-    if ui_confirm "Script has been updated! Would you like to re-execute it?"; then
+    if ui_confirm "$TXT_UPDATE_SCRIPT_REEXECUTE"; then
       # shellcheck disable=SC2086
       exec "$CLI_PATH" $CLI_ARGS
     else
       exit 0
     fi
   else
-    ui_notify_critical "Can't update for some reason!"
+    ui_notify_critical "$TXT_UPDATE_FAILED"
   fi
 }
 
@@ -3805,8 +4044,8 @@ _app_update_check() {
   is_update="$(printf "%s" "$update" | diff -u "$CLI_PATH" -)"
 
   if [ -n "$is_update" ]; then
-    ui_confirm "An update has been found would you like to see the changes before deciding whether to update?" && echo "$is_update" | ui_pager
-    ui_confirm "Would you like to proceed with the update?" && _app_update_script "$update"
+    ui_confirm "$TXT_UPDATE_FOUND" && echo "$is_update" | ui_pager
+    ui_confirm "$TXT_UPDATE_CONFIRM" && _app_update_script "$update"
   else
     return 1
   fi
@@ -3841,14 +4080,14 @@ _app_edit_config() {
 _app_generate_desktop_entry() {
   local entry
 
-  if ui_confirm "Which launcher would you like to configure a desktop entry for" "rofi" "rofi" "fzf"; then
+  if ui_confirm "$TXT_DESKTOP_ENTRY_PROMPT" "$TXT_LAUNCHER_LABEL_ROFI" "$TXT_LAUNCHER_LABEL_ROFI" "$TXT_LAUNCHER_LABEL_FZF"; then
     entry="\
 [Desktop Entry]
 Name=$CLI_NAME
 Type=Application
 Version=$CLI_VERSION
 Path=$HOME
-Comment=Browse Youtube from the terminal plus other sites yt-dlp supports
+Comment=$TXT_DESKTOP_ENTRY_COMMENT
 Terminal=false
 Exec=$CLI_PATH --launcher rofi --no-disown-player
 Categories=Entertainment"
@@ -3859,7 +4098,7 @@ Name=$CLI_NAME
 Type=Application
 Version=$CLI_VERSION
 Path=$HOME
-Comment=Browse Youtube from the terminal plus other sites yt-dlp supports
+Comment=$TXT_DESKTOP_ENTRY_COMMENT
 Terminal=true
 Exec=$CLI_PATH --launcher fzf
 Categories=Entertainment"
@@ -3870,9 +4109,9 @@ Categories=Entertainment"
 }
 
 _app_core_dep_ch() {
-  ! _dep_ch "yt-dlp" >/dev/null 2>&1 && ui_notify_critical "yt-dlp is not installed and is a core dep please install it to proceed"
-  ! _dep_ch "jq" && ui_notify_critical "jq is not installed and is a core dep please install it to proceed"
-  ! _dep_ch "fzf" && ui_notify_critical "fzf is not installed and is a core dep please install it to proceed"
+  ! _dep_ch "yt-dlp" >/dev/null 2>&1 && ui_notify_critical "$TXT_DEP_MISSING_YTDLP"
+  ! _dep_ch "jq" && ui_notify_critical "$TXT_DEP_MISSING_JQ"
+  ! _dep_ch "fzf" && ui_notify_critical "$TXT_DEP_MISSING_FZF"
 }
 
 _app_cache_clean_up() {
@@ -3904,213 +4143,17 @@ _app_runtime_clean_up() {
 # APP: usage
 # ==============================================================================
 _app_usage() {
-  local help_msg
-  help_msg="\
-A script written to browse YouTube and other yt‑dlp supported sites from the terminal.
-
-Usage: $CLI_NAME [OPTIONS]
-       $CLI_NAME completions [--fish|--bash|--zsh|--help]
-       $CLI_NAME channels [OPTIONS]
-
-All options can also be set permanently in the config file ($CLI_CONFIG_FILE).
-Environment variables (YT_X_*) override the config.
-
-────────────────────────────────────────────────────────────────────
-Options:
-  -h, --help                     Show this help message and exit
-  -v, --version                  Print version information and exit
-  -e, --edit-config              Open the config file in your editor
-  -x, --extension <ext>          Load an extension file (absolute path or relative to $CLI_CONFIG_DIR/extensions)
-  -E, --generate-desktop-entry   Print a .desktop file to stdout and exit
-  -U, --update                   Check for and apply an update for $CLI_NAME
-  -l, --launcher <launcher>      Menu launcher: fzf or rofi
-  --config-write                 Write the current runtime config to the config file
-  --preview                      Enable the preview window (images/text)
-  --no-preview                   Disable the preview window
-  --preview-images               Enable the image preview window
-  --no-preview-images            Disable the image preview window
-  -p, --player <player>          Media player: mpv, vlc or tplay
-  --mpv-args                     Pass custom mpv args at runtime
-  --vlc-args                     Pass custom vlc args at runtime
-  --tplay-args                   Pass custom tplay args at runtime
-  --disown-player                Detach the player process from the terminal
-  --no-disown-player             Keep player attached (default)
-  --rofi-theme-main <path>       Path to the rofi main theme file
-  --rofi-theme-preview <path>    Path to the rofi preview theme file
-  --rofi-theme-prompt <path>     Path to the rofi prompt theme file
-  --rofi-theme-confirm <path>    Path to the rofi confirm theme file
-  --rofi-theme-pager <path>      Path to the rofi pager theme file
-
-────────────────────────────────────────────────────────────────────
-Direct media action shortcuts (skip the media action menu):
-  -me, --media-exit              Exit after performing a media action (watch, listen, etc.)
-  --play                         Immediately watch the selected video (you still choose from the list)
-  --play-all                     Immediately play the whole playlist (implies --playlist-skip)
-  --listen                       Immediately listen to the audio of the selected video
-  --listen-all                   Immediately listen to the whole playlist (audio only, implies --playlist-skip)
-  --download                     Download the selected video
-  --download-all                 Download the whole playlist (video, implies --playlist-skip)
-  --download-audio               Download only the audio of the selected video
-  --download-audio-all           Download the whole playlist as audio (implies --playlist-skip)
-  --save                         Save the selected video to your saved videos list
-  --save-playlist                Save the current playlist to your custom playlists (implies --playlist-skip)
-  --shell                        Open a subshell with current context variables
-
-────────────────────────────────────────────────────────────────────
-Direct menu shortcuts
-  -ce, --cmd-exit                Exit after shortcut menu commandline options
-  -ps, --playlist-skip           Skip the item selection menu and automatically pick the first entry
-  -s, --search <term>            Search for videos directly
-  -sp, --search-playlist <term>  Search for playlists directly
-  -sc, --search-channel <term>   Search for channels directly
-  -ss, --search-short <term>     Search for shorts directly
-  -sm, --search-movie <term>     Search for movies directly
-  -cp, --custom-playlist <name>  Open a specific custom playlist by its saved name
-  -cc, --custom-cmd <name>       Execute a specific custom command by its saved name
-  -sv, --saved-video <title>     Open a specific saved video by its title
-  --feed                         Open your personalised feed
-  --subscriptions-feed           Show latest videos from subscriptions
-  --watch-later                  Open the Watch Later playlist
-  --playlists                    Show saved YouTube playlists
-  --custom-playlists             Browse custom playlists you've saved
-  --saved                        Open saved videos
-  --recent                       Show recently watched videos
-  --liked                        Open your Liked Videos playlist
-  --watch-history                Show your watch history
-  --clips                        Browse your clips
-  --new-custom-cmd               Go straight to creating a custom command
-  --custom-cmds                  Execute an existing custom command
-  --search-history               Browse your search history
-  --edit-search-history          Edit the search history file
-  --edit-custom-playlists        Edit the custom playlists JSON file
-  --edit-mpv-config              Edit mpv's configuration file
-  --edit-yt-dlp-config           Edit yt‑dlp's configuration file
-  --edit-custom-cmds             Edit the custom commands JSON file
-
-────────────────────────────────────────────────────────────────────
-Sub‑commands:
-  channels                       Browse or search within a specific channel
-    -n, --name <channel>         Choose the channel by name (exact match)
-    -s, --search <query>         Search within the channel's uploads
-    -v, --videos                 List the channel's videos
-    -f, --featured               Show the channel's featured playlists
-    -p, --playlists              List the channel's playlists
-    -sh, --shorts                Show the channel's shorts
-    -st, --streams               Show live streams & past broadcasts
-    -po, --podcasts              Show the channel's podcasts
-
-  completions                    Generate shell completion definitions
-    --fish                       Fish shell completions
-    --bash                       Bash shell completions
-    --zsh                        Zsh shell completions
-    --help                       Show help for completions
-
-────────────────────────────────────────────────────────────────────
-Examples:
-  $CLI_NAME                                 # Start the interactive browser
-  $CLI_NAME --feed                          # Open the feed directly
-  $CLI_NAME --subscriptions-feed            # Open subscriptions feed
-  $CLI_NAME -s 'onepiece elbaf trailer'     # Search immediately
-  $CLI_NAME -sp 'rust tutorial'             # Search playlists immediately
-  $CLI_NAME -sc 'learn coding'              # Search channels immediately
-  $CLI_NAME --launcher rofi --preview --preview-images       # Use rofi with previews
-
-  # Media action shortcuts
-  $CLI_NAME --play                          # Play the selected video (interactive selection)
-  $CLI_NAME --playlist-skip --play          # Automatically play the first video without selection
-  $CLI_NAME --play-all                      # Play the entire current playlist (no selection)
-  $CLI_NAME --listen-all                    # Listen to the whole playlist as audio
-  $CLI_NAME --download-all                  # Download the whole playlist (video)
-  $CLI_NAME --download-audio-all            # Download the whole playlist as audio
-  $CLI_NAME --save-playlist                 # Save the current playlist (no selection needed)
-
-  $CLI_NAME --save                          # Save the current video to saved list
-  $CLI_NAME --shell                         # Open a subshell with state variables
-
-  # Skip and exit helpers
-  $CLI_NAME --playlist-skip --play          # Automatically play the first item
-  $CLI_NAME --media-exit --download         # Download and then exit the script
-  $CLI_NAME -cp 'Jazz Favourites'           # Open a saved custom playlist by name
-  $CLI_NAME -sv 'My favourite video'        # Open a specific saved video by title
-  $CLI_NAME -cc 'My Custom Search'          # Execute a specific custom command by name
-
-  # Extensions and desktop entry
-  $CLI_NAME -x themes/catppuccin.theme      # Load a theme extension
-  $CLI_NAME -x langs/es.lang                # Load a language extension
-  $CLI_NAME -x sites/dailymotion.site       # Load a site extension
-  $CLI_NAME -x cmd/downloads                # Execute a cmd extension
-  $CLI_NAME completions --fish              # Print fish completions
-  $CLI_NAME -E > ~/.local/share/applications/yt-x.desktop
-
-  # Channel subcommand examples
-  $CLI_NAME channels -n 'Linus Tech Tips' -v   # Browse channel videos
-  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools' # search within a channel
-  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Browse freecodecamp playlists and exit on back
-  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # useful for setting aliases eg a shortcut to always go to freecodecamp channel 'freecodecamp'
-  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # or as an app eg  'freecodecamp-app'
-
-For more details visit the FAQ:
-  https://github.com/Benexl/yt-x#-frequently-asked-questions-faq"
-
-  printf "%s\n" "$help_msg"
+  printf "%s\n" "$TXT_APP_USAGE"
   exit "${1:-0}"
 }
 
 _app_usage_channels() {
-  local help_msg
-  help_msg="\
-Browse YouTube channels or search within them directly from the command line.
-
-Usage: $CLI_NAME channels [OPTIONS]
-
-Options:
-  -n, --name <channel>        Specify the channel name (exact match, case‑sensitive)
-  -s, --search <query>        Search inside the channel's uploads
-  -v, --videos                List the channel's uploaded videos
-  -f, --featured              Show the channel's featured playlists
-  -p, --playlists             List the channel's playlists
-  -sh, --shorts               Show the channel's short videos
-  -st, --streams              Show live streams & past broadcasts
-  -po, --podcasts             Show the channel's podcasts
-
-Examples:
-  $CLI_NAME channels -n 'Linus Tech Tips' -v     # Open channel and list videos
-  $CLI_NAME channels -n 'iambenexl' -s 'Top linux tools'   # Search within a channel
-  $CLI_NAME channels -n 'StarTalk' -p          # Show channel playlists
-  $CLI_NAME channels -n 'The PrimeTime' -st         # Show channel streams
-  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' -p # Browse freecodecamp playlists and immediately exit on back
-  $CLI_NAME --cmd-exit channels -n 'freeCodeCamp.org' # useful for setting aliases eg a shortcut to always go to freecodecamp channel 'freecodecamp'
-  $CLI_NAME --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # or as an app eg  'freecodecamp-app'
-
-If --name is omitted, you'll be asked to pick a channel from your subscriptions.
-If --name is given without an action, the interactive channel menu will open.
-
-Note: The channel name must match what appears in your subscriptions exactly.
-      Use the Miscellaneous → Explore Channels feature if you haven't subscribed yet."
-
-  printf "%s\n" "$help_msg"
+  printf "%s\n" "$TXT_APP_USAGE_CHANNELS"
   exit "${1:-0}"
 }
 
 _app_usage_completions() {
-  local help_msg
-  help_msg="\
-Generate shell completions for $CLI_NAME
-
-Options:
-  --fish
-    print fish completions and exit
-  --bash
-    print bash completions and exit
-  --zsh
-    print zsh completions and exit
-
-Example:
-  $CLI_NAME completions --fish
-  $CLI_NAME completions --bash
-  $CLI_NAME completions --zsh"
-
-  printf "%s\n" "$help_msg"
+  printf "%s\n" "$TXT_APP_USAGE_COMPLETIONS"
   exit "${1:-0}"
 }
 
@@ -4236,7 +4279,7 @@ _app_cmd_line_parser() {
     case "$1" in
     -h | --help) _app_usage ;;
     -v | --version) echo "$CLI_NAME v$CLI_VERSION MIT Copyright © 2024 $CLI_AUTHOR projects" && exit 0 ;;
-    -U | --update) _app_update_check || echo "No updates found" && exit 1 ;;
+    -U | --update) _app_update_check || echo "$TXT_UPDATE_NOT_FOUND" && exit 1 ;;
     -e | --edit-config) _app_edit_config ;;
     -E | --generate-desktop-entry) _app_generate_desktop_entry ;;
     -ce | --cmd-exit) CMD_EXIT=true ;;
