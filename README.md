@@ -307,9 +307,9 @@ yt-x
 
 - `-l, --launcher <fzf|rofi>` : Override the default menu launcher.
 - `--preview` : Enable the preview window (images/text)
-- `--no-preview` : Disable the preview window
-- `--preview-images` : Enable the image preview window
-- `--no-preview-images` : Disable the image preview window
+- `--no-preview` Disable the preview window
+- `--preview-images` Enable the image preview window
+- `--no-preview-images` Disable the image preview window
 - `-x, --extension <ext>` : Load a specific extension file (absolute path or relative to `~/.config/yt-x/extensions/`; _supports fish tab complete_).
 - `-ce, --cmd-exit` : Exit after shortcut menu command‑line options (useful for scripting).
 - `-ps, --playlist-skip` : Skip the item selection menu and automatically pick the first entry in a playlist.
@@ -743,6 +743,8 @@ If your images are overlapping with UI text, your terminal may not properly supp
 1. **Kitty / Ghostty:** Set `CONFIG_IMAGE_RENDERER="icat"`. These terminals have native, high-performance image protocols.
 2. **iTerm2 / WezTerm:** Try `CONFIG_IMAGE_RENDERER="imgcat"`.
 3. **Other Terminals:** Stick to `CONFIG_IMAGE_RENDERER="chafa"`, but ensure your terminal supports **Sixel** or true-color ASCII. If overlaps persist, disable image previews (`CONFIG_ENABLE_PREVIEW_IMAGES=false`) and use text-only previews.
+
+also make sure to delete the ~/.cache/yt-x/previews/text/fzf-preview.sh file to clear out old cached values that may have been generated with the wrong renderer settings
 
 </details>
 
