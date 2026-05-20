@@ -1659,47 +1659,45 @@ preview_fzf() {
 _preview_rofi() {
   local data_to_preview
   local images_to_download_file
-  local url_hash
-  local img_path
-  local log_base_path
-  local num_entries
-  images_to_download_file="$CLI_CURRENT_STATE_DIR/images-to-download-$(date +%s)"
-  num_entries=0
+  local input_titles
+  local input_count
+  local output_count
+  local others
+  local output
   data_to_preview="$1"
+  output="$CLI_CURRENT_STATE_DIR/rofi-preview-output-$(date +%s)"
+  images_to_download_file="$CLI_CURRENT_STATE_DIR/images-to-download-$(date +%s)"
 
-  if [ "$CONFIG_ENABLE_PREVIEW" = "true" ]; then
-    log_base_path="$CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
+  if [ "$CONFIG_ENABLE_PREVIEW" = "true" ] && [ -n "$data_to_preview" ]; then
+    input_titles="$(cat)"
 
-    [ ! -d "$log_base_path" ] && log_base_path="$CLI_CURRENT_STATE_DIR"
+    printf "%s" "$data_to_preview" | jq --compact-output -r '.entries[]' | while IFS='\n' read -r entry; do
+      url=$(echo "$entry" | jq -r '.thumbnails[-1].url')
+      title=$(echo "$entry" | jq -r '.title')
+      if [ -n "$url" ] && [ "$url" != "null" ]; then
+        case "$url" in
+        //*) url="https:$url" ;;
+        esac
+        url_hash="$(printf "%s\n" "$url" | _util_generate_hash)"
+        img_path="$CLI_PREVIEW_IMGS_DIR/${url_hash}.jpg"
 
-    if [ -n "$data_to_preview" ] && [ "$data_to_preview" != "null" ]; then
-      num_entries=$(printf "%s\n" "$data_to_preview" | jq -r 'if .entries then (.entries | length) else 0 end' 2>/dev/null || echo 0)
+        __preview_download_image "$url" "$img_path" "$images_to_download_file"
+        printf '%s\0icon\x1f%s\n' "$title" "$img_path"
+      else
+        printf '%s\n' "$title"
+      fi
+    done >"$output"
 
-      {
-        printf "%s\n" "$data_to_preview" | jq -r '.entries[]? | "\(.thumbnails[-1]?.url // "")\t\(.title)"' | while IFS="$(printf '\t')" read -r url title; do
+    [ -s "$images_to_download_file" ] && curl -sL --parallel --parallel-max 5 --config "$images_to_download_file" >/dev/null 2>&1 && rm "$images_to_download_file" 2>/dev/null
 
-          if [ -n "$url" ] && [ "$url" != "null" ]; then
-            case "$url" in
-            //*) url="https:$url" ;;
-            esac
+    input_count=$(printf "%s" "$input_titles" | wc -l)
+    output_count=$(wc -l <"$output")
+    others=$((input_count - output_count))
 
-            url_hash="$(printf "%s\n" "$url" | _util_generate_hash)"
-            img_path="$CLI_PREVIEW_IMGS_DIR/${url_hash}.jpg"
-
-            if [ "$CONFIG_ENABLE_PREVIEW_IMAGES" = "true" ]; then
-              __preview_download_image "$url" "$img_path" "$images_to_download_file"
-            fi
-            printf "%s\0icon\x1f%s\n" "$title" "$img_path"
-          else
-            printf "%s\n" "$title"
-          fi
-        done
-        [ -s "$images_to_download_file" ] && curl -sL --parallel --parallel-max 5 --config "$images_to_download_file" >/dev/null 2>&1 && rm "$images_to_download_file" 2>/dev/null
-      }
+    cat "$output"
+    if [ "$others" -gt 0 ]; then
+      echo "$input_titles" | tail -n "$others"
     fi
-    sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g" | tail -n +$((num_entries + 1))
-  else
-    sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g"
   fi
 }
 
