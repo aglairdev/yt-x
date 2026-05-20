@@ -1671,6 +1671,7 @@ _preview_rofi() {
   if [ "$CONFIG_ENABLE_PREVIEW" = "true" ] && [ -n "$data_to_preview" ]; then
     input_titles="$(cat)"
 
+    # shellcheck disable=SC2141
     printf "%s" "$data_to_preview" | jq --compact-output -r '.entries[]' | while IFS='\n' read -r entry; do
       url=$(echo "$entry" | jq -r '.thumbnails[-1].url')
       title=$(echo "$entry" | jq -r '.title')
@@ -1692,7 +1693,7 @@ _preview_rofi() {
 
     input_count=$(printf "%s" "$input_titles" | wc -l)
     output_count=$(wc -l <"$output")
-    others=$((input_count - output_count))
+    others=$((input_count + 1 - output_count))
 
     cat "$output"
     if [ "$others" -gt 0 ]; then
