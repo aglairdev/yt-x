@@ -1598,39 +1598,34 @@ _preview_fzf_generate_script() {
 __preview_download_image() {
   local url
   local output_path
-
+  local images_to_download_file
   url="$1"
   output_path="$2"
+  images_to_download_file="$3"
 
   if ! [ -s "$output_path" ]; then
-    curl -sL "$url" -o "$output_path"
+    echo "url=$url" >>"$images_to_download_file"
+    echo "output=$output_path" >>"$images_to_download_file"
   fi
 }
 
 _preview_fzf_download_imgs() {
   local data_to_preview
+  local images_to_download_file
   local url
   local output_path
-
+  images_to_download_file="$CLI_CURRENT_STATE_DIR/images-to-download-$(date +%s)"
   data_to_preview="$1"
-  local i
-  i=0
 
-  printf "%s\n" "$data_to_preview" | jq -r '.entries[].thumbnails[-1].url' | while IFS= read -r url; do
-    # handle relative protocol URLs
+  printf "%s" "$data_to_preview" | jq -r '.entries[].thumbnails[-1].url' | while IFS= read -r url; do
     case "$url" in
     //*) url="https:$url" ;;
     esac
 
     output_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s\n" "$url" | _util_generate_hash).jpg"
-    __preview_download_image "$url" "$output_path" &
-
-    i=$((i + 1))
-    if [ $((i % 10)) -eq 0 ]; then
-      wait
-    fi
+    __preview_download_image "$url" "$output_path" "$images_to_download_file"
   done
-  wait
+  [ -s "$images_to_download_file" ] && curl -sL --parallel --parallel-max 5 --config "$images_to_download_file" >/dev/null 2>&1 && rm "$images_to_download_file" 2>/dev/null
 }
 
 _preview_fzf() {
@@ -1663,26 +1658,24 @@ preview_fzf() {
 
 _preview_rofi() {
   local data_to_preview
+  local images_to_download_file
+  local url_hash
+  local img_path
+  local log_base_path
+  local num_entries
+  images_to_download_file="$CLI_CURRENT_STATE_DIR/images-to-download-$(date +%s)"
+  num_entries=0
   data_to_preview="$1"
 
   if [ "$CONFIG_ENABLE_PREVIEW" = "true" ]; then
-    local log_base_path
     log_base_path="$CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
 
     [ ! -d "$log_base_path" ] && log_base_path="$CLI_CURRENT_STATE_DIR"
 
-    local num_entries
-    num_entries=0
-
     if [ -n "$data_to_preview" ] && [ "$data_to_preview" != "null" ]; then
-      # Count the number of media items so we know exactly how many lines to ignore from stdin
       num_entries=$(printf "%s\n" "$data_to_preview" | jq -r 'if .entries then (.entries | length) else 0 end' 2>/dev/null || echo 0)
 
       {
-        local i
-        i=0
-
-        # Output URL first to protect against tabs inside video titles!
         printf "%s\n" "$data_to_preview" | jq -r '.entries[]? | "\(.thumbnails[-1]?.url // "")\t\(.title)"' | while IFS="$(printf '\t')" read -r url title; do
 
           if [ -n "$url" ] && [ "$url" != "null" ]; then
@@ -1690,39 +1683,22 @@ _preview_rofi() {
             //*) url="https:$url" ;;
             esac
 
-            local url_hash
-            local img_path
-
             url_hash="$(printf "%s\n" "$url" | _util_generate_hash)"
             img_path="$CLI_PREVIEW_IMGS_DIR/${url_hash}.jpg"
 
-            # Download asynchronously
             if [ "$CONFIG_ENABLE_PREVIEW_IMAGES" = "true" ]; then
-              __preview_download_image "$url" "$img_path" &
+              __preview_download_image "$url" "$img_path" "$images_to_download_file"
             fi
-
-            # Output the title strictly mapped to the URL-based image cache
             printf "%s\0icon\x1f%s\n" "$title" "$img_path"
           else
-            # Fallback for media items without thumbnails
             printf "%s\n" "$title"
           fi
-
-          i=$((i + 1))
-          if [ $((i % 10)) -eq 0 ]; then
-            wait
-          fi
         done
-
-        # Wait for all background downloads to finish BEFORE we unblock the pipe to Rofi
-        wait
+        [ -s "$images_to_download_file" ] && curl -sL --parallel --parallel-max 5 --config "$images_to_download_file" >/dev/null 2>&1 && rm "$images_to_download_file" 2>/dev/null
       }
     fi
-
-    # Print the remaining menu items from stdin (Next, Back, Exit) by skipping the first $num_entries titles
     sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g" | tail -n +$((num_entries + 1))
   else
-    # Fallback when Previews are disabled: just pass stdin through and strip ANSI
     sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g"
   fi
 }
