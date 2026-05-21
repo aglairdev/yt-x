@@ -1510,7 +1510,11 @@ __preview_fzf_generate_script_for_item() {
 # ($CLI_FZF_PREVIEW_SCRIPT) to render images or format text.
 # ==============================================================================
 
-. "$CLI_FZF_PREVIEW_SCRIPT"
+if [ -s "$CLI_FZF_PREVIEW_SCRIPT" ];then
+  . "$CLI_FZF_PREVIEW_SCRIPT"
+else
+  exit 1
+fi
 
 if [ '$CONFIG_ENABLE_PREVIEW_IMAGES' = 'true' ];then
   if [ -s "$image_path" ];then 
