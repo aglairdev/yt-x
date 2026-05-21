@@ -202,7 +202,7 @@ _To uninstall later, simply run: `rm ~/.local/bin/yt-x`_
 ### Platform-Specific Instructions
 
 <details>
-<summary><b>🐧 Arch Linux (AUR)</b></summary>
+<summary><b>Arch Linux (AUR)</b></summary>
 
 Arch Linux users can install the bleeding-edge version directly from the Arch User Repository using their preferred AUR helper:
 
@@ -217,7 +217,7 @@ paru -S yt-x-git
 </details>
 
 <details>
-<summary><b>❄️ Nix / NixOS</b></summary>
+<summary><b>Nix / NixOS</b></summary>
 
 You can install `yt-x` either imperatively or declaratively using Nix flakes.
 
@@ -254,7 +254,7 @@ home.packages = [ inputs.yt-x.packages."${system}".default ];
 </details>
 
 <details>
-<summary><b>🪟 Windows (Git Bash, Cygwin) & WSL</b></summary>
+<summary><b>Windows (Git Bash, Cygwin) & WSL</b></summary>
 
 `yt-x` is fully compatible with Windows, provided you are running it inside a compatible terminal environment.
 
