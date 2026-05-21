@@ -239,6 +239,7 @@ __load_env_config() {
   CONFIG_BROWSER="${YT_X_BROWSER:-$CONFIG_BROWSER}"
 
   CONFIG_EDITOR="${YT_X_EDITOR:-$CONFIG_EDITOR}"
+  CONFIG_TERMINAL_EXEC="${YT_X_TERMINAL_EXEC:-$CONFIG_TERMINAL_EXEC}"
   CONFIG_NOTIFICATION_DURATION="${YT_X_NOTIFICATION_DURATION:-$CONFIG_NOTIFICATION_DURATION}"
   CONFIG_DOWNLOAD_DIR="${YT_X_DOWNLOAD_DIR:-$CONFIG_DOWNLOAD_DIR}"
   CONFIG_DOWNLOADS_ENUMERATE="${YT_X_ENUMERATE_DOWNLOADS:-$CONFIG_DOWNLOADS_ENUMERATE}"
@@ -257,6 +258,7 @@ __load_env_config() {
 
 __load_default_lang() {
   TXT_BYEBYE="Have a good day"
+  TXT_NO_TERMINAL_EXEC="No supported terminal emulator found for executing commands. Please set CONFIG_TERMINAL_EXEC to a valid terminal command. Currently set to: $CONFIG_TERMINAL_EXEC"
 
   TXT_STATE_MALFORMED_CURRENT="Malformed State. Confirm contents of: $CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
 
@@ -785,6 +787,9 @@ CONFIG_BROWSER="$CONFIG_BROWSER"
 # Options: vim, nano, code ... (Default: \$EDITOR or vi)
 CONFIG_EDITOR="$CONFIG_EDITOR"
 
+# The terminal to use to execute commands that require a terminal
+CONFIG_TERMINAL_EXEC="$CONFIG_TERMINAL_EXEC"
+
 # Duration in seconds for desktop notifications
 CONFIG_NOTIFICATION_DURATION="$CONFIG_NOTIFICATION_DURATION"
 
@@ -842,44 +847,27 @@ _load_config() {
 # ==============================================================================
 # CORE: utilities
 # ==============================================================================
-_util_byebye() {
-  echo "$TXT_BYEBYE $USER"
-  exit
-}
+_util_terminal_exec() {
+  local term
+  local cmd
+  cmd="$*"
 
-_util_generate_hash() {
-  local input
-
-  if [ -n "$1" ]; then
-    input="$1"
-  else
-    input=$(cat)
+  if ! $CLI_IS_TERMINAL; then
+    if [ -n "$CONFIG_TERMINAL_EXEC" ]; then
+      term="$CONFIG_TERMINAL_EXEC"
+    elif _dep_ch kitty; then
+      term="kitty --exec"
+    elif _dep_ch alacritty; then
+      term="alacritty --command"
+    else
+      ui_notify_error "$TXT_NO_TERMINAL_EXEC"
+      return 1
+    fi
+    # shellcheck disable=SC2086
+    $term $cmd
+    return
   fi
-
-  if _dep_ch sha256sum; then
-    printf "%s" "$input" | sha256sum | awk '{print $1}'
-  elif _dep_ch shasum; then
-    printf "%s" "$input" | shasum -a 256 | awk '{print $1}'
-  elif _dep_ch sha256; then
-    printf "%s" "$input" | sha256 | awk '{print $1}'
-  elif _dep_ch openssl; then
-    printf "%s" "$input" | openssl dgst -sha256 | awk '{print $2}'
-  else
-    printf "%s" "$input" | base64 | tr '/+' '_-' | tr -d '\n'
-  fi
-}
-
-_util_file_edit() {
-  local file_path
-  file_path="$1"
-
-  if _dep_ch "$CONFIG_EDITOR"; then
-    "$CONFIG_EDITOR" "$file_path"
-  elif _dep_ch "$EDITOR"; then
-    $EDITOR "$file_path"
-  elif ! _util_open "$file_path"; then
-    ui_notify_warning "Failed to edit $file_path: $TXT_EDITOR_NOT_FOUND"
-  fi
+  $cmd
 }
 
 _util_open() {
@@ -917,6 +905,45 @@ _util_open() {
   fi
 }
 
+_util_file_edit() {
+  local file_path
+  file_path="$1"
+
+  if _dep_ch "$CONFIG_EDITOR"; then
+    _util_terminal_exec "$CONFIG_EDITOR" "$file_path"
+  elif _dep_ch "$EDITOR"; then
+    _util_terminal_exec "$EDITOR" "$file_path"
+  elif ! _util_open "$file_path"; then
+    ui_notify_warning "$TXT_EDITOR_NOT_FOUND"
+  fi
+}
+
+_util_generate_hash() {
+  local input
+
+  if [ -n "$1" ]; then
+    input="$1"
+  else
+    input=$(cat)
+  fi
+
+  if _dep_ch sha256sum; then
+    printf "%s" "$input" | sha256sum | awk '{print $1}'
+  elif _dep_ch shasum; then
+    printf "%s" "$input" | shasum -a 256 | awk '{print $1}'
+  elif _dep_ch sha256; then
+    printf "%s" "$input" | sha256 | awk '{print $1}'
+  elif _dep_ch openssl; then
+    printf "%s" "$input" | openssl dgst -sha256 | awk '{print $2}'
+  else
+    printf "%s" "$input" | base64 | tr '/+' '_-' | tr -d '\n'
+  fi
+}
+
+_util_byebye() {
+  echo "$TXT_BYEBYE $USER"
+  exit
+}
 # ==============================================================================
 # CORE UI: notify
 # ==============================================================================
