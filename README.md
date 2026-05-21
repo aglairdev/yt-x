@@ -585,7 +585,7 @@ They exist purely for convinience and is more useful when passing from cmdline o
 | `CONFIG_VLC_ARGS`      | `""`    | Custom arguments passed directly to `vlc`.                                 |
 | `CONFIG_TPLAY_ARGS`    | `""`    | Custom arguments passed directly to `tplay`.                               |
 
-#### Web Integration & `yt-dlp`
+#### yt-dlp
 
 | Variable             | Default | Description                                                                            |
 | :------------------- | :------ | :------------------------------------------------------------------------------------- |
@@ -634,12 +634,14 @@ Check the repo for pre-configured rofi themes
 <summary><b>Is yt-x a standalone media downloader or player? (Reporting Bugs)</b></summary>
 <br>
 
-No. `yt-x` is a highly advanced **wrapper** that orchestrates several powerful underlying tools. Before opening an issue on GitHub, please determine if the bug is actually related to `yt-x` or one of its backend utilities:
+No.
+`yt-x` is just a **wrapper** over amazing cmdline tools. _(yt-dlp,fzf,rofi,mpv etc)_
+Before opening an issue on GitHub, please determine if the bug is actually related to `yt-x` or one this tools
+
+For example:
 
 - **Media Fetching/Downloading fails:** This is handled by **[`yt-dlp`](https://github.com/yt-dlp/yt-dlp)**. If a specific site breaks or videos refuse to download, try updating `yt-dlp` first (`yt-dlp -U`).
-- **Video Playback stutters or crashes:** This is handled by your media player (**[`mpv`](https://mpv.io/)**, `vlc`, etc.).
-- **Menu rendering issues / freezes:** This is handled by **[`fzf`](https://github.com/junegunn/fzf)** or **[`rofi`](https://github.com/davatorium/rofi)**.
-- **State management, navigation, or UI logic fails:** This is handled by `yt-x`. Please open an issue!
+- **State management, navigation, or UI/preview logic fails:** This is handled by `yt-x`. Please open an issue!
 
 </details>
 
@@ -647,9 +649,11 @@ No. `yt-x` is a highly advanced **wrapper** that orchestrates several powerful u
 <summary><b>How do I access age-restricted or members-only videos?</b></summary>
 <br>
 
-You need to pass your browser cookies to `yt-dlp`. You can do this natively in `yt-x` by editing your config (`~/.config/yt-x/config`) and setting the `CONFIG_BROWSER` variable to your daily browser (e.g., `firefox`, `chrome`, `brave`).
+You need to pass your browser cookies to `yt-dlp`.
+You can do this natively in `yt-x` by editing your config (`~/.config/yt-x/config`)
+and setting the `CONFIG_BROWSER` variable to your a supported browser by yt-dlp (e.g., `firefox`, `chrome`, `brave`).
 
-_Note: For the best playback experience, you should also configure your media player to use these cookies (see the MPV optimization tip below)._
+_Note: you can also configure your media player to use these cookies (see the MPV optimization tip below)._
 
 </details>
 
@@ -657,18 +661,24 @@ _Note: For the best playback experience, you should also configure your media pl
 <summary><b>How can I optimize MPV playback (Quality, Cookies, Hardware Decoding)?</b></summary>
 <br>
 
-By default, `mpv` handles streaming via `yt-dlp` under the hood. To ensure `mpv` uses your browser cookies (for age-restricted content) and defaults to 1080p hardware-accelerated playback, add the following to your `~/.config/mpv/mpv.conf`:
+By default, `mpv` handles streaming via `yt-dlp` under the hood.
+To ensure `mpv` uses your browser cookies and defaults to 1080p hardware-accelerated playback, add something like this to your `~/.config/mpv/mpv.conf`:
+_You can also do it from the miscellaneous menu_
 
 ```ini
 # Pass cookies to yt-dlp inside mpv
-ytdl-raw-options=cookies-from-browser=firefox
-
 # Force highest quality 1080p video + best audio
-ytdl-format="bestvideo[vcodec^=avc1][height<=1080]+bestaudio/best"
+# plus handle subs
+# you could also add sponsor block and chapters
+# by adding --embed-chapters --sponsorblock-mark all to the list
+ytdl-raw-options=format-sort="res:1080,vcodec:vp9,acodec:opus,fps",sub-lang="en,eng,enUS,en-US",write-sub=,write-auto-sub=,cookies-from-browser=firefox
+ytdl-format=bestvideo+bestaudio/best
 
-# General QoL improvements
+# if you know the exact decoder specify it vaapi for intel gpus or i think *nvdec for nvidia gpus
 hwdec=auto
 vo=gpu
+
+# subs
 slang=en,eng,enUS,en-US
 sub-auto=fuzzy
 ```
@@ -676,44 +686,31 @@ sub-auto=fuzzy
 </details>
 
 <details>
-<summary><b>How do I change the colors or theme of yt-x?</b></summary>
-<br>
+<summary><b>What yt-dlp config do you use?</b></summary>
 
-`yt-x` ships with a default _Tokyo Night_ color palette. You can easily "rice" it to match your system theme by either:
+Something like this
 
-1. Editing `CONFIG_FZF_OPTS` directly in `~/.config/yt-x/config`.
-2. Creating a dedicated `.theme` file inside `~/.config/yt-x/extensions/themes/` and autoloading it.
-
-**Example: Custom Catppuccin-style Config**
-
-```bash
-CONFIG_FZF_OPTS="
-  --color=bg+:#283457,bg:#16161e,border:#27a1b9,fg:#c0caf5,header:#2ac3de,hl+:#2ac3de,hl:#2ac3de,info:#545c7e,marker:#ff007c,pointer:#ff007c,prompt:#2ac3de,query:#c0caf5,scrollbar:#27a1b9,separator:#ff9e64,spinner:#ff007c
-  --border=rounded --prompt=' >' --marker=' >' --pointer='◆' --layout=reverse --cycle
-"
+```conf
+# though format sort would be better just recently discovered it lol check the mpv faq above to see how or the official readme
+-f bestvideo[height=1080][fps=60][vcodec^=vp9]+bestaudio/best[height=1080][fps=60][vcodec^=hevc]+bestaudio/best[height=1080][fps=60][vcodec^=avc1]/bestvideo[height=1080][fps<=30][vcodec^=vp9]+bestaudio/best[height=1080][fps<=30][vcodec^=hevc]+bestaudio/best[height=1080][fps<=30][vcodec^=avc1]/bestvideo[height>=720][height<1080][fps=60][vcodec^=vp9]+bestaudio/best[height>=720][height<1080][fps=60][vcodec^=hevc]+bestaudio/best[height>=720][height<1080][fps=60][vcodec^=avc1]/bestvideo[height>=720][height<1080][fps<=30][vcodec^=vp9]+bestaudio/best[height>=720][height<1080][fps<=30][vcodec^=hevc]+bestaudio/best[height>=720][height<1080][fps<=30][vcodec^=avc1]/bestvideo[height>=720]+bestaudio/best
+--embed-chapters
+--sponsorblock-mark all
+--embed-metadata
+--embed-thumbnail
+--add-metadata
+--embed-subs
+--sub-lang en
+--merge-output-format mkv
+--no-warnings
+--quiet
+--match-filter "!unavailable"
 ```
 
 </details>
 
 <details>
-<summary><b>How do I manually add or edit Custom Playlists?</b></summary>
-<br>
 
-You can save custom playlists via the `yt-x` UI, but you can also manually maintain them locally. They are stored in a simple JSON file located at `~/.config/yt-x/custom-playlists.json`.
-
-Ensure your file follows this structure:
-
-```json
-[
-  {
-    "id": "PLYOURPLAYLISTID",
-    "name": "My Custom Chill Mix",
-    "url": "https://www.youtube.com/playlist?list=PLYOURPLAYLISTID"
-  }
-]
-```
-
-</details>
+<details>
 
 <details>
 <summary><b>Why are my image previews not showing up?</b></summary>
@@ -741,12 +738,22 @@ Image previews require a few components to work together:
 </details>
 
 <details>
+<summary><b>How do i set qute-browser in my config?</b></summary>
+<br>
+
+```bash
+CONFIG_BROWSER="chromium:~/.local/share/qutebrowser"
+```
+
+</details>
+
+<details>
 <summary><b>Previews overlap text or look distorted. How do I fix this?</b></summary>
 <br>
 
 If your images are overlapping with UI text, your terminal may not properly support the image clearing sequences used by `chafa`.
 
-1. **Kitty / Ghostty:** Set `CONFIG_IMAGE_RENDERER="icat"`. These terminals have native, high-performance image protocols.
+1. **Kitty / Ghostty:** Set `CONFIG_IMAGE_RENDERER="icat"`.
 2. **iTerm2 / WezTerm:** Try `CONFIG_IMAGE_RENDERER="imgcat"`.
 3. **Other Terminals:** Stick to `CONFIG_IMAGE_RENDERER="chafa"`, but ensure your terminal supports **Sixel** or true-color ASCII. If overlaps persist, disable image previews (`CONFIG_ENABLE_PREVIEW_IMAGES=false`) and use text-only previews.
 
@@ -776,10 +783,17 @@ By default, `yt-x` blocks the terminal until the media player is closed. To brow
 </details>
 
 <details>
-<summary><b>I'm on macOS and getting `command not found`, `_load_config`, or `jq` errors.</b></summary>
+<summary><b>I'm on macOS and getting `command not found`, parser errors, or `jq` errors.</b></summary>
 <br>
 
-macOS ships with an outdated version of Bash (v3.x) and older standard utilities. `yt-x` requires modern tooling. Ensure you have installed the core dependencies via Homebrew (`brew install yt-dlp fzf jq chafa mpv`). If you encounter shell-specific errors, ensure your terminal is executing the script using a modern, Homebrew-installed shell environment rather than Apple's legacy `/bin/sh`.
+macOS ships with an outdated version of Bash (v3.x)
+This is due to licensing issues and mac being mac you cant even remove it apparently :joy:
+Ensure you have installed the core dependencies via Homebrew (`brew install bash`).
+Homebrew's installation location should be at the top of path so its preferred over the older bash which you cant remove
+
+Currently working on figuring out whats the syntax issue preventing the script from working with 3.x
+but for security reasons, even when the script supports it, prefer the latest version for daily use
+ohh and any help on the 3.x issue would be appreciated
 
 </details>
 
@@ -787,9 +801,8 @@ macOS ships with an outdated version of Bash (v3.x) and older standard utilities
 <summary><b>Why is a video playing in the wrong quality (e.g., 4K instead of 1080p) or throwing "Requested Format not available"?</b></summary>
 <br>
 
-While you can set `CONFIG_VIDEO_QUALITY` in `yt-x`, the actual stream negotiation is done by your media player (like `mpv`) via `yt-dlp`. If `mpv` decides to override the quality, you will get the maximum available resolution.
-To strictly enforce video quality, you **must** configure your media player. Add this to your `~/.config/mpv/mpv.conf`:
-`ytdl-format="bestvideo[height<=?1080]+bestaudio/best"` (Change `1080` to your preferred maximum height).
+Configure your media player. Add something like this to your `~/.config/mpv/mpv.conf`:
+`ytdl-format="bestvideo[height<=?1080]+bestaudio/best"`
 
 </details>
 
@@ -797,10 +810,10 @@ To strictly enforce video quality, you **must** configure your media player. Add
 <summary><b>I have no audio when playing videos on Termux / Android.</b></summary>
 <br>
 
-On Android, `yt-x` does not play the media inside the terminal. Instead, it uses Android `am start` intents to pass the stream URL to an installed GUI application (like the VLC or MPV Android apps). If you have no audio or video, ensure you have the actual MPV or VLC Android application installed on your device, and check the app's internal settings.
+On Android, `yt-x` does not play the media inside the terminal. Instead, it uses Android `am start` intents to pass the stream URL to an installed GUI application (like the VLC or MPV Android apps).
 
-Also since you can't directly use the mpv command in termux unless you have installed a window manager
-we use apps like mpv and vlc android through android intents api
+Since you can't directly use the mpv command in termux unless you have installed a window manager
+so apps like mpv and vlc android are used through android intents api
 and there it only supports giving it one url
 
 the script uses --get-url yt-dlp opt inorder to get the url but only picks the top one for video
@@ -817,10 +830,7 @@ and incase you do please share :)
 <summary><b>I'm getting "Malformed State" or "Invalid Action" errors constantly.</b></summary>
 <br>
 
-This typically happens for two reasons:
-
-1. **Corrupt Cache:** A previous `yt-x` session crashed and didn't clean up its state files. You can manually fix this by deleting the cache directory: `rm -rf ~/.cache/yt-x/state/`.
-2. **FZF Aliases:** If you have customized `fzf` in your `.bashrc`/`.zshrc` with aliases that alter its default output formatting, it will break `yt-x`'s state parsing. Ensure `fzf` operates normally.
+Its either a bug or you pressed ctrl+c too fast and it triggered the state dir to be wiped by `trap cmd`
 
 </details>
 
@@ -828,18 +838,13 @@ This typically happens for two reasons:
 <summary><b>I customized my colors and now the script crashes with "Invalid color specification".</b></summary>
 <br>
 
-This is an `fzf` error. If you modified `CONFIG_FZF_OPTS` to add custom hex colors (e.g., `#2ac3de`), you must ensure your terminal emulator actually supports **True Color (24-bit)**. If it doesn't, `fzf` will crash. Revert to standard ANSI colors (like `blue`, `red`, `cyan`) in your config if your terminal lacks True Color support.
+This is an `fzf` error especially in debian systems where the fzf version maybe older.
+So just update it using more upto date ppa's or use Homebrew its what i used to use when i first started using linux (ubuntu)
+works supprisingly well
 
 </details>
 
 <details>
-<summary><b>Why am I being prompted to update the script every single time I run it?</b></summary>
-<br>
-
-This happens if `yt-x` lacks the correct permissions to write to its own file. If you installed `yt-x` system-wide using `sudo` (e.g., to `/usr/local/bin`), the auto-updater running as your normal user cannot overwrite the binary.
-**Fix:** Reinstall `yt-x` to your local user directory (`~/.local/bin/yt-x`) as shown in the Installation guide, or disable the updater by setting `CONFIG_CHECK_FOR_UPDATES=false` in your config.
-
-</details>
 
 <details>
 <summary><b>How do I populate the Channels/Subscriptions tab? It says my JSON is empty.</b></summary>
@@ -854,18 +859,12 @@ You need to sync your subscriptions first.
 </details>
 
 <details>
-<summary><b>Can I get image previews when using Rofi instead of FZF?</b></summary>
-<br>
-
-Yes! `yt-x` uses `rofi`'s native `\0icon\x1f` protocol to display images. Ensure you have `CONFIG_ENABLE_PREVIEW_IMAGES=true` enabled in your `yt-x` config. Furthermore, your custom Rofi `.rasi` theme (`CONFIG_ROFI_THEME_PREVIEW`) must be configured to actually display the `element-icon` property.
-
-</details>
-
-<details>
 <summary><b>How can I get my system to display media metadata (title, artist) when using the "Listen" action?</b></summary>
 <br>
 
-This is actually a feature of your media player rather than `yt-x`. Integrating this directly into `yt-x` would require complex workarounds (such as intercepting `mpv`'s output using Lua scripts or enforcing `playerctl` + MPRIS dependencies), which goes against `yt-x`'s lightweight design philosophy.
+This is actually a feature of your media player rather than `yt-x`.
+Integrating this directly into `yt-x` would require intercepting `mpv`'s output using Lua scripts or enforcing `playerctl` + MPRIS ,
+which i don't want to do nor think its a good idea
 
 **The Solution:**
 The cleanest way to achieve this is by enabling **MPRIS** support directly in your media player.
@@ -873,7 +872,8 @@ The cleanest way to achieve this is by enabling **MPRIS** support directly in yo
 - **For `mpv`:** Install the [`mpv-mpris`](https://github.com/hoyon/mpv-mpris) plugin. This allows `mpv` to broadcast the current track's metadata to your OS, exactly like a web browser does for YouTube.
 - **For other players:** Search for similar MPRIS or D-Bus integration plugins/settings.
 
-Once configured, any compatible desktop widget or notification daemon will automatically pick it up and display what's playing. For example, using the [Noctalia](https://docs.noctalia.dev/v4/) daemon on the Niri compositor handles this beautifully:
+Once configured, any compatible desktop widget or notification daemon will automatically pick it up and display what's playing.
+For example, this is how it looks in my[Noctalia](https://docs.noctalia.dev/v4/) setup on Niri:
 
 <img width="1141" height="538" alt="Noctalia MPRIS Example 1" src="https://github.com/user-attachments/assets/287ac6f2-2c43-48b7-b365-0ed78a6002c7" />
 <img width="394" height="535" alt="Noctalia MPRIS Example 2" src="https://github.com/user-attachments/assets/a0ad992b-cb6b-430e-a923-b38fe2625928" />
@@ -896,7 +896,7 @@ Once configured, any compatible desktop widget or notification daemon will autom
 
 ```bash
 # Play the first video from a search and exit
-yt-x --playlist-skip --play -s "cute kittens" --media-exit
+yt-x --playlist-skip --media-exit --play -s "Dota"
 
 # Download the whole Watch Later playlist without any prompts
 yt-x --download-all --watch-later
@@ -905,199 +905,27 @@ yt-x --download-all --watch-later
 yt-x --save-playlist --media-exit
 ```
 
+_read usage for more examples and cmdline docs_
+
 </details>
 
 <details>
-<summary><b>How do I directly open a specific saved video or custom playlist without browsing the menu?</b></summary>
-<br>
-
-Use the `-sv` / `--saved-video`, `-cp` / `--custom-playlist`, and `-cc` / `--custom-cmd` flags to jump straight to an item.  
-In supported shells (Fish), you get tab completion for the names.
-
-```bash
-# Open a specific saved video by its title
-yt-x -sv "My favourite coding tutorial"
-
-# Open a specific custom playlist
-yt-x -cp "Jazz for studying"
-
-# Execute a specific custom command by name
-yt-x -cc "My Custom Search"
-```
-
-If you omit the argument, `yt-x` will prompt you to select from the list interactively.
-
-</details>
 
 <details>
 <summary><b>What is the `--shell` flag and when should I use it?</b></summary>
 <br>
 
-`--shell` drops you into a subshell (either `fish` or POSIX `sh`) that is pre‑loaded with all the current session’s state variables. This is a power‑user feature for advanced scripting or ad‑hoc manipulation.
+`--shell`_(media action)_ drops you into a subshell that is pre‑loaded with all the current session’s state variables.
+Its useful for running custom cmds on the current results
 
-**Available variables in the subshell:**
+**Available variables in the subshell include:**
 
 - `STATE_CURRENT_VIDEO`, `STATE_CURRENT_VIDEO_URL`, `STATE_CURRENT_VIDEO_TITLE`
 - `STATE_CURRENT_PLAYLIST_RESULTS`, `STATE_CURRENT_PLAYLIST_URL`, `STATE_CURRENT_PLAYLIST_TITLE`
 - Channel info, pagination indices, etc.
 
 You can use this to, for example, manually run `yt-dlp` commands on the current video, extract metadata, or automate custom post‑processing.
-
-```bash
-yt-x --shell   # After navigating to a video, you'll get a shell with that video's info loaded
-```
-
-Type `exit` to return to `yt-x`.
-
-</details>
-
-<details>
-<summary><b>Why does `--play-all` skip the item selection menu automatically?</b></summary>
-<br>
-
-`--play-all`, `--listen-all`, `--download-all`, `--download-audio-all`, and `--save-playlist` are designed for **whole‑playlist actions**. They assume you want to act on the entire list, not a single item, so they automatically set `--playlist-skip` internally. This saves you from having to type both flags and makes command‑line usage more intuitive.
-
-If you _do_ want to select a specific item from a playlist before playing the whole list, just use `--play` (without `-all`) and choose interactively.
-
-</details>
-
-<details>
-<summary><b>How do I get tab completion for custom playlist names or saved video titles?</b></summary>
-<br>
-
-Fish shell completions are fully supported and include dynamic completion for:
-
-- `-cp` / `--custom-playlist` : reads playlist names from `~/.config/yt-x/custom-playlists.json`
-- `-sv` / `--saved-video` : reads video titles from `~/.config/yt-x/saved-videos.json`
-- `-cc` / `--custom-cmd` : reads command names from `~/.config/yt-x/custom-cmds.json`
-- `channels -n` : reads channel names from `~/.config/yt-x/subscriptions.json`
-- `-x` / `--extension` : lists files in `~/.config/yt-x/extensions/`
-
-To install Fish completions:
-
-```bash
-yt-x completions --fish > ~/.config/fish/completions/yt-x.fish
-```
-
-Bash and Zsh completions are not yet implemented – contributions are welcome!
-
-</details>
-
-<details>
-<summary><b>Why does `--cmd-exit` not exit immediately after some commands?</b></summary>
-<br>
-
-`--cmd-exit` works by setting a flag that tells `yt-x` to exit once the current “command” (menu or action) returns to the main loop. If you use `--cmd-exit` with a shortcut that opens another menu (e.g., `--saved` followed by selecting a video), the exit will only happen after you fully exit that sub‑menu (by pressing Back/Exit). For a hard exit right after a media action, use `--media-exit` instead.
-
-</details>
-
-<details>
-<summary><b>How do I search for videos, playlists, channels, shorts, or movies without going through the main menu?</b></summary>
-<br>
-
-Use the dedicated search flags to jump straight to results:
-
-- `-s, --search <term>` : Video search
-- `-sp, --search-playlist <term>` : Playlist search
-- `-sc, --search-channel <term>` : Channel search
-- `-ss, --search-short <term>` : Shorts search
-- `-sm, --search-movie <term>` : Movie search
-
-If you omit the search term, `yt-x` will prompt you to enter one interactively.
-
-**Example:**
-
-```bash
-yt-x -s "linux kernel tutorial"
-yt-x -sp "jazz playlist"
-yt-x -sc "tech news"
-```
-
-</details>
-
-<details>
-<summary><b>Can I temporarily change the launcher (fzf/rofi) or media player without editing the config file?</b></summary>
-<br>
-
-Yes, use the `-l` / `--launcher` and `-p` / `--player` flags. These override the config file settings for a single run.
-
-```bash
-# Use rofi as the menu launcher for this session
-yt-x -l rofi
-
-# Use vlc as the media player
-yt-x -p vlc
-
-# Combine with other options
-yt-x -l rofi -p vlc --preview --preview-images
-```
-
-</details>
-
-<details>
-<summary><b>How do I temporarily enable or disable previews (images and metadata) from the command line?</b></summary>
-<br>
-
-Use `-i` to enable previews or `-I` to disable them. This overrides your `CONFIG_ENABLE_PREVIEW` setting for that run.
-
-```bash
-# Run with previews enabled
-yt-x -i
-
-# Run with previews disabled (useful for slow connections)
-yt-x -I
-```
-
-Previews can also be toggled inside `fzf` using `ctrl-/` (if not disabled in your config).
-
-</details>
-
-<details>
-<summary><b>How do I create a desktop shortcut (Linux) to launch yt-x from my app menu?</b></summary>
-<br>
-
-Use the `-E` / `--generate-desktop-entry` flag. It prints a `.desktop` file to stdout, which you can redirect to the appropriate directory.
-
-```bash
-# For a terminal‑based launcher (fzf)
-yt-x -E > ~/.local/share/applications/yt-x.desktop
-
-# For a GUI‑style launcher with rofi (no terminal window)
-# (Modify the generated file to set Terminal=false and add --launcher rofi)
-```
-
-After saving, run `update-desktop-database ~/.local/share/applications/` to refresh the menu.
-
-</details>
-
-<details>
-<summary><b>How do I manually update yt‑x to the latest version?</b></summary>
-<br>
-
-Run `yt-x -U` or `yt-x --update`. The script will check the GitHub repository for changes, show you a diff if available, and prompt you to apply the update. If you installed `yt-x` to a system‑wide location (e.g., `/usr/local/bin`) without proper write permissions, you may need to reinstall it in your `~/.local/bin` directory for the auto‑updater to work.
-
-To disable automatic update checks, set `CONFIG_CHECK_FOR_UPDATES=false` in your config file.
-
-</details>
-
-<details>
-<summary><b>How do I load an extension without restarting yt‑x or editing the config?</b></summary>
-<br>
-
-Use the `-x` / `--extension` flag followed by the extension file name (relative to `~/.config/yt-x/extensions/`) or an absolute path. Extensions can be anything from theme files (`.theme`), language files (`.lang`), site definitions (`.site`), or custom command scripts (`.cmd`).
-
-```bash
-# Load a theme
-yt-x -x themes/catppuccin.theme
-
-# Load a site extension for a different video platform
-yt-x -x sites/dailymotion.site
-
-# Load a custom command script
-yt-x -x cmd/my-search
-```
-
-Multiple `-x` flags can be used. To autoload extensions on every startup, list them in `CONFIG_AUTOLOADED_EXTENSIONS` (comma‑separated) in your config file.
+Note some are json so use jq to parse and inspect them or interactive ones like ijq and jnv
 
 </details>
 
@@ -1121,83 +949,6 @@ YT_X_DOWNLOAD_DIR="$HOME/Downloads/temp" yt-x --download-all
 ```
 
 See the config file for all available variables (e.g., `YT_X_PLAYER`, `YT_X_BROWSER`, `YT_X_PER_PAGE`, etc.).
-
-</details>
-
-<details>
-<summary><b>How does yt‑x manage cache, and can I clean it manually?</b></summary>
-<br>
-
-`yt-x` automatically cleans up old cache files (preview images, auto‑generated playlists, logs) based on `CONFIG_CACHE_RETENTION_DAYS` (default 7 days). The cache directories are located under `~/.cache/yt-x/`.
-
-To manually clean everything:
-
-```bash
-rm -rf ~/.cache/yt-x/
-```
-
-To keep the cache but remove only stale items older than a certain number of days (e.g., 3):
-
-```bash
-find ~/.cache/yt-x/ -type f -mtime +3 -delete
-```
-
-Clearing the cache will not affect your saved videos, custom playlists, or subscriptions – those are stored in `~/.config/yt-x/`.
-
-</details>
-
-<details>
-<summary><b>How do I use the `channels` subcommand non‑interactively?</b></summary>
-<br>
-
-The `channels` subcommand accepts `-n` (channel name) plus an action flag. You can combine it with `--cmd-exit` to exit after browsing the channel.
-
-**Examples:**
-
-```bash
-# Open a channel's videos and exit when you go back
-yt-x channels -n "Linus Tech Tips" -v --cmd-exit
-
-# Search within a channel without any interactive channel selection
-yt-x channels -n "freeCodeCamp.org" -s "python tutorial"
-
-# List a channel's playlists and then exit
-yt-x channels -n "StarTalk" -p --cmd-exit
-```
-
-If `-n` is omitted, you'll be prompted to pick from your subscriptions. If no action flag is given, you'll enter the channel's interactive menu.
-
-</details>
-
-<details>
-<summary><b>What are all the direct menu shortcuts I can use to skip the main menu?</b></summary>
-<br>
-
-These flags take you straight to specific sections:
-
-| Flag                       | Destination                               |
-| -------------------------- | ----------------------------------------- |
-| `--feed`                   | Your personalised feed                    |
-| `--subscriptions-feed`     | Subscriptions feed                        |
-| `--watch-later`            | Watch Later playlist                      |
-| `--playlists`              | Saved YouTube playlists                   |
-| `--custom-playlists`       | Your local custom playlists               |
-| `--saved`                  | Your saved videos                         |
-| `--recent`                 | Recently watched                          |
-| `--liked`                  | Liked videos                              |
-| `--watch-history`          | Watch history                             |
-| `--clips`                  | Your clips                                |
-| `--new-custom-cmd`         | Create a new custom command               |
-| `--custom-cmds`            | Run an existing custom command            |
-| `-cc, --custom-cmd <name>` | Execute a specific custom command by name |
-| `--search-history`         | Browse search history                     |
-| `--edit-search-history`    | Edit search history file                  |
-| `--edit-custom-playlists`  | Edit custom playlists JSON                |
-| `--edit-mpv-config`        | Edit mpv config                           |
-| `--edit-yt-dlp-config`     | Edit yt‑dlp config                        |
-| `--edit-custom-cmds`       | Edit custom commands JSON                 |
-
-Combine these with `--cmd-exit` for non‑interactive workflows.
 
 </details>
 
@@ -1254,8 +1005,20 @@ modify, audit and build upon a shell script since the excutable is just one file
 editor anytime or easily modify it to do what you want without having to open a pr have a fork etc.
 I have also grown to like writing shell scripts and the challenge involved its kinda cool
 and ais suck at writing it esp long ones lol, so yeah.
-Though for the same reason it makes it had to find reliable material or information on some concepts,
+You also get to implement your own state logic from scratch, data transformation pipelines,
+and such since there are no shell libraries which you can use to do the same
+managing a really long monolithic program and dealing with lack of certain data structures,
+being conscious on the commands you run since creating a process incurs an overhead
+
 so its one hell of a learning xp
+
+Incase you are wondering how to traverse it and explore it efficiently use a symbols search lsp(make sure you have installed bash-lsp)
+The code is structured and ordered best of on whether they are related or not and each section is demarcated by a header
+so you could easily use cold folding and it becomes drastically shorter while still knowing where you are
+all functions also have a namespace using the function name `ui` `preview` `app` etc there are also sub namespaces like `fzf` or `rofi`
+
+The cognitive overload you get is high but still its pretty fun once you get used to it and an asset for getting use to mapping large systems entirely in your head
+and working with several constraints
 
 </details>
 
@@ -1264,9 +1027,11 @@ so its one hell of a learning xp
 <br>
 
 Initially previews on kitty did not work and it took sometime before my [issue](https://gitlab.com/christosangel/magic-tape/-/work_items/2) was answered and solved,
-and a month later i decided to write my own on github(what am use to) in contrast with magic tape on gitlab.
+and a month later i decided to write my own on github
 
 And thus in my first year, during orientation week, yt-x was born and became my second popular oss project.
+
+Though whether you chose yt-x or magic-tape its upto you
 
 </details>
 
