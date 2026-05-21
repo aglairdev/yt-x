@@ -1538,14 +1538,8 @@ _preview_fzf_generate_script() {
   __preview_fzf_create_shared_script
 
   printf "%s\n" "$data_to_preview" | jq -c '.entries[]' | while IFS= read -r data_item; do
-    __preview_fzf_generate_script_for_item "$data_item" &
-
-    i=$((i + 1))
-    if [ $((i % 10)) -eq 0 ]; then
-      wait
-    fi
+    __preview_fzf_generate_script_for_item "$data_item"
   done
-  wait # ensure the last batch finishes
 }
 
 __preview_download_image() {
