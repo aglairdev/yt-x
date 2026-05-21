@@ -405,7 +405,7 @@ Almost all CLI options can be permanently set in `~/.config/yt-x/config` or over
 
 ### Examples & Workflows
 
-**Quickly Configure without opening the config file:**
+**Hello world**
 
 ```bash
 # always put --config-write at the end
