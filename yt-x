@@ -2641,7 +2641,7 @@ __menu_playlist_actions_shell() {
 "
   user_shell="$(ps -o comm= -p "$PPID")"
   if [ "$user_shell" = "fish" ]; then
-    fish --init-command "function fish_greeting; clear;echo \"$init_text\"; end"
+    _util_terminal_exec fish
   else
     local init_file
     init_file="$(mktemp /tmp/yt_x_sh_init.XXXXXX)"
@@ -2649,7 +2649,7 @@ __menu_playlist_actions_shell() {
     cat <<EOF >"$init_file"
 printf "%s" "$init_text"
 EOF
-    ENV="$init_file" sh -i
+    ENV="$init_file" _util_terminal_exec sh -i
   fi
 
 }
