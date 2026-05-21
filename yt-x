@@ -1594,13 +1594,9 @@ _preview_fzf() {
   data_to_preview="$1"
 
   if [ "$CONFIG_ENABLE_PREVIEW" = "true" ]; then
-    local log_base_path
-    log_base_path="$CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
-    ! [ -d "$log_base_path" ] && log_base_path="$CLI_CURRENT_STATE_DIR"
-
-    _preview_fzf_generate_script "$data_to_preview" >"$log_base_path/fzf-preview-sh.log" 2>&1 &
+    _preview_fzf_generate_script "$data_to_preview" &
     if [ "$CONFIG_ENABLE_PREVIEW_IMAGES" = "true" ]; then
-      _preview_fzf_download_imgs "$data_to_preview" >"$log_base_path/fzf-preview-img.log" 2>&1 &
+      _preview_fzf_download_imgs "$data_to_preview" &
     fi
   fi
 }
