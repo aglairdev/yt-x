@@ -48,19 +48,11 @@
 ## Table of Contents
 
 - [Features](#-features)
-  - [Search & Discovery](#-search--discovery)
-  - [User Interface & Experience](#️-user-interface--experience)
-  - [Playback & Media Handling](#-playback--media-handling)
-  - [Downloading & Archival](#-downloading--archival)
-  - [Library & Data Management](#-library--data-management)
-  - [Extensibility & Power User Features](#️-extensibility--power-user-features)
-  - [Cross-Platform & Infrastructure](#️-cross-platform--infrastructure)
 - [Installation](#-installation)
   - [Prerequisites](#️-prerequisites)
-  - [Universal Installation (macOS, Linux, Android)](#-universal-installation-macos-linux-android)
+  - [Universal Installation](#-universal-installation)
   - [Platform-Specific Instructions](#-platform-specific-instructions)
 - [Usage](#usage)
-  - [Synopsis](#synopsis)
   - [Quick Start](#quick-start)
   - [Command-Line Options](#command-line-options)
   - [Inline Search Syntax & Filters](#inline-search-syntax--filters)
@@ -70,7 +62,8 @@
   - [Configuration File Location](#configuration-file-location)
   - [Configuration Variables](#configuration-variables)
 - [Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
-- [Support & Contribution](#-support--contribution)
+- [Contribution](#-contribution)
+- [Support](#-support)
 
 ## Features
 
@@ -1007,8 +1000,8 @@ being conscious on the commands you run since creating a process incurs an overh
 so its one hell of a learning xp
 
 Incase you are wondering how to traverse it and explore it efficiently use a symbols search lsp(make sure you have installed bash-lsp)
-The code is structured and ordered best of on whether they are related or not and each section is demarcated by a header
-so you could easily use cold folding and it becomes drastically shorter while still knowing where you are
+The code is structured and ordered into sections and each section is demarcated by a header
+so you could easily use code folding and it becomes drastically shorter while still knowing where you are
 all functions also have a namespace using the function name `ui` `preview` `app` etc there are also sub namespaces like `fzf` or `rofi`
 
 The cognitive overload you get is high but still its pretty fun once you get used to it and an asset for getting use to mapping large systems entirely in your head
