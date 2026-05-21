@@ -849,8 +849,10 @@ _load_config() {
 # ==============================================================================
 _util_terminal_exec() {
   local term
+  local old_ifs
   local cmd
   cmd="$*"
+  old_ifs="$IFS"
 
   if ! $CLI_IS_TERMINAL; then
     if [ -n "$CONFIG_TERMINAL_EXEC" ]; then
@@ -863,11 +865,15 @@ _util_terminal_exec() {
       ui_notify_error "$TXT_NO_TERMINAL_EXEC"
       return 1
     fi
+    IFS=" "
     # shellcheck disable=SC2086
     $term $cmd
+    IFS="$old_ifs"
     return
   fi
+  IFS=" "
   $cmd
+  IFS="$old_ifs"
 }
 
 _util_open() {
