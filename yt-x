@@ -224,24 +224,20 @@ __load_env_config() {
   CONFIG_ENABLE_PREVIEW="${YT_X_ENABLE_PREVIEW:-$CONFIG_ENABLE_PREVIEW}"
   CONFIG_ENABLE_PREVIEW_IMAGES="${YT_X_ENABLE_PREVIEW_IMAGES:-$CONFIG_ENABLE_PREVIEW_IMAGES}"
 
-  # Renderer Settings
   CONFIG_IMAGE_RENDERER="${YT_X_IMAGE_RENDERER:-$CONFIG_IMAGE_RENDERER}"
   CONFIG_CHAFA_ARGS="${YT_X_CHAFA_ARGS:-$CONFIG_CHAFA_ARGS}"
   CONFIG_ICAT_ARGS="${YT_X_ICAT_ARGS:-$CONFIG_ICAT_ARGS}"
   CONFIG_IMGCAT_ARGS="${YT_X_IMGCAT_ARGS:-$CONFIG_IMGCAT_ARGS}"
 
-  # Player Settings
   CONFIG_PLAYER="${YT_X_PLAYER:-$CONFIG_PLAYER}"
   CONFIG_DISOWN_PLAYER="${YT_X_DISOWN_PLAYER:-$CONFIG_DISOWN_PLAYER}"
   CONFIG_MPV_ARGS="${YT_X_MPV_ARGS:-$CONFIG_MPV_ARGS}"
   CONFIG_VLC_ARGS="${YT_X_VLC_ARGS:-$CONFIG_VLC_ARGS}"
   CONFIG_TPLAY_ARGS="${YT_X_TPLAY_ARGS:-$CONFIG_TPLAY_ARGS}"
 
-  # Media Prefs
   CONFIG_PER_PAGE="${YT_X_PER_PAGE:-$CONFIG_PER_PAGE}"
   CONFIG_BROWSER="${YT_X_BROWSER:-$CONFIG_BROWSER}"
 
-  # System/UI
   CONFIG_EDITOR="${YT_X_EDITOR:-$CONFIG_EDITOR}"
   CONFIG_NOTIFICATION_DURATION="${YT_X_NOTIFICATION_DURATION:-$CONFIG_NOTIFICATION_DURATION}"
   CONFIG_DOWNLOAD_DIR="${YT_X_DOWNLOAD_DIR:-$CONFIG_DOWNLOAD_DIR}"
@@ -250,7 +246,6 @@ __load_env_config() {
   CONFIG_NO_OF_RECENT="${YT_X_NO_OF_RECENT:-$CONFIG_NO_OF_RECENT}"
   CONFIG_ENABLE_SEARCH_HISTORY="${YT_X_ENABLE_SEARCH_HISTORY:-$CONFIG_ENABLE_SEARCH_HISTORY}"
 
-  # Advanced
   CONFIG_FZF_HEADER="${YT_X_FZF_HEADER:-$CONFIG_FZF_HEADER}"
   CONFIG_FZF_OPTS="${YT_X_FZF_OPTS:-$CONFIG_FZF_OPTS}"
   CONFIG_ROFI_THEME_MAIN="${YT_X_ROFI_THEME_MAIN:-$CONFIG_ROFI_THEME_MAIN}"
@@ -261,23 +256,18 @@ __load_env_config() {
 }
 
 __load_default_lang() {
-  # core
   TXT_BYEBYE="Have a good day"
 
-  # core: state
   TXT_STATE_MALFORMED_CURRENT="Malformed State. Confirm contents of: $CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
 
-  # core: navigation
   TXT_MENU_NEXT="Next"
   TXT_MENU_PREVIOUS="Previous"
   TXT_MENU_BACK="Back"
   TXT_MENU_EXIT="Exit"
 
-  # core: launcher
   TXT_LAUNCHER_UNKNOWN="Unknown launcher"
   TXT_LAUNCHER_PREVIEWS_UNSUPPORTED="The current launcher ($CONFIG_LAUNCHER) does not support previews. Please switch to a supported launcher or disable previews in the config."
 
-  # fzf preview
   TXT_FZF_PREVIEW_IMAGE_LOADING="loading preview image..."
   TXT_FZF_PREVIEW_CHANNEL="Channel"
   TXT_FZF_PREVIEW_DURATION="Duration"
@@ -286,30 +276,23 @@ __load_default_lang() {
   TXT_FZF_PREVIEW_TIMESTAMP="Uploaded"
   TXT_FZF_PREVIEW_CHANNEL_FOLLOWERS="Followers"
 
-  # core: rofi
   TXT_ROFI_NOT_CONFIGURED="Rofi is not configured. Please set to a valid rofi config file path in your config.sh"
   TXT_ROFI_PAGER_MESSAGE="Press [Esc] to exit pager"
   TXT_ROFI_PAGER_PROMPT="Filter lines by typing"
 
-  # core: others
   TXT_MENU_INVALID_ACTION="Invalid Action"
   TXT_EDITOR_NOT_FOUND="No suitable editor found. Please set CONFIG_EDITOR to a valid text editor command or ensure \$EDITOR is set."
 
-  # core: confirm
   TXT_YES="y"
   TXT_NO="n"
   TXT_CONFIRM_DEFAULT="Default"
 
-  # core: loader
   TXT_LOADING="Loading..."
 
-  # core: preview
   TXT_PREVIEW_INSTALL_VIEWER="please install a terminal image viewer\neither icat for kitty terminal and wezterm or imgcat or chafa"
 
-  # config
   TXT_CONFIG_BROWSER_NOT_SET="Please set CONFIG_BROWSER to proceed"
 
-  # files
   TXT_CUSTOM_CMDS_FILE_NOT_FOUND="You dont have any custom cmds. Create them here $CLI_CUSTOM_CMDS_FILE or use the ui"
   TXT_SEARCH_HISTORY_FILE_NOT_FOUND="You dont have any search history. Start searching to generate search history or edit the file here $CLI_SEARCH_HISTORY_FILE"
   TXT_SAVED_VIDEOS_FILE_NOT_FOUND="You dont have any saved videos. Start saving videos to generate this file or edit the file here $CLI_SAVED_VIDEOS_FILE"
@@ -317,7 +300,6 @@ __load_default_lang() {
   TXT_SUBS_FILE_NOT_FOUND="You don't have any channel subscriptions. Please use the miscellaneous menu to add subscriptions to $CLI_SUBSCRIPTIONS_FILE"
   TXT_RECENT_FILE_NOT_FOUND="You don't have any recent videos. Try watching sth first : ). And an entry will be created at $CLI_RECENT_FILE"
 
-  # main
   TXT_MENU_MAIN_PROMPT_ACTION="Select an action"
   TXT_MENU_MAIN="Main Menu"
   TXT_MENU_MAIN_FEED="Your Feed"
@@ -353,10 +335,8 @@ Recall history         –  !1, !2, … (newest = 1)"
   TXT_MENU_MAIN_EDIT_CONFIG="Edit Config"
   TXT_MENU_MAIN_MISC="Miscellaneous"
 
-  # other menus
   TXT_MENU_PROMPT_SEARCH="Enter search query"
 
-  # miscellaneous
   TXT_MENU_MISC_PROMPT="Select an action"
 
   TXT_MENU_MISC_EXPLORE_CHANNELS="Explore Channels"
@@ -413,10 +393,8 @@ NOTE: There are base options which are given to yt-dlp but can be overriden
   TXT_MENU_MISC_SYNC_SUBS_START="Syncing subscriptions..."
   TXT_MENU_MISC_SYNC_SUBS_FAILED="Failed to sync subs"
 
-  # channels explorer
   TXT_MENU_CHANNELS_EXPLORER_PROMPT="Select a channel"
 
-  # channel actions
   TXT_MENU_CHANNEL_ACTIONS_PROMPT="Select action"
   TXT_MENU_CHANNEL_ACTIONS_VIDEOS="Videos"
   TXT_MENU_CHANNEL_ACTIONS_FEATURED="Featured"
@@ -429,13 +407,10 @@ NOTE: There are base options which are given to yt-dlp but can be overriden
   TXT_MENU_CHANNEL_ACTIONS_SUBSCRIBE="Subscribe"
   TXT_MENU_CHANNEL_ACTIONS_SUBSCRIBE_CONFIRM="Would you like to import your youtube subscriptions first? You wont be able to do so again unless you delete $CLI_SUBSCRIPTIONS_FILE"
 
-  # playlists
   TXT_MENU_PLAYLISTS_EXPLORER_PROMPT="Select Playlist"
 
-  # playlist explorer
   TXT_MENU_PLAYLIST_EXPLORER_PROMPT="Select Media"
 
-  # Playlist actions
   TXT_MENU_PLAYLIST_PROMPT_ACTION="Select Media Action"
   TXT_MENU_PLAYLIST_ACTIONS_WATCH="Watch"
   TXT_MENU_PLAYLIST_ACTIONS_WATCH_ALL="Play All"
@@ -459,16 +434,13 @@ NOTE: There are base options which are given to yt-dlp but can be overriden
 
   TXT_ENTER_PLAYLIST_TITLE="Enter playlist title"
 
-  # player
   TXT_PLAYER_START_WATCHING="Now Watching"
   TXT_PLAYER_START_LISTENING="Now Listening To"
   TXT_PLAYER_NOT_FOUND="No suitable media player found. Please set CONFIG_PLAYER to a valid media player command. Currently set to: $CONFIG_PLAYER"
   TXT_MENU_PLAYLIST_ACTIONS_PROMPT_SAVE_PLAYLIST="Enter the name of the playlist"
 
-  # others
   TXT_DOWNLOAD_COMPLETED="Completed downloading of "
 
-  # updates
   TXT_UPDATE_ROOT_WARNING="It seems you have installed $CLI_NAME as root, which is not recommended. Do you still want to update using sudo? (I recommended reinstalling the cli as non root)"
   TXT_UPDATE_SUDO_MISSING="Insufficient permissions to update and can't find sudo in PATH"
   TXT_UPDATE_SCRIPT_REEXECUTE="Script has been updated! Would you like to re-execute it?"
@@ -478,31 +450,25 @@ NOTE: There are base options which are given to yt-dlp but can be overriden
   TXT_UPDATE_CONFIRM="Would you like to proceed with the update?"
   TXT_UPDATE_NOT_FOUND="No updates found"
 
-  # dependencies
   TXT_DEP_MISSING_YTDLP="yt-dlp is not installed and is a core dep please install it to proceed"
   TXT_DEP_MISSING_JQ="jq is not installed and is a core dep please install it to proceed"
   TXT_DEP_MISSING_FZF="fzf is not installed and is a core dep please install it to proceed"
 
-  # playlist actions shell
   TXT_MENU_PLAYLIST_ACTIONS_SHELL_WELCOME="Welcome to the $CLI_NAME shell."
   TXT_MENU_PLAYLIST_ACTIONS_SHELL_INTRO="You can use the following:"
   TXT_MENU_PLAYLIST_ACTIONS_SHELL_VARIABLES="variables:"
 
-  # playlist actions
   TXT_MENU_PLAYLIST_ACTIONS_OPEN_IN_BROWSER_ERROR="Could not find a supported URL opener (open, xdg-open, wslview, or cmd.exe)"
   TXT_MENU_PLAYLIST_ACTIONS_SUBSCRIBE_UNSUPPORTED="contribute to the project by adding this feature"
 
-  # main search
   TXT_MENU_MAIN_RECENT_SEARCHES="Recent searches:"
   TXT_MENU_MAIN_NEW_SEARCH="New search…"
 
-  # desktop entry
   TXT_DESKTOP_ENTRY_PROMPT="Which launcher would you like to configure a desktop entry for"
   TXT_DESKTOP_ENTRY_COMMENT="Browse Youtube from the terminal plus other sites yt-dlp supports"
   TXT_LAUNCHER_LABEL_ROFI="rofi"
   TXT_LAUNCHER_LABEL_FZF="fzf"
 
-  # usage
   TXT_APP_USAGE="\
 A script written to browse YouTube and other yt‑dlp supported sites from the terminal.
 
@@ -703,28 +669,20 @@ __load_default_theme() {
   THEME_ESC="$(printf '\033')"
 
   if $CLI_SUPPORTS_TRUE_COLOR && $CONFIG_ENABLE_COLORS; then
-    # Tokyo Night: #2ac3de
     THEME_FZF_ICON_COLOR_PRIMARY="$(printf '\033[38;2;42;195;222m')"
 
-    # Tokyo Night: #545c7e
     THEME_FZF_ICON_COLOR_SECONDARY="$(printf '\033[38;2;84;92;126m')"
 
-    # Tokyo Night: #ff9e64
     THEME_FZF_ICON_COLOR_ACCENT="$(printf '\033[38;2;255;158;100m')"
 
-    # Tokyo Night: #ff007c
     THEME_FZF_ICON_COLOR_ERROR="$(printf '\033[38;2;255;0;124m')"
 
-    # Tokyo Night: #2ac3de
     THEME_FZF_PREVIEW_KEY="$(printf '\033[38;2;42;195;222m')"
 
-    # Tokyo Night: #ff9e64
     # THEME_FZF_PREVIEW_DIVIDER="$(printf '\033[38;2;255;158;100m')"
 
-    # Tokyo Night: #9ece6a
     THEME_PLAYER_START="$(printf '\033[38;2;158;206;106m')"
 
-    # Text formatting
     THEME_BOLD="$(printf '\033[1m')"
     THEME_RESET="$(printf '\033[0m')"
 
@@ -871,10 +829,8 @@ EOF
 _load_config() {
   __load_default_config
 
-  # Create config if missing
   [ -f "$CLI_CONFIG_FILE" ] || _print_config >"$CLI_CONFIG_FILE"
 
-  # Load Config File
   . "$CLI_CONFIG_FILE"
 
   __load_env_config
@@ -894,7 +850,6 @@ _util_byebye() {
 _util_generate_hash() {
   local input
 
-  # Check if input is passed as an argument or piped
   if [ -n "$1" ]; then
     input="$1"
   else
@@ -910,7 +865,6 @@ _util_generate_hash() {
   elif _dep_ch openssl; then
     printf "%s" "$input" | openssl dgst -sha256 | awk '{print $2}'
   else
-    # fallback
     printf "%s" "$input" | base64 | tr '/+' '_-' | tr -d '\n'
   fi
 }
@@ -1173,11 +1127,10 @@ __ui_default_prompt() {
 }
 
 __ui_rofi_prompt() {
-  # $1 = prompt label, $2 = optional header/message
   [ -s "$CONFIG_ROFI_THEME_PROMPT" ] ||
     ui_notify_critical "Rofi prompt theme not set: $CONFIG_ROFI_THEME_PROMPT"
 
-  # It doesnt look pretty so disabling it
+  # NOTE: It doesnt look pretty so disabling it
   if [ -n "$2" ] && false; then
     rofi -no-config -theme "$CONFIG_ROFI_THEME_PROMPT" \
       -dmenu -p "$1" -mesg "$2"
@@ -1763,7 +1716,6 @@ _state_push() {
   current_state_dir="$CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
   mkdir -p "$current_state_dir"
 
-  # Dump variables safely into one file
   cat <<EOF >"$current_state_dir/state.env"
 STATE_CURRENT_CHANNEL_RESULTS='$(printf "%s" "$STATE_CURRENT_CHANNEL_RESULTS" | sed "s/'/'\\\\''/g")'
 STATE_CURRENT_CHANNEL_RESULTS_URL='$(printf "%s" "$STATE_CURRENT_CHANNEL_RESULTS_URL" | sed "s/'/'\\\\''/g")'
@@ -1927,7 +1879,6 @@ fetch_playlist() {
   *) url="https://youtube.com/$1" ;;
   esac
 
-  # fetching playlist for the first time, initialize the indices
   STATE_CURRENT_PLAYLIST_START=1
   STATE_CURRENT_PLAYLIST_END="$CONFIG_PER_PAGE"
 
@@ -1977,7 +1928,6 @@ fetch_playlists() {
   *) url="https://youtube.com/$1" ;;
   esac
 
-  # fetching playlist for the first time, initialize the indices
   STATE_CURRENT_PLAYLISTS_RESULTS_START=1
   STATE_CURRENT_PLAYLISTS_RESULTS_END="$CONFIG_PER_PAGE"
 
@@ -2022,7 +1972,6 @@ fetch_channels() {
   *) url="https://youtube.com/$1" ;;
   esac
 
-  # fetching channels for the first time, initialize the indices
   STATE_CURRENT_CHANNEL_RESULTS_START=1
   STATE_CURRENT_CHANNEL_RESULTS_END="$CONFIG_PER_PAGE"
 
@@ -2069,8 +2018,6 @@ fetch_yt_subs() {
 # ==============================================================================
 # Data parsers
 # ==============================================================================
-# Map a colon command to the corresponding YouTube sp parameter
-# Prints the sp string to stdout; returns 0 if the prefix is va
 _parse_search_filter() {
   case "$1" in
   hour) echo "EgIIAQ%253D%253D" ;;
@@ -2094,7 +2041,7 @@ _parse_search_filter() {
   newest) echo "CAISAhAB" ;;
   views) echo "CAMSAhAB" ;;
   rating) echo "CAESAhAB" ;;
-  *) return 1 ;; # invalid filter
+  *) return 1 ;;
   esac
 }
 
@@ -2159,7 +2106,7 @@ _download_playlist_video() {
 
   [ "$CONFIG_DOWNLOADS_ENUMERATE" = "true" ] && enumerate_playlist="%(playlist_index)s - "
 
-  # TODO: could be more unique
+  # TODO: could be more unique by passing in user specified yt-dlp opts
   download_archive="$(_util_generate_hash "video - $STATE_CURRENT_PLAYLIST_URL")"
 
   _download_media "$STATE_CURRENT_PLAYLIST_URL" \
@@ -2210,12 +2157,8 @@ __cached_mix_path() {
 
   if ! [ -s "$cached_mix_path" ]; then
     _mix_data="$(yt-dlp "https://www.youtube.com/watch?v=${video_id}&list=RD$video_id" --flat-playlist --dump-single-json 2>/dev/null)"
-
-    # NOTE: it silently fails and will just return the original url
-    # if it fails to fetch the mix data, which can happen for various reasons (e.g. network issues, yt-dlp issues, etc.)
     [ -z "$_mix_data" ] && echo "$url" && return
 
-    # start creating the m3u8 mix
     # NOTE: the extended metadata below is not available in the mix data of yt
     # but other sites may have them. You could easily inject them using jq like:
     # "#EXTALB:\(.album)\n#EXTGENRE:\(.genre)\n#EXTGRP:\(.group)\n"
@@ -2618,7 +2561,6 @@ __menu_playlist_actions_save_playlist() {
 }
 
 __menu_playlist_actions_unsave_playlist() {
-  # For now a pseudo like feature is just as useful
   _remove_saved_playlist
 }
 
@@ -3534,13 +3476,11 @@ _search_expand_history_recall() {
     recalled=$(_get_search_history_entry "$n" 2>/dev/null)
     if [ -n "$recalled" ]; then
       term="$recalled $rest"
-      # Use literal space and tab for maximum POSIX compatibility
       term=$(printf '%s\n' "$term" | sed 's/^[ 	]*//;s/[ 	]*$//')
     fi
     printf '%s\n' "$term"
     ;;
   *)
-    # Catch-all for normal queries without "!" triggers
     printf '%s\n' "$term"
     ;;
   esac
@@ -3562,7 +3502,6 @@ _search_apply_filters() {
 
   case "$term" in
   :*)
-    # Extract first word using literal space and tab as delimiter
     colon_part="${term%%[ 	]*}"
     cand="${colon_part#:}"
     maybe_sp=$(_parse_search_filter "$cand" 2>/dev/null)
@@ -3571,7 +3510,6 @@ _search_apply_filters() {
       if [ "$colon_part" = "$term" ]; then
         term=""
       else
-        # Remove the filter and any leading spaces from the remaining string
         term=$(printf '%s\n' "$term" | sed 's/^[^ 	]\{1,\}[ 	]*//')
       fi
       filter_applied=1
@@ -3580,13 +3518,11 @@ _search_apply_filters() {
   esac
 
   if [ "$filter_applied" -eq 0 ]; then
-    # Extract suffix filter if it exists using POSIX BRE
     suffix=$(printf '%s\n' "$term" | sed -n 's/.*[ 	]\{1,\}:\([^ 	]\{1,\}\)$/\1/p')
     if [ -n "$suffix" ]; then
       maybe_sp=$(_parse_search_filter "$suffix" 2>/dev/null)
       if [ $? -eq 0 ]; then
         sp="$maybe_sp"
-        # Strip the suffix filter from the term
         term=$(printf '%s\n' "$term" | sed 's/[ 	]\{1,\}:[^ 	]\{1,\}$//')
         filter_applied=1
       fi
@@ -3646,17 +3582,14 @@ ${recent}
 
   raw_search_term=$(_search_expand_history_recall "$raw_search_term")
 
-  # Preserve the query including its filters for the history file
   history_search_term="$raw_search_term"
 
   filter_output=$(_search_apply_filters "$raw_search_term")
-  # Extract sp (strictly the last line) and raw_search_term (all previous lines) cleanly
   sp=$(printf '%s\n' "$filter_output" | sed -n '$p')
   raw_search_term=$(printf '%s\n' "$filter_output" | sed '$d')
 
   if [ "$CONFIG_ENABLE_SEARCH_HISTORY" = "true" ]; then
     if [ -f "$CLI_SEARCH_HISTORY_FILE" ]; then
-      # -e ensures hyphenated search terms are treated strictly as patterns, not illegal grep flags
       grep -v -x -F -e "$history_search_term" "$CLI_SEARCH_HISTORY_FILE" >"${CLI_SEARCH_HISTORY_FILE}.tmp" 2>/dev/null || true
       tail -n 99 "${CLI_SEARCH_HISTORY_FILE}.tmp" >"$CLI_SEARCH_HISTORY_FILE" 2>/dev/null || true
       rm -f "${CLI_SEARCH_HISTORY_FILE}.tmp"

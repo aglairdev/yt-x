@@ -1,14 +1,11 @@
 #!/bin/sh
 # shellcheck disable=SC3043,SC2034,SC1090
-
 # ==============================================================================
 # Dailymotion Site Extension for yt-x
 # uses --no-flat-playlist to ensure we get all metadata for each video
 # in the playlist, which makes the ui nicer
 # even if it takes longer to fetch the playlist initially
 # ==============================================================================
-
-# --- Functionality ---
 
 __menu_dailymotion_search() {
   local search_term
@@ -19,15 +16,12 @@ __menu_dailymotion_search() {
 
   url="https://www.dailymotion.com/search/$search_term/videos"
 
-  # Initialize playlist pagination
   STATE_CURRENT_PLAYLIST_START=1
   STATE_CURRENT_PLAYLIST_END="$CONFIG_PER_PAGE"
 
-  # _fetch_playlist handles the core yt-dlp dumping over our URL
   _fetch_playlist "$url" --no-flat-playlist
   _state_push
 
-  # Launch the standard playlist viewer with our Dailymotion results
   menu_playlist_explorer
 }
 
@@ -68,8 +62,6 @@ __menu_dailymotion_playlist() {
   menu_playlist_explorer
 }
 
-# --- Dailymotion Sub-Menu ---
-
 _menu_dailymotion() {
   local actions
   actions="\
@@ -89,9 +81,6 @@ ${THEME_FZF_ICON_COLOR_PRIMARY}${THEME_RESET}  ${TXT_MENU_BACK}"
     esac
   done
 }
-
-# --- Hook into Main Menu ---
-# Overriding the original `_menu_main` at runtime to inject Dailymotion natively into the root
 
 _menu_main() {
   local actions

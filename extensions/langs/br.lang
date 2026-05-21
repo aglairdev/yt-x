@@ -4,23 +4,18 @@
 # yt-x Brazilian Portuguese Language Extension (br.lang)
 # ==============================================================================
 
-# core
 TXT_BYEBYE="Tenha um ótimo dia"
 
-# core: state
 TXT_STATE_MALFORMED_CURRENT="Estado malformado. Confirme o conteúdo de: $CLI_CURRENT_STATE_DIR/$STATE_CURRENT"
 
-# core: navigation
 TXT_MENU_NEXT="Próximo"
 TXT_MENU_PREVIOUS="Anterior"
 TXT_MENU_BACK="Voltar"
 TXT_MENU_EXIT="Sair"
 
-# core: launcher
 TXT_LAUNCHER_UNKNOWN="Launcher desconhecido"
 TXT_LAUNCHER_PREVIEWS_UNSUPPORTED="O launcher atual ($CONFIG_LAUNCHER) não suporta pré-visualizações. Por favor, mude para um launcher compatível ou desative as pré-visualizações nas configurações."
 
-# fzf preview
 TXT_FZF_PREVIEW_IMAGE_LOADING="carregando imagem de pré-visualização..."
 TXT_FZF_PREVIEW_CHANNEL="Canal"
 TXT_FZF_PREVIEW_DURATION="Duração"
@@ -29,30 +24,23 @@ TXT_FZF_PREVIEW_LIVE_STATUS="Status ao Vivo"
 TXT_FZF_PREVIEW_TIMESTAMP="Enviado"
 TXT_FZF_PREVIEW_CHANNEL_FOLLOWERS="Seguidores"
 
-# core: rofi
 TXT_ROFI_NOT_CONFIGURED="Rofi não está configurado. Por favor, defina um caminho válido para o arquivo de configuração do rofi no seu config.sh"
 TXT_ROFI_PAGER_MESSAGE="Pressione [Esc] para sair do paginador"
 TXT_ROFI_PAGER_PROMPT="Digite para filtrar linhas..."
 
-# core: others
 TXT_MENU_INVALID_ACTION="Ação inválida"
 TXT_EDITOR_NOT_FOUND="Nenhum editor adequado encontrado. Por favor, defina CONFIG_EDITOR para um comando de editor de texto válido ou certifique-se de que \$EDITOR esteja configurado."
 
-# core: confirm
 TXT_YES="s"
 TXT_NO="n"
 TXT_CONFIRM_DEFAULT="Padrão"
 
-# core: loader
 TXT_LOADING="Carregando..."
 
-# core: preview
 TXT_PREVIEW_INSTALL_VIEWER="por favor instale um visualizador de imagens no terminal\nuse icat para terminal kitty e wezterm ou imgcat ou chafa"
 
-# config
 TXT_CONFIG_BROWSER_NOT_SET="Por favor, defina CONFIG_BROWSER para continuar"
 
-# files
 TXT_CUSTOM_CMDS_FILE_NOT_FOUND="Você não tem comandos personalizados. Crie-os em $CLI_CUSTOM_CMDS_FILE ou use a interface"
 TXT_SEARCH_HISTORY_FILE_NOT_FOUND="Você não tem histórico de busca. Comece a pesquisar para gerar o histórico ou edite o arquivo em $CLI_SEARCH_HISTORY_FILE"
 TXT_SAVED_VIDEOS_FILE_NOT_FOUND="Você não tem vídeos salvos. Comece a salvar vídeos para gerar este arquivo ou edite-o em $CLI_SAVED_VIDEOS_FILE"
@@ -60,7 +48,6 @@ TXT_CUSTOM_PLAYLISTS_FILE_NOT_FOUND="Você não tem playlists personalizadas. Co
 TXT_SUBS_FILE_NOT_FOUND="Você não tem inscrições em canais. Por favor, use o menu miscelânea para adicionar inscrições em $CLI_SUBSCRIPTIONS_FILE"
 TXT_RECENT_FILE_NOT_FOUND="Você não tem vídeos recentes. Tente assistir algo primeiro : ). Uma entrada será criada em $CLI_RECENT_FILE"
 
-# main
 TXT_MENU_MAIN_PROMPT_ACTION="Selecione uma ação"
 TXT_MENU_MAIN="Menu Principal"
 TXT_MENU_MAIN_FEED="Seu Feed"
@@ -94,10 +81,8 @@ TXT_MENU_MAIN_CLIPS="Clipes"
 TXT_MENU_MAIN_EDIT_CONFIG="Editar Configurações"
 TXT_MENU_MAIN_MISC="Miscelânea"
 
-# other menus
 TXT_MENU_PROMPT_SEARCH="Digite a consulta de busca"
 
-# miscellaneous
 TXT_MENU_MISC_PROMPT="Selecione uma ação"
 TXT_MENU_MISC_EXPLORE_CHANNELS="Explorar Canais"
 TXT_MENU_MISC_EXPLORE_CHANNELS_PROMPT="Digite o nome do canal"
@@ -152,10 +137,8 @@ TXT_MENU_MISC_SYNC_SUBS_CONFIRM="Isso irá apagar suas inscrições locais, dese
 TXT_MENU_MISC_SYNC_SUBS_START="Sincronizando inscrições..."
 TXT_MENU_MISC_SYNC_SUBS_FAILED="Falha ao sincronizar inscrições"
 
-# channels explorer
 TXT_MENU_CHANNELS_EXPLORER_PROMPT="Selecione um canal"
 
-# channel actions
 TXT_MENU_CHANNEL_ACTIONS_PROMPT="Selecionar ação"
 TXT_MENU_CHANNEL_ACTIONS_VIDEOS="Vídeos"
 TXT_MENU_CHANNEL_ACTIONS_FEATURED="Destaques"
@@ -168,18 +151,14 @@ TXT_MENU_CHANNEL_ACTIONS_PODCASTS="Podcasts"
 TXT_MENU_CHANNEL_ACTIONS_SUBSCRIBE="Inscrever-se"
 TXT_MENU_CHANNEL_ACTIONS_SUBSCRIBE_CONFIRM="Gostaria de importar suas inscrições do YouTube primeiro? Você não poderá fazer isso novamente a menos que apague $CLI_SUBSCRIPTIONS_FILE"
 
-# playlists
 TXT_MENU_PLAYLISTS_EXPLORER_PROMPT="Selecionar Playlist"
 
-# playlist explorer
 TXT_MENU_PLAYLIST_EXPLORER_PROMPT="Selecionar Mídia"
 
-# playlist actions shell
 TXT_MENU_PLAYLIST_ACTIONS_SHELL_WELCOME="Bem-vindo ao shell do $CLI_NAME."
 TXT_MENU_PLAYLIST_ACTIONS_SHELL_INTRO="Você pode usar o seguinte:"
 TXT_MENU_PLAYLIST_ACTIONS_SHELL_VARIABLES="variáveis:"
 
-# Playlist actions
 TXT_MENU_PLAYLIST_PROMPT_ACTION="Selecionar Ação de Mídia"
 TXT_MENU_PLAYLIST_ACTIONS_WATCH="Assistir"
 TXT_MENU_PLAYLIST_ACTIONS_WATCH_ALL="Reproduzir Tudo"
@@ -205,16 +184,13 @@ TXT_MENU_PLAYLIST_ACTIONS_SUBSCRIBE_UNSUPPORTED="Contribua com o projeto adicion
 
 TXT_ENTER_PLAYLIST_TITLE="Digite o título da playlist"
 
-# player
 TXT_PLAYER_START_WATCHING="Assistindo Agora"
 TXT_PLAYER_START_LISTENING="Ouvindo Agora"
 TXT_PLAYER_NOT_FOUND="Nenhum player adequado encontrado. Defina CONFIG_PLAYER para um player válido. Atual: $CONFIG_PLAYER"
 TXT_MENU_PLAYLIST_ACTIONS_PROMPT_SAVE_PLAYLIST="Digite o nome da playlist"
 
-# others
 TXT_DOWNLOAD_COMPLETED="Download concluído de "
 
-# updates
 TXT_UPDATE_ROOT_WARNING="Parece que você instalou $CLI_NAME como root, o que não é recomendado. Ainda deseja atualizar usando sudo? (recomendo reinstalar a cli como usuário não root)"
 TXT_UPDATE_SUDO_MISSING="Permissões insuficientes para atualizar e não foi encontrado sudo no PATH"
 TXT_UPDATE_SCRIPT_REEXECUTE="O script foi atualizado! Deseja reexecutá-lo?"
@@ -224,18 +200,15 @@ TXT_UPDATE_FOUND="Uma atualização foi encontrada. Deseja ver as mudanças ante
 TXT_UPDATE_CONFIRM="Deseja prosseguir com a atualização?"
 TXT_UPDATE_NOT_FOUND="Nenhuma atualização encontrada"
 
-# dependencies
 TXT_DEP_MISSING_YTDLP="yt-dlp não está instalado e é uma dependência principal. Instale-o para continuar"
 TXT_DEP_MISSING_JQ="jq não está instalado e é uma dependência principal. Instale-o para continuar"
 TXT_DEP_MISSING_FZF="fzf não está instalado e é uma dependência principal. Instale-o para continuar"
 
-# desktop entry
 TXT_DESKTOP_ENTRY_PROMPT="Para qual launcher você gostaria de configurar uma entrada de desktop"
 TXT_DESKTOP_ENTRY_COMMENT="Navegue no YouTube pelo terminal e em outros sites que o yt-dlp suporta"
 TXT_LAUNCHER_LABEL_ROFI="rofi"
 TXT_LAUNCHER_LABEL_FZF="fzf"
 
-# usage
 TXT_APP_USAGE="\
 Um script para navegar no YouTube e em outros sites compatíveis com yt‑dlp pelo terminal.
 

@@ -1,6 +1,5 @@
 #!/bin/sh
 # shellcheck disable=SC2034
-
 # ==============================================================================
 # yt-x Theme Extension: Catppuchin Mocha
 # ==============================================================================
@@ -27,7 +26,6 @@ if $CLI_SUPPORTS_TRUE_COLOR && $CONFIG_ENABLE_COLORS; then
   # Catppuchin Mocha: Green (#a6e3a1)
   THEME_PLAYER_START="$(printf '\033[38;2;166;227;161m')"
 
-  # Text formatting
   THEME_BOLD="$(printf '\033[1m')"
   THEME_RESET="$(printf '\033[0m')"
 
