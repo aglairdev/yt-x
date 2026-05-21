@@ -47,18 +47,18 @@
 
 ## 📖 Table of Contents
 
-- [🚀 Features](#-features)
-  - [🔍 Search & Discovery](#-search--discovery)
-  - [🖥️ User Interface & Experience](#️-user-interface--experience)
-  - [🎬 Playback & Media Handling](#-playback--media-handling)
-  - [💾 Downloading & Archival](#-downloading--archival)
-  - [📚 Library & Data Management](#-library--data-management)
-  - [⚙️ Extensibility & Power User Features](#️-extensibility--power-user-features)
-  - [🛠️ Cross-Platform & Infrastructure](#️-cross-platform--infrastructure)
-- [📥 Installation](#-installation)
-  - [⚙️ Prerequisites](#️-prerequisites)
-  - [🌍 Universal Installation (macOS, Linux, Android)](#-universal-installation-macos-linux-android)
-  - [📦 Platform-Specific Instructions](#-platform-specific-instructions)
+- [Features](#-features)
+  - [Search & Discovery](#-search--discovery)
+  - [User Interface & Experience](#️-user-interface--experience)
+  - [Playback & Media Handling](#-playback--media-handling)
+  - [Downloading & Archival](#-downloading--archival)
+  - [Library & Data Management](#-library--data-management)
+  - [Extensibility & Power User Features](#️-extensibility--power-user-features)
+  - [Cross-Platform & Infrastructure](#️-cross-platform--infrastructure)
+- [Installation](#-installation)
+  - [Prerequisites](#️-prerequisites)
+  - [Universal Installation (macOS, Linux, Android)](#-universal-installation-macos-linux-android)
+  - [Platform-Specific Instructions](#-platform-specific-instructions)
 - [Usage](#usage)
   - [Synopsis](#synopsis)
   - [Quick Start](#quick-start)
@@ -69,12 +69,12 @@
 - [Configuration](#configuration)
   - [Configuration File Location](#configuration-file-location)
   - [Configuration Variables](#configuration-variables)
-- [❓ Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
-- [🤝 Support & Contribution](#-support--contribution)
+- [Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
+- [Support & Contribution](#-support--contribution)
 
-## 🚀 Features
+## Features
 
-### 🔍 Search & Discovery
+### Search & Discovery
 
 - **Comprehensive Search Capabilities**: Directly search for videos, playlists, channels, shorts or movies.
 - **Advanced Search Filters**: Apply colon-prefixed quick filters directly to search queries:
@@ -87,7 +87,7 @@
 - **Channel Browsing**: Deep dive into channels with dedicated menus for Videos, Featured content, Playlists, Shorts, Live Streams, Podcasts, and Channel-specific search.
 - **Channel Subcommand**: Jump directly into a channel from the command line (e.g., `yt-x channels -n "Linus Tech Tips" -v`) – perfect for scripting and keyboard-driven workflows.
 
-### 🖥️ User Interface & Experience
+### User Interface & Experience
 
 - **Dual Launcher Support**: Operates flawlessly in the terminal using **FZF** (Fuzzy Finder) or as a graphical desktop menu using **Rofi**.
 - **Rich Media Previews**: Supports inline previews for search results containing:
@@ -99,7 +99,7 @@
 - **Selection Skipping**: New `--playlist-skip` (`-ps`) flag forces the launcher to automatically pick the first item in any list, bypassing interactive selection – ideal for non‑interactive scripts.
 - **Media Action Shortcuts**: Directly perform actions (play, listen, download, save, etc.) without opening the media action menu – see “Media Action Shortcuts” below.
 
-### 🎬 Playback & Media Handling
+### Playback & Media Handling
 
 - **Multiple Player Support**: Out-of-the-box integration with `mpv`, `vlc`, and `tplay`.
 - **Video & Audio Modes**: Choose to "Watch" (video) or "Listen" (audio-only, launching without a video window).
@@ -116,7 +116,7 @@
   - `--shell` : Drop into a stateful subshell.
   - Many of these (e.g., `--play-all`, `--save-playlist`) implicitly enable `--playlist-skip` for seamless non‑interactive operation.
 
-### 💾 Downloading & Archival
+### Downloading & Archival
 
 - _Powered natively by `yt-dlp`._
 - **Granular Downloads**: Download single videos, entire playlists, or extract audio-only (MP3 format).
@@ -124,14 +124,14 @@
 - **Organized File Structure**: Automatically routes downloads into structured directories (e.g., `video/individual/ChannelName/` or `audio/PlaylistName/ChannelName/`).
 - **Enumeration Toggle**: Easily toggle file prefix enumeration (`01 -`, `02 -`) to keep downloaded playlist items in order.
 
-### 📚 Library & Data Management
+### Library & Data Management
 
 - **Local Subscriptions Sync**: Syncs your actual YouTube subscriptions locally by passing browser cookies to `yt-dlp`, creating a private, locally stored subscription feed.
 - **Local Watch History (Recent)**: Automatically tracks recently watched media in a local JSON file to resume or re-watch easily.
 - **Saved Videos & Playlists**: Create local "Saved Videos" and "Custom Playlists" natively within the CLI without needing a YouTube account.
 - **Cookie Integration**: Seamlessly imports cookies from installed browsers (Brave, Chrome, Firefox, Safari, Edge, etc.) to access age-restricted or account-specific content.
 
-### ⚙️ Extensibility & Power User Features
+### Extensibility & Power User Features
 
 - **Custom Commands**: Create custom macros that execute specific URLs and `yt-dlp` options (e.g., setting up a command to browse a completely different streaming site).
 - **Extension System**: Modular architecture allowing the autoloading of custom scripts, sites, themes, and commands placed in `$HOME/.config/yt-x/extensions/`.
@@ -142,14 +142,14 @@
 - **Non‑Interactive Exit Helpers**: `--cmd-exit` terminates the script after executing a shortcut, while `--media-exit` does the same after any media action – perfect for one‑off commands and aliases.
 - **Direct Access to Saved Items**: Open a specific saved video (`-sv`, `--saved-video`), custom playlist (`-cp`, `--custom-playlist`), or custom command (`-cc`, `--custom-cmd`) without browsing menus, with tab completion in supported shells.
 
-### 🛠️ Cross-Platform & Infrastructure
+### Cross-Platform & Infrastructure
 
 - **OS Support**: Works across Linux, macOS, Windows (via WSL/MSYS/Cygwin), and Android (uses `am start` intents to open media natively in Android apps like VLC or MPV).
 - **Configuration Management**: Generates a robust `config` file automatically on first run. Allows editing configuration files directly from the UI menu.
 - **Auto-Updater**: Built-in update checker that securely pulls the latest version from GitHub and prompts the user to apply updates inline.
 - **Shell Completions**: Generates native shell autocomplete definitions (fish, with dynamic channel name completion from `subscriptions.json`, custom playlist and saved video name completion, and extension completion from `~/.config/yt-x/extensions/`).
 
-## 📥 Installation
+## Installation
 
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
 ![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white)
@@ -158,7 +158,7 @@
 ![Arch Linux](https://img.shields.io/badge/Arch_Linux-1793D1?style=flat-square&logo=arch-linux&logoColor=white)
 ![NixOS](https://img.shields.io/badge/NixOS-5277C3?style=flat-square&logo=nixos&logoColor=white)
 
-### ⚙️ Prerequisites
+### Prerequisites
 
 Before installing, ensure your system meets the following requirements.
 
@@ -183,7 +183,7 @@ Before installing, ensure your system meets the following requirements.
 
 ---
 
-### 🌍 Universal Installation (macOS, Linux, Android)
+### Universal Installation (macOS, Linux, Android)
 
 The quickest and most universal way to install `yt-x` is to download the standalone script directly into your local binary directory.
 
@@ -199,7 +199,7 @@ _To uninstall later, simply run: `rm ~/.local/bin/yt-x`_
 
 ---
 
-### 📦 Platform-Specific Instructions
+### Platform-Specific Instructions
 
 <details>
 <summary><b>🐧 Arch Linux (AUR)</b></summary>
@@ -329,7 +329,7 @@ yt-x
 - `--save-playlist` : Save the current playlist to your custom playlists (implies `--playlist-skip`).
 - `--shell` : Open a subshell with the current state variables.
 
-#### 🎬 Player & Playback
+#### Player & Playback
 
 - `-p, --player <mpv|vlc|tplay>` : Specify the media player to use for playback.
 - `--mpv-args` : Pass custom mpv args at runtime
@@ -338,7 +338,7 @@ yt-x
 - `--disown-player` : Detach the player process from the terminal (allows you to keep browsing while watching).
 - `--no-disown-player` : Keep the player attached to the terminal session (default).
 
-#### ⚙️ General & Utilities
+#### General & Utilities
 
 - `-e, --edit-config` : Open the `yt-x` configuration file in your `$EDITOR`.
 - `-U, --update` : Check for and apply the latest script update from GitHub.
@@ -347,7 +347,7 @@ yt-x
 - `-h, --help` : Show the help message and exit.
 - `--config-write` : Write the current runtime config to the config file
 
-#### 🎨 Rofi Theming
+#### Rofi Theming
 
 If using `rofi` as your launcher, you can pass custom `.rasi` paths dynamically:
 
@@ -357,7 +357,7 @@ If using `rofi` as your launcher, you can pass custom `.rasi` paths dynamically:
 - `--rofi-theme-confirm <path>`
 - `--rofi-theme-pager <path>`
 
-#### 📌 Direct Shortcuts (skip the main menu)
+#### Direct Shortcuts (skip the main menu)
 
 - `--feed` : Open your personalised feed immediately.
 - `--subscriptions-feed` : Open the subscriptions feed.
@@ -550,7 +550,7 @@ yt-x --edit-config
 
 Below is a categorized breakdown of the available configuration options you can define in your `config` file.
 
-#### 🖥️ Display & Interface
+#### Display & Interface
 
 | Variable                       | Default             | Description                                                            |
 | :----------------------------- | :------------------ | :--------------------------------------------------------------------- |
@@ -560,7 +560,7 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_EDITOR`                | `vi` (or `$EDITOR`) | Text editor used for editing config files, histories, and extensions.  |
 | `CONFIG_NOTIFICATION_DURATION` | `5`                 | Duration (in seconds) for desktop/CLI notifications to remain visible. |
 
-#### 🖼️ Media Previews
+#### Media Previews
 
 | Variable                       | Default | Description                                                                     |
 | :----------------------------- | :------ | :------------------------------------------------------------------------------ |
@@ -571,7 +571,7 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_ICAT_ARGS`             | `""`    | Pass custom arguments to `icat` / `kitty +kitten icat`.                         |
 | `CONFIG_IMGCAT_ARGS`           | `""`    | Pass custom arguments to `imgcat`.                                              |
 
-#### 🎬 Playback & Media Handling
+#### Playback & Media Handling
 
 | Variable               | Default | Description                                                                |
 | :--------------------- | :------ | :------------------------------------------------------------------------- |
@@ -581,21 +581,21 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_VLC_ARGS`      | `""`    | Custom arguments passed directly to `vlc`.                                 |
 | `CONFIG_TPLAY_ARGS`    | `""`    | Custom arguments passed directly to `tplay`.                               |
 
-#### 🌐 Web Integration & `yt-dlp`
+#### Web Integration & `yt-dlp`
 
 | Variable             | Default | Description                                                                                                                                                                                     |
 | :------------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `CONFIG_BROWSER`     | `""`    | Highly Recommended. Specify a browser (`brave`, `chrome`, `firefox`, `edge`, etc.) to securely extract cookies. Grants access to YouTube Subscriptions, age-restricted, and member-only videos. |
 | `CONFIG_YT_DLP_ARGS` | `""`    | Global fallback arguments passed directly to the `yt-dlp` backend.                                                                                                                              |
 
-#### 💾 Downloading & Archival
+#### Downloading & Archival
 
 | Variable                     | Default         | Description                                                                     |
 | :--------------------------- | :-------------- | :------------------------------------------------------------------------------ |
 | `CONFIG_DOWNLOAD_DIR`        | `~/Videos/yt-x` | Base directory where all downloaded videos and audio files are saved.           |
 | `CONFIG_DOWNLOADS_ENUMERATE` | `false`         | Set to `true` to prepend numbers (`01 -`, `02 -`) to downloaded playlist items. |
 
-#### 📚 History & Caching
+#### History & Caching
 
 | Variable                       | Default | Description                                                                            |
 | :----------------------------- | :------ | :------------------------------------------------------------------------------------- |
@@ -603,7 +603,7 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_NO_OF_RECENT`          | `10`    | The number of recent "Watch History" items to retain locally.                          |
 | `CONFIG_CACHE_RETENTION_DAYS`  | `7`     | Auto-clean stale preview images, autogen playlists, and logs older than this duration. |
 
-#### ⚙️ Advanced UI Tuning (FZF & Rofi)
+#### Advanced UI Tuning (FZF & Rofi)
 
 | Variable                    | Default        | Description                                                                                                |
 | :-------------------------- | :------------- | :--------------------------------------------------------------------------------------------------------- |
@@ -615,14 +615,14 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_ROFI_THEME_CONFIRM` | `""`           | Path to a custom Rofi `.rasi` theme for confirmation dialogs.                                              |
 | `CONFIG_ROFI_THEME_PAGER`   | `""`           | Path to a custom Rofi `.rasi` theme for the pager.                                                         |
 
-#### 🧩 System & Extensions
+#### System & Extensions
 
 | Variable                       | Default | Description                                                                 |
 | :----------------------------- | :------ | :-------------------------------------------------------------------------- |
 | `CONFIG_AUTOLOADED_EXTENSIONS` | `""`    | Comma-separated list of extension scripts to load automatically on startup. |
 | `CONFIG_CHECK_FOR_UPDATES`     | `true`  | Periodically check the GitHub repository for updates and prompt to install. |
 
-## ❓ Frequently Asked Questions (FAQ)
+## Frequently Asked Questions (FAQ)
 
 <details>
 <summary><b>Is yt-x a standalone media downloader or player? (Reporting Bugs)</b></summary>
@@ -648,7 +648,7 @@ _Note: For the best playback experience, you should also configure your media pl
 </details>
 
 <details>
-<summary><b>🎬 How can I optimize MPV playback (Quality, Cookies, Hardware Decoding)?</b></summary>
+<summary><b>How can I optimize MPV playback (Quality, Cookies, Hardware Decoding)?</b></summary>
 <br>
 
 By default, `mpv` handles streaming via `yt-dlp` under the hood. To ensure `mpv` uses your browser cookies (for age-restricted content) and defaults to 1080p hardware-accelerated playback, add the following to your `~/.config/mpv/mpv.conf`:
@@ -670,7 +670,7 @@ sub-auto=fuzzy
 </details>
 
 <details>
-<summary><b>🎨 How do I change the colors or theme of yt-x?</b></summary>
+<summary><b>How do I change the colors or theme of yt-x?</b></summary>
 <br>
 
 `yt-x` ships with a default _Tokyo Night_ color palette. You can easily "rice" it to match your system theme by either:
@@ -690,7 +690,7 @@ CONFIG_FZF_OPTS="
 </details>
 
 <details>
-<summary><b>📁 How do I manually add or edit Custom Playlists?</b></summary>
+<summary><b>How do I manually add or edit Custom Playlists?</b></summary>
 <br>
 
 You can save custom playlists via the `yt-x` UI, but you can also manually maintain them locally. They are stored in a simple JSON file located at `~/.config/yt-x/custom-playlists.json`.
@@ -710,7 +710,7 @@ Ensure your file follows this structure:
 </details>
 
 <details>
-<summary><b>🖼️ Why are my image previews not showing up?</b></summary>
+<summary><b>Why are my image previews not showing up?</b></summary>
 <br>
 
 Image previews require a few components to work together:
@@ -723,7 +723,7 @@ Image previews require a few components to work together:
 </details>
 
 <details>
-<summary><b>🔑 How do I fix "Cannot decrypt v11 cookies", Flatpak, or unsupported browser errors?</b></summary>
+<summary><b>How do I fix "Cannot decrypt v11 cookies", Flatpak, or unsupported browser errors?</b></summary>
 <br>
 
 `yt-x` passes the `CONFIG_BROWSER` variable directly to `yt-dlp`.
@@ -735,7 +735,7 @@ Image previews require a few components to work together:
 </details>
 
 <details>
-<summary><b>🖼️ Previews overlap text or look distorted. How do I fix this?</b></summary>
+<summary><b>Previews overlap text or look distorted. How do I fix this?</b></summary>
 <br>
 
 If your images are overlapping with UI text, your terminal may not properly support the image clearing sequences used by `chafa`.
@@ -749,7 +749,7 @@ also make sure to delete the ~/.cache/yt-x/previews/text/fzf-preview.sh file to 
 </details>
 
 <details>
-<summary><b>⌨️ How do I add Vim motions (j/k) or change menu keybindings?</b></summary>
+<summary><b>How do I add Vim motions (j/k) or change menu keybindings?</b></summary>
 <br>
 
 Since the UI is driven by `fzf`, you can easily customize keybindings by modifying the `CONFIG_FZF_OPTS` variable in your `~/.config/yt-x/config` file.
@@ -762,7 +762,7 @@ CONFIG_FZF_OPTS="...your existing options... --bind 'j:down,k:up,ctrl-u:half-pag
 </details>
 
 <details>
-<summary><b>⏯️ How do I return to the menu while a video is playing?</b></summary>
+<summary><b>How do I return to the menu while a video is playing?</b></summary>
 <br>
 
 By default, `yt-x` blocks the terminal until the media player is closed. To browse while watching, enable background playback by setting `CONFIG_DISOWN_PLAYER=true` in your config, or launch the script with the `--disown-player` flag.
@@ -778,7 +778,7 @@ macOS ships with an outdated version of Bash (v3.x) and older standard utilities
 </details>
 
 <details>
-<summary><b>📺 Why is a video playing in the wrong quality (e.g., 4K instead of 1080p) or throwing "Requested Format not available"?</b></summary>
+<summary><b>Why is a video playing in the wrong quality (e.g., 4K instead of 1080p) or throwing "Requested Format not available"?</b></summary>
 <br>
 
 While you can set `CONFIG_VIDEO_QUALITY` in `yt-x`, the actual stream negotiation is done by your media player (like `mpv`) via `yt-dlp`. If `mpv` decides to override the quality, you will get the maximum available resolution.
@@ -788,7 +788,7 @@ To strictly enforce video quality, you **must** configure your media player. Add
 </details>
 
 <details>
-<summary><b>🤖 I have no audio when playing videos on Termux / Android.</b></summary>
+<summary><b>I have no audio when playing videos on Termux / Android.</b></summary>
 <br>
 
 On Android, `yt-x` does not play the media inside the terminal. Instead, it uses Android `am start` intents to pass the stream URL to an installed GUI application (like the VLC or MPV Android apps). If you have no audio or video, ensure you have the actual MPV or VLC Android application installed on your device, and check the app's internal settings.
@@ -808,7 +808,7 @@ and incase you do please share :)
 </details>
 
 <details>
-<summary><b>💥 I'm getting "Malformed State" or "Invalid Action" errors constantly.</b></summary>
+<summary><b>I'm getting "Malformed State" or "Invalid Action" errors constantly.</b></summary>
 <br>
 
 This typically happens for two reasons:
@@ -819,7 +819,7 @@ This typically happens for two reasons:
 </details>
 
 <details>
-<summary><b>🎨 I customized my colors and now the script crashes with "Invalid color specification".</b></summary>
+<summary><b>I customized my colors and now the script crashes with "Invalid color specification".</b></summary>
 <br>
 
 This is an `fzf` error. If you modified `CONFIG_FZF_OPTS` to add custom hex colors (e.g., `#2ac3de`), you must ensure your terminal emulator actually supports **True Color (24-bit)**. If it doesn't, `fzf` will crash. Revert to standard ANSI colors (like `blue`, `red`, `cyan`) in your config if your terminal lacks True Color support.
@@ -827,7 +827,7 @@ This is an `fzf` error. If you modified `CONFIG_FZF_OPTS` to add custom hex colo
 </details>
 
 <details>
-<summary><b>🔄 Why am I being prompted to update the script every single time I run it?</b></summary>
+<summary><b>Why am I being prompted to update the script every single time I run it?</b></summary>
 <br>
 
 This happens if `yt-x` lacks the correct permissions to write to its own file. If you installed `yt-x` system-wide using `sudo` (e.g., to `/usr/local/bin`), the auto-updater running as your normal user cannot overwrite the binary.
@@ -836,7 +836,7 @@ This happens if `yt-x` lacks the correct permissions to write to its own file. I
 </details>
 
 <details>
-<summary><b>🗂️ How do I populate the Channels/Subscriptions tab? It says my JSON is empty.</b></summary>
+<summary><b>How do I populate the Channels/Subscriptions tab? It says my JSON is empty.</b></summary>
 <br>
 
 You need to sync your subscriptions first.
@@ -848,7 +848,7 @@ You need to sync your subscriptions first.
 </details>
 
 <details>
-<summary><b>🖼️ Can I get image previews when using Rofi instead of FZF?</b></summary>
+<summary><b>Can I get image previews when using Rofi instead of FZF?</b></summary>
 <br>
 
 Yes! `yt-x` uses `rofi`'s native `\0icon\x1f` protocol to display images. Ensure you have `CONFIG_ENABLE_PREVIEW_IMAGES=true` enabled in your `yt-x` config. Furthermore, your custom Rofi `.rasi` theme (`CONFIG_ROFI_THEME_PREVIEW`) must be configured to actually display the `element-icon` property.
@@ -856,7 +856,7 @@ Yes! `yt-x` uses `rofi`'s native `\0icon\x1f` protocol to display images. Ensure
 </details>
 
 <details>
-<summary><b>🎵 How can I get my system to display media metadata (title, artist) when using the "Listen" action?</b></summary>
+<summary><b>How can I get my system to display media metadata (title, artist) when using the "Listen" action?</b></summary>
 <br>
 
 This is actually a feature of your media player rather than `yt-x`. Integrating this directly into `yt-x` would require complex workarounds (such as intercepting `mpv`'s output using Lua scripts or enforcing `playerctl` + MPRIS dependencies), which goes against `yt-x`'s lightweight design philosophy.
@@ -876,7 +876,7 @@ Once configured, any compatible desktop widget or notification daemon will autom
 </details>
 
 <details>
-<summary><b>⚡ How can I play or download something without any interactive menus? (Non‑interactive mode)</b></summary>
+<summary><b>How can I play or download something without any interactive menus? (Non‑interactive mode)</b></summary>
 <br>
 
 `yt-x` now supports several flags that let you bypass all menus and run actions non‑interactively – perfect for scripting, keybindings, or quick one‑off commands.
@@ -902,7 +902,7 @@ yt-x --save-playlist --media-exit
 </details>
 
 <details>
-<summary><b>📁 How do I directly open a specific saved video or custom playlist without browsing the menu?</b></summary>
+<summary><b>How do I directly open a specific saved video or custom playlist without browsing the menu?</b></summary>
 <br>
 
 Use the `-sv` / `--saved-video`, `-cp` / `--custom-playlist`, and `-cc` / `--custom-cmd` flags to jump straight to an item.  
@@ -924,7 +924,7 @@ If you omit the argument, `yt-x` will prompt you to select from the list interac
 </details>
 
 <details>
-<summary><b>🐚 What is the `--shell` flag and when should I use it?</b></summary>
+<summary><b>What is the `--shell` flag and when should I use it?</b></summary>
 <br>
 
 `--shell` drops you into a subshell (either `fish` or POSIX `sh`) that is pre‑loaded with all the current session’s state variables. This is a power‑user feature for advanced scripting or ad‑hoc manipulation.
@@ -946,7 +946,7 @@ Type `exit` to return to `yt-x`.
 </details>
 
 <details>
-<summary><b>🔁 Why does `--play-all` skip the item selection menu automatically?</b></summary>
+<summary><b>Why does `--play-all` skip the item selection menu automatically?</b></summary>
 <br>
 
 `--play-all`, `--listen-all`, `--download-all`, `--download-audio-all`, and `--save-playlist` are designed for **whole‑playlist actions**. They assume you want to act on the entire list, not a single item, so they automatically set `--playlist-skip` internally. This saves you from having to type both flags and makes command‑line usage more intuitive.
@@ -956,7 +956,7 @@ If you _do_ want to select a specific item from a playlist before playing the wh
 </details>
 
 <details>
-<summary><b>⌨️ How do I get tab completion for custom playlist names or saved video titles?</b></summary>
+<summary><b>How do I get tab completion for custom playlist names or saved video titles?</b></summary>
 <br>
 
 Fish shell completions are fully supported and include dynamic completion for:
@@ -978,7 +978,7 @@ Bash and Zsh completions are not yet implemented – contributions are welcome!
 </details>
 
 <details>
-<summary><b>🛑 Why does `--cmd-exit` not exit immediately after some commands?</b></summary>
+<summary><b>Why does `--cmd-exit` not exit immediately after some commands?</b></summary>
 <br>
 
 `--cmd-exit` works by setting a flag that tells `yt-x` to exit once the current “command” (menu or action) returns to the main loop. If you use `--cmd-exit` with a shortcut that opens another menu (e.g., `--saved` followed by selecting a video), the exit will only happen after you fully exit that sub‑menu (by pressing Back/Exit). For a hard exit right after a media action, use `--media-exit` instead.
@@ -986,7 +986,7 @@ Bash and Zsh completions are not yet implemented – contributions are welcome!
 </details>
 
 <details>
-<summary><b>🔍 How do I search for videos, playlists, channels, shorts, or movies without going through the main menu?</b></summary>
+<summary><b>How do I search for videos, playlists, channels, shorts, or movies without going through the main menu?</b></summary>
 <br>
 
 Use the dedicated search flags to jump straight to results:
@@ -1010,7 +1010,7 @@ yt-x -sc "tech news"
 </details>
 
 <details>
-<summary><b>⚙️ Can I temporarily change the launcher (fzf/rofi) or media player without editing the config file?</b></summary>
+<summary><b>Can I temporarily change the launcher (fzf/rofi) or media player without editing the config file?</b></summary>
 <br>
 
 Yes, use the `-l` / `--launcher` and `-p` / `--player` flags. These override the config file settings for a single run.
@@ -1029,7 +1029,7 @@ yt-x -l rofi -p vlc --preview --preview-images
 </details>
 
 <details>
-<summary><b>🖼️ How do I temporarily enable or disable previews (images and metadata) from the command line?</b></summary>
+<summary><b>How do I temporarily enable or disable previews (images and metadata) from the command line?</b></summary>
 <br>
 
 Use `-i` to enable previews or `-I` to disable them. This overrides your `CONFIG_ENABLE_PREVIEW` setting for that run.
@@ -1047,7 +1047,7 @@ Previews can also be toggled inside `fzf` using `ctrl-/` (if not disabled in you
 </details>
 
 <details>
-<summary><b>📦 How do I create a desktop shortcut (Linux) to launch yt-x from my app menu?</b></summary>
+<summary><b>How do I create a desktop shortcut (Linux) to launch yt-x from my app menu?</b></summary>
 <br>
 
 Use the `-E` / `--generate-desktop-entry` flag. It prints a `.desktop` file to stdout, which you can redirect to the appropriate directory.
@@ -1065,7 +1065,7 @@ After saving, run `update-desktop-database ~/.local/share/applications/` to refr
 </details>
 
 <details>
-<summary><b>🔄 How do I manually update yt‑x to the latest version?</b></summary>
+<summary><b>How do I manually update yt‑x to the latest version?</b></summary>
 <br>
 
 Run `yt-x -U` or `yt-x --update`. The script will check the GitHub repository for changes, show you a diff if available, and prompt you to apply the update. If you installed `yt-x` to a system‑wide location (e.g., `/usr/local/bin`) without proper write permissions, you may need to reinstall it in your `~/.local/bin` directory for the auto‑updater to work.
@@ -1075,7 +1075,7 @@ To disable automatic update checks, set `CONFIG_CHECK_FOR_UPDATES=false` in your
 </details>
 
 <details>
-<summary><b>🧩 How do I load an extension without restarting yt‑x or editing the config?</b></summary>
+<summary><b>How do I load an extension without restarting yt‑x or editing the config?</b></summary>
 <br>
 
 Use the `-x` / `--extension` flag followed by the extension file name (relative to `~/.config/yt-x/extensions/`) or an absolute path. Extensions can be anything from theme files (`.theme`), language files (`.lang`), site definitions (`.site`), or custom command scripts (`.cmd`).
@@ -1096,7 +1096,7 @@ Multiple `-x` flags can be used. To autoload extensions on every startup, list t
 </details>
 
 <details>
-<summary><b>🌐 How do I override configuration settings using environment variables?</b></summary>
+<summary><b>How do I override configuration settings using environment variables?</b></summary>
 <br>
 
 Every config variable can be overridden by an environment variable prefixed with `YT_X_`. This is useful for scripting or one‑off changes without touching the config file.
@@ -1119,7 +1119,7 @@ See the config file for all available variables (e.g., `YT_X_PLAYER`, `YT_X_BROW
 </details>
 
 <details>
-<summary><b>🗑️ How does yt‑x manage cache, and can I clean it manually?</b></summary>
+<summary><b>How does yt‑x manage cache, and can I clean it manually?</b></summary>
 <br>
 
 `yt-x` automatically cleans up old cache files (preview images, auto‑generated playlists, logs) based on `CONFIG_CACHE_RETENTION_DAYS` (default 7 days). The cache directories are located under `~/.cache/yt-x/`.
@@ -1141,7 +1141,7 @@ Clearing the cache will not affect your saved videos, custom playlists, or subsc
 </details>
 
 <details>
-<summary><b>📺 How do I use the `channels` subcommand non‑interactively?</b></summary>
+<summary><b>How do I use the `channels` subcommand non‑interactively?</b></summary>
 <br>
 
 The `channels` subcommand accepts `-n` (channel name) plus an action flag. You can combine it with `--cmd-exit` to exit after browsing the channel.
@@ -1164,7 +1164,7 @@ If `-n` is omitted, you'll be prompted to pick from your subscriptions. If no ac
 </details>
 
 <details>
-<summary><b>🎛️ What are all the direct menu shortcuts I can use to skip the main menu?</b></summary>
+<summary><b>What are all the direct menu shortcuts I can use to skip the main menu?</b></summary>
 <br>
 
 These flags take you straight to specific sections:
@@ -1327,10 +1327,10 @@ and it just works.
 
 </details>
 
-## 🤝 Support & Contribution
+## Support & Contribution
 
 Pull requests are highly welcome! Whether it's adding new extension logic, fixing bugs, or expanding search parameters, feel free to fork and contribute.
 
-### ⭐ Supporting the Project
+### Supporting the Project
 
 If you enjoy using `yt-x` and want to support its ongoing development, **consider leaving a Star on GitHub!**
