@@ -74,80 +74,40 @@
 
 ## Features
 
-### Search & Discovery
-
-- **Comprehensive Search Capabilities**: Directly search for videos, playlists, channels, shorts or movies.
-- **Advanced Search Filters**: Apply colon-prefixed quick filters directly to search queries:
+- **Multiple Launcher Support**: with `fzf`, `rofi` all supporting previews
+- **Search For Media**: videos, playlists, channels, shorts or movies.
+- **Search Filters**: Apply colon-prefixed quick filters directly to search queries:
   - _Time_: `:hour`, `:today`, `:week`, `:month`, `:year`
   - _Type_: `:video`, `:movie`, `:live`, `:short`, `:long`
   - _Features_: `:4k`, `:hd`, `:hdr`, `:subtitles`, `:360`, `:vr`, `:3d`, `:local`
   - _Sort by_: `:newest`, `:views`, `:rating`
 - **Search History & Recall**: Automatically saves search history. Allows quick recall of previous searches using bang syntax (e.g., `!1` for the most recent search, `!2` for the second, etc.).
 - **YouTube Feeds**: Access personal feeds including the Home Feed, Trending, Watch Later, Liked Videos, Watch History, and Clips.
-- **Channel Browsing**: Deep dive into channels with dedicated menus for Videos, Featured content, Playlists, Shorts, Live Streams, Podcasts, and Channel-specific search.
-- **Channel Subcommand**: Jump directly into a channel from the command line (e.g., `yt-x channels -n "Linus Tech Tips" -v`) – perfect for scripting and keyboard-driven workflows.
-
-### User Interface & Experience
-
-- **Dual Launcher Support**: Operates flawlessly in the terminal using **FZF** (Fuzzy Finder) or as a graphical desktop menu using **Rofi**.
-- **Rich Media Previews**: Supports inline previews for search results containing:
-  - High-resolution thumbnails rendered directly in the terminal via `chafa`, `icat`, `kitten icat`, or `imgcat`.
-  - Detailed metadata including Channel Name, Follower Count, View Count, Duration, Upload Timestamp, Live Status, and formatted descriptions.
-- **Theming & Styling**: True-color (24-bit) support with a default "Tokyo Night" inspired color scheme. Fully customizable UI formatting.
-- **Multi-language Support**: Loadable language files (`.lang`) to easily localize the UI prompts and messages.
-- **Pagination**: Smoothly browse through massive lists with Next/Previous pagination controls (fetches a configurable number of items per page, default is 30).
-- **Selection Skipping**: New `--playlist-skip` (`-ps`) flag forces the launcher to automatically pick the first item in any list, bypassing interactive selection – ideal for non‑interactive scripts.
-- **Media Action Shortcuts**: Directly perform actions (play, listen, download, save, etc.) without opening the media action menu – see “Media Action Shortcuts” below.
-
-### Playback & Media Handling
-
-- **Multiple Player Support**: Out-of-the-box integration with `mpv`, `vlc`, and `tplay`.
-- **Video & Audio Modes**: Choose to "Watch" (video) or "Listen" (audio-only, launching without a video window).
-- **Playlist Actions**: Play individual videos, queue/play entire playlists, or queue "Listen to All" for audio-only marathon sessions.
+- **Channel Browsing**: access a channel's Videos, Featured content, Playlists, Shorts, Live Streams, Podcasts, and search pages.
+- **Theming & Styling**: theming support through `.theme` extensions with tokyo night as the default theme.
+- **Multi-language Support**: Loadable language files (`.lang`) to easily localize the UI prompts and messages(currently `es` and `br`. Would appreciate contributions for more languages.
+- **Pagination**: browse through massive lists with Next/Previous pagination controls (default is 30).
+- **scriptable Shortcuts**: Bypass menus and jump straight to specific feeds, searches, or actions using direct command-line flags . See usage
+- **Multiple Player Support**: with `mpv`, `vlc`, and `tplay`.
+- **Playlist Actions**: Play individual videos, queue/play entire playlists, or queue "Listen to All" for audio-only
 - **Auto-Mix Generation**: Dynamically generates `.m3u8` playlist mixes based on a single video (YouTube "Mix" feature replication).
-- **Background Playback**: Option to disown the media player process (`CONFIG_DISOWN_PLAYER`), allowing the UI to remain unblocked while media plays.
-- **Media Action Shortcuts (Skip the Media Menu)**:
-  - `--play` / `--play-all` : Watch selected video or whole playlist.
-  - `--listen` / `--listen-all` : Audio‑only playback.
-  - `--download` / `--download-all` : Download video(s).
-  - `--download-audio` / `--download-audio-all` : Download audio only.
-  - `--save` : Save current video to saved list.
-  - `--save-playlist` : Save current playlist to custom playlists.
-  - `--shell` : Drop into a stateful subshell.
-  - Many of these (e.g., `--play-all`, `--save-playlist`) implicitly enable `--playlist-skip` for seamless non‑interactive operation.
-
-### Downloading & Archival
-
-- _Powered natively by `yt-dlp`._
+- **Background Playback**: Option to disown the media player process (`CONFIG_DISOWN_PLAYER`)
 - **Granular Downloads**: Download single videos, entire playlists, or extract audio-only (MP3 format).
-- **Smart Archiving**: Utilizes a download archive directory to track previously downloaded media and prevent duplicate downloads.
+- **Smart Archiving**: Utilizes a download archive directory(yt-dlp's `--download-archive` opt) to track previously downloaded media and prevent duplicate downloads.
 - **Organized File Structure**: Automatically routes downloads into structured directories (e.g., `video/individual/ChannelName/` or `audio/PlaylistName/ChannelName/`).
 - **Enumeration Toggle**: Easily toggle file prefix enumeration (`01 -`, `02 -`) to keep downloaded playlist items in order.
-
-### Library & Data Management
-
-- **Local Subscriptions Sync**: Syncs your actual YouTube subscriptions locally by passing browser cookies to `yt-dlp`, creating a private, locally stored subscription feed.
+- **Local Subscriptions Sync**: Syncs your actual YouTube subscriptions locally by passing browser cookies to `yt-dlp`
 - **Local Watch History (Recent)**: Automatically tracks recently watched media in a local JSON file to resume or re-watch easily.
-- **Saved Videos & Playlists**: Create local "Saved Videos" and "Custom Playlists" natively within the CLI without needing a YouTube account.
-- **Cookie Integration**: Seamlessly imports cookies from installed browsers (Brave, Chrome, Firefox, Safari, Edge, etc.) to access age-restricted or account-specific content.
-
-### Extensibility & Power User Features
-
-- **Custom Commands**: Create custom macros that execute specific URLs and `yt-dlp` options (e.g., setting up a command to browse a completely different streaming site).
-- **Extension System**: Modular architecture allowing the autoloading of custom scripts, sites, themes, and commands placed in `$HOME/.config/yt-x/extensions/`.
-- **Stateful Sub-Shell Execution**: Drop into a system shell (`fish` or `sh`) pre-loaded with the environment variables of your current session (current video title, URL, channel info, etc.) for advanced custom scripting on the fly.
-- **Desktop Integration**: Built-in command (`-E`) to generate a `.desktop` entry file, allowing `yt-x` to be launched natively from application menus (Linux).
-- **Cache Management**: Automatically cleans up stale preview images, auto-generated playlists, and logs older than a configurable retention period (default 7 days).
-- **Direct Shortcut Flags**: Skip the interactive menu entirely with dedicated flags like `--feed`, `--subscriptions-feed`, `--watch-later`, `--saved`, `--recent`, `--liked`, `--watch-history`, `--clips`, and more – ideal for keybindings and scripting.
-- **Non‑Interactive Exit Helpers**: `--cmd-exit` terminates the script after executing a shortcut, while `--media-exit` does the same after any media action – perfect for one‑off commands and aliases.
-- **Direct Access to Saved Items**: Open a specific saved video (`-sv`, `--saved-video`), custom playlist (`-cp`, `--custom-playlist`), or custom command (`-cc`, `--custom-cmd`) without browsing menus, with tab completion in supported shells.
-
-### Cross-Platform & Infrastructure
-
+- **Saved Videos & Playlists**: Create local "Saved Videos" and "Custom Playlists for watching later without having to download them
+- **Browser Cookies**: optionally configure a browser (`CONFIG_BROWSER` passes to yt-dlp's `--cookies-from-browser`) to access age-restricted or account-specific content.
+- **Custom Commands**: Create custom cmds that execute specific URLs and `yt-dlp` options (e.g., setting up a command to browse a completely different streaming site that yt-dlp supports).
+- **Extensions**: extend yt-c with custom scripts, sites, themes, and commands placed in `$HOME/.config/yt-x/extensions/`.
+- **Stateful Sub-Shell Execution**: Drop into a shell pre-loaded with the environment variables of your current session (current video title, URL, channel info, etc.) for custom scripting
+- **Desktop Integration**: generate a `.desktop` file, to be launched natively from application menus (Linux).
+- **Cache Management**: Automatically cleans up stale preview images, auto-generated playlists, and logs older than a set period (Default: 7 days)
 - **OS Support**: Works across Linux, macOS, Windows (via WSL/MSYS/Cygwin), and Android (uses `am start` intents to open media natively in Android apps like VLC or MPV).
-- **Configuration Management**: Generates a robust `config` file automatically on first run. Allows editing configuration files directly from the UI menu.
-- **Auto-Updater**: Built-in update checker that securely pulls the latest version from GitHub and prompts the user to apply updates inline.
-- **Shell Completions**: Generates native shell autocomplete definitions (fish, with dynamic channel name completion from `subscriptions.json`, custom playlist and saved video name completion, and extension completion from `~/.config/yt-x/extensions/`).
+- **Auto-Updater**: update checker that securely pulls the latest version from GitHub and shows you the changes diff so you can decide whether to apply the update or not.
+- **Shell Completions**: currently supports for fish shell with tab complete for some options (e.g., channel names, custom cmd names, etc.), would appreciate contributions for bash and zsh completions.
 
 ## Installation
 
@@ -160,57 +120,56 @@
 
 ### Prerequisites
 
-Before installing, ensure your system meets the following requirements.
-
 **Required:**
 
-- `yt-dlp` - The core engine for fetching media data.
-- `fzf` - The primary terminal UI engine.
-- `jq` - For robust JSON parsing.
-- `curl` - Used for fetching script updates and preview images.
+- `yt-dlp` - For fetching the data and downloading media.
+- `fzf` - Main launcher
+- `jq` - For parsing json
+- `curl` - For fetching script updates and preview images. (version 7.6+; that supports `--parallel` downloads)
 - `sh` - Any POSIX-compliant shell (Bash, Zsh, Dash, etc.).
-- **Nerd Font** - A Nerd Font is heavily required to render the UI icons correctly.
+- **Nerd Font** - For the icons (Recommended JetBrains Mono Nerd Font).
 
-**Optional (But Highly Recommended):**
+**Optional:**
 
-- **Media Players:** `mpv` (default), `vlc`, or `tplay` (for playback).
-- **Terminal Image Viewers (For Previews):**
-  - `chafa` _(Cross-terminal, highly recommended)_
-  - `icat` _(Built natively into Kitty and Ghostty)_
+- **Media Players:** `mpv` (default), `vlc`, or `tplay
+- **Modern Terminal That Supports True Color:**
+  - `kitty` _personal favourite; started the great terminal era lol_
+  - `ghostty`
+  - `wezterm`
+- **Terminal Image Viewers:**
+  - `chafa` _(Cross-terminal)_
+  - `icat` _(Recommended for Kitty and Ghostty)_
   - `imgcat` _(For iTerm2/WezTerm)_
-- **Alternate GUI:** `rofi` _(For running `yt-x` as a desktop application menu)._
-- **UI Enhancements:** `gum` _(For improved, polished prompts and loaders)._
+- **Alternate Launcher:** `rofi` _(Great if you want a desktop app launcher, you could even keybind the command, its really cool)._
+- **Terminal QoL** `gum` _(Better terminal ui; loaders, prompts etc)._
 
 ---
 
-### Universal Installation (macOS, Linux, Android)
-
-The quickest and most universal way to install `yt-x` is to download the standalone script directly into your local binary directory.
+### Universal Installation
 
 Ensure `~/.local/bin` exists and is added to your system's `$PATH`.
 
 ```bash
-# Download the script and make it executable
 curl -sL "https://raw.githubusercontent.com/Benexl/yt-x/refs/heads/master/yt-x" -o ~/.local/bin/yt-x
 chmod +x ~/.local/bin/yt-x
 ```
 
-_To uninstall later, simply run: `rm ~/.local/bin/yt-x`_
+_To uninstall ,just run: `rm ~/.local/bin/yt-x`_, then to remove its related data folders `rm -r ~/.config/yt-x` and `rm -r ~/.cache/yt-x`.
 
 ---
 
 ### Platform-Specific Instructions
 
+Note am not the one who maintains any of this packages and you should probably turn off auto updates if using them
+
 <details>
 <summary><b>Arch Linux (AUR)</b></summary>
 
-Arch Linux users can install the bleeding-edge version directly from the Arch User Repository using their preferred AUR helper:
-
 ```bash
-# Using yay
 yay -S yt-x-git
 
-# Using paru
+# or if you prefer paru
+
 paru -S yt-x-git
 ```
 
@@ -219,15 +178,13 @@ paru -S yt-x-git
 <details>
 <summary><b>Nix / NixOS</b></summary>
 
-You can install `yt-x` either imperatively or declaratively using Nix flakes.
-
-**1. Imperative / Direct installation:**
+**1. Imperative:**
 
 ```bash
 nix profile install github:Benexl/yt-x
 ```
 
-**2. Declarative / Config-based:**
+**2. Declarative:**
 First, add the repository to your `flake.nix` inputs:
 
 ```nix
@@ -253,33 +210,19 @@ home.packages = [ inputs.yt-x.packages."${system}".default ];
 
 </details>
 
-<details>
-<summary><b>Windows (Git Bash, Cygwin) & WSL</b></summary>
-
-`yt-x` is fully compatible with Windows, provided you are running it inside a compatible terminal environment.
-
-- **Environment Detection:** `yt-x` treats WSL natively as a Linux environment. However, if you are using Git Bash or MSYS/Cygwin, it correctly detects and treats them as Windows terminals.
-- **Launcher:** You **must** use `fzf` as your launcher on Windows terminals. (`rofi` is specifically designed for Linux desktop environments).
-- **PATH Requirements:** Ensure that Windows executables (like `yt-dlp.exe`, `jq.exe`, `fzf.exe`, and a media player like `mpv.exe` or `vlc.exe`) are accessible within your terminal's `$PATH`.
-- **URL Opening:** The script automatically supports Windows URL launching. It utilizes `wslview` (for WSL setups) or `cmd.exe /C start` (for Git Bash/Cygwin) to open links smoothly in your native Windows browser.
-
-</details>
-
 ## Usage
 
-`yt-x` is designed to be highly flexible. You can launch it in fully interactive mode, pass direct search arguments, shortcut‑jump to menus, or integrate it into desktop environments using custom UI launchers.
-
-### Synopsis
+You can opt to either us it via menus or cmdline shortcuts for purposes of scripting or keybinding
 
 ```bash
 yt-x [OPTIONS]
-yt-x channels [CHANNEL OPTIONS]
+yt-x [OPTIONS] channels [CHANNEL OPTIONS]
 yt-x completions [--fish | --bash | --zsh | --help]
 ```
 
 ### Quick Start
 
-To launch the interactive terminal interface with your default settings, simply run:
+To launch the interactive terminal interface with your default settings, run:
 
 ```bash
 yt-x
@@ -289,9 +232,11 @@ yt-x
 
 ### Command‑Line Options
 
-#### Search & Discovery
+#### Search
 
-- `-s, --search <term>` : Immediately execute a video search and bypass the main menu.
+If you don't pass an argument to any of this options you will be prompted for the term
+
+- `-s, --search <term>` : Immediately execute a video search and bypass the main menu. _(supports search history completion)_
 - `-sp, --search-playlist <term>` : Immediately execute a playlist search.
 - `-sc, --search-channel <term>` : Immediately execute a channel search.
 - `-ss, --search-short <term>` : Immediately execute a short search.
@@ -299,65 +244,53 @@ yt-x
 
 #### Access saved items
 
+The values must be exact to the ones in the respective json files, completions make this easy
+All of them support tab completion for the saved items
+
 - `-cp, --custom-playlist <name>` : Open a specific custom playlist by its saved name
 - `-cc, --custom-cmd <name>` : Execute a specific custom command by its saved name
 - `-sv, --saved-video <title>` : Open a specific saved video by its title
 
-#### UI & Interface
+#### Ui
 
 - `-l, --launcher <fzf|rofi>` : Override the default menu launcher.
-- `--preview` : Enable the preview window (images/text)
+- `--preview` : Enable the preview window _(images/text)_
 - `--no-preview` Disable the preview window
-- `--preview-images` Enable the image preview window
-- `--no-preview-images` Disable the image preview window
-- `-x, --extension <ext>` : Load a specific extension file (absolute path or relative to `~/.config/yt-x/extensions/`; _supports fish tab complete_).
-- `-ce, --cmd-exit` : Exit after shortcut menu command‑line options (useful for scripting).
-- `-ps, --playlist-skip` : Skip the item selection menu and automatically pick the first entry in a playlist.
-- `-me, --media-exit` : Exit after performing a media action (watch, listen, download, etc.).
+- `--preview-images` Enable the image preview
+- `--no-preview-images` Disable the image preview
+- `-ce, --cmd-exit` : Exit after shortcut menu command‑line options _(useful for scripting)_.
+- `-ps, --playlist-skip` : Skip the playlist selection menu and automatically pick the first entry in a playlist.
+- `-me, --media-exit` : Exit after performing a media action _(watch, listen, download, etc.)_.
 
 #### Media Action Shortcuts (skip the media action menu)
 
-- `--play` : Immediately watch the selected video (you still choose from the list).
-- `--play-all` : Immediately play the whole playlist (implies `--playlist-skip`).
+All this options can be paired with `--media-exit` and after the media cmd is executed the cli terminates
+
+- `--play` : Immediately watch the selected video _(you still choose from the list)_.
+- `--play-all` : Immediately play the whole playlist _(implies `--playlist-skip`)_.
 - `--listen` : Immediately listen to the audio of the selected video.
-- `--listen-all` : Immediately listen to the whole playlist (audio only, implies `--playlist-skip`).
+- `--listen-all` : Immediately listen to the whole playlist _( implies `--playlist-skip`)_.
 - `--download` : Download the selected video.
-- `--download-all` : Download the whole playlist (video, implies `--playlist-skip`).
+- `--download-all` : Download the whole playlist _(implies `--playlist-skip`)_.
 - `--download-audio` : Download only the audio of the selected video.
-- `--download-audio-all` : Download the whole playlist as audio (implies `--playlist-skip`).
-- `--save` : Save the selected video to your local saved videos list.
-- `--save-playlist` : Save the current playlist to your custom playlists (implies `--playlist-skip`).
-- `--shell` : Open a subshell with the current state variables.
+- `--download-audio-all` : Download the whole playlist as audio _(implies `--playlist-skip`)_.
+- `--save` : Save the selected video to your local saved videos list so you can watch it later without needing to download it.
+- `--save-playlist` : Save the current playlist to your custom playlists for the same reasons as above without needing an acc _(implies `--playlist-skip`)_.
+- `--shell` : Open a subshell with the current state variables. _(you can use it run custom cmds on the results yt-x has gotten)_
 
 #### Player & Playback
 
-- `-p, --player <mpv|vlc|tplay>` : Specify the media player to use for playback.
+- `-p, --player <mpv|vlc|tplay>` : Specify the media player
 - `--mpv-args` : Pass custom mpv args at runtime
 - `--vlc-args` : Pass custom vlc args at runtime
 - `--tplay-args` : Pass custom tplay args at runtime
-- `--disown-player` : Detach the player process from the terminal (allows you to keep browsing while watching).
-- `--no-disown-player` : Keep the player attached to the terminal session (default).
+- `--disown-player` : Detach the player process from the terminal _(allows you to keep browsing while watching)_.
+- `--no-disown-player` : Keep the player attached to the terminal session _(default)_.
 
-#### General & Utilities
+#### Direct Shortcuts (skip the main or miscellaneous menus)
 
-- `-e, --edit-config` : Open the `yt-x` configuration file in your `$EDITOR`.
-- `-U, --update` : Check for and apply the latest script update from GitHub.
-- `-E, --generate-desktop-entry` : Print a `.desktop` application entry to `stdout` (useful for Linux application menus).
-- `-v, --version` : Print version information and exit.
-- `-h, --help` : Show the help message and exit.
-- `--config-write` : Write the current runtime config to the config file
-
-#### Rofi Theming
-
-If using `rofi` as your launcher, you can pass custom `.rasi` paths dynamically:
-
-- `--rofi-theme-main <path>`
-- `--rofi-theme-preview <path>`
-- `--rofi-theme-prompt <path>`
-- `--rofi-theme-confirm <path>`
-- `--rofi-theme-pager <path>`
-
-#### Direct Shortcuts (skip the main menu)
+All this options can be paired with `--cmd-exit` so that the start of the menus changes to the shortcuts
+so going back will exit the cli
 
 - `--feed` : Open your personalised feed immediately.
 - `--subscriptions-feed` : Open the subscriptions feed.
@@ -378,15 +311,37 @@ If using `rofi` as your launcher, you can pass custom `.rasi` paths dynamically:
 - `--edit-yt-dlp-config` : Edit yt‑dlp’s configuration.
 - `--edit-custom-cmds` : Edit the custom commands JSON file.
 
+#### Rofi
+
+Note there are rofi themes in repo which you can use i customized them to make the experience just cool
+At least thats what i think you be the judge lol
+
+- `--rofi-theme-main <path>`
+- `--rofi-theme-preview <path>`
+- `--rofi-theme-prompt <path>`
+- `--rofi-theme-confirm <path>`
+- `--rofi-theme-pager <path>`
+
+#### Others
+
+- `-x, --extension <ext>` : Load a specific extension file _(absolute path or relative to `~/.config/yt-x/extensions/`; supports fish tab complete)_.
+- `-e, --edit-config` : Open the `yt-x` configuration file in your `$EDITOR`.
+- `-U, --update` : Check for and apply the latest script update from GitHub.
+- `-E, --generate-desktop-entry` : Print a `.desktop` application entry to `stdout`; its pretty cool esp with the rofi theme in github repo for example.
+- `-v, --version` : Print version information and exit.
+- `-h, --help` : Show the help message and exit.
+- `--config-write` : Write the current runtime config to the config file
+
 ---
 
 ### Channels Subcommand
 
-```bash
-yt-x channels [OPTIONS]
-```
+Works only for subscribed to channels
+Its pretty useful for creating shortcuts and aliases to your favourite channels
 
-Quickly jump into a channel from your subscriptions and browse its content.
+```bash
+yt-x [OPTIONS] channels [OPTIONS]
+```
 
 **Options:**
 
@@ -416,20 +371,17 @@ yt-x --launcher rofi --cmd-exit channels -n 'freeCodeCamp.org' # or as an app eg
 
 ### Inline Search Syntax & Filters
 
-When entering a search query (either via the `-s` flag or within the interactive prompt), `yt-x` supports powerful inline filters.
-
-**Quick Filters (Colon Syntax)**  
-Append a colon prefix to your search term to apply YouTube API filters:
+When entering a search query (either via the `-s` flag or within the interactive prompt)
+Currently only one at a time is supported
 
 - **Time:** `:hour`, `:today`, `:week`, `:month`, `:year`
 - **Format:** `:video`, `:movie`, `:live`, `:short`, `:long`
 - **Quality/Features:** `:4k`, `:hd`, `:hdr`, `:360`, `:vr`, `:3d`, `:local`, `:subtitles`
 - **Sorting:** `:newest`, `:views`, `:rating`
 
-_Example:_ `:4k nature documentary` (Searches for nature documentaries specifically in 4K resolution).
+_Example:_ `:4k pbs eons` or at the end `news :today`
 
-**History Recall (Bang Syntax)**  
-Recall previous searches seamlessly without typing them out:
+**History Recall is also supported for both (Bang Syntax)**
 
 - `!1` : Re‑run your most recent search.
 - `!2` : Re‑run your second most recent search, etc.
@@ -438,35 +390,39 @@ Recall previous searches seamlessly without typing them out:
 
 ### Environment Variables
 
-Almost all CLI options can be permanently set in `~/.config/yt-x/config` or overridden on‑the‑fly using environment variables.
+Almost all CLI options can be permanently set in `~/.config/yt-x/config` or overridden using environment variables.
 
 - `YT_X_LAUNCHER` (e.g., `fzf` or `rofi`)
 - `YT_X_PLAYER` (e.g., `mpv`)
 - `YT_X_ENABLE_PREVIEW` (`true` or `false`)
 - `YT_X_ENABLE_PREVIEW_IMAGES` (`true` or `false`)
 - `YT_X_IMAGE_RENDERER` (`chafa`, `icat`, `imgcat`)
-- `YT_X_BROWSER` (e.g., `firefox`, `brave` – extracts cookies for restricted content)
+- `YT_X_BROWSER` (e.g., `firefox`, `brave` )
 
 ---
 
 ### Examples & Workflows
 
-**1. Fast Search with Previews**  
-Search for a specific topic instantly while enabling image previews:
+**Quickly Configure without opening the config file:**
 
 ```bash
-yt-x --preview --preview-images -s "cyberpunk 2077 ost"
+# always put --config-write at the end
+# it will first save the runtime config and proceed with normal execution of the command
+YT_X_IMAGE_RENDERER=icat YT_X_BROWSER=firefox yt-x --preview --preview-images --config-write
 ```
 
-**2. Desktop/GUI Mode**  
-Launch `yt-x` as a graphical application using Rofi (great for mapping to a keyboard shortcut in your Window Manager):
+**Desktop app launcher**
+
+Launch `yt-x` as a graphical application using Rofi
+Its really cool esp with the custom themes in the repo, so be sure to try
 
 ```bash
+# allowing the player to run in the background when using rofi
+# is a bad idea since the player will launch and rofi will launch again and block it
 yt-x --launcher rofi --preview --preview-images --no-disown-player
 ```
 
-**3. Audio‑Only Background Music**  
-Search for a playlist and let `mpv` handle it in the background:
+**Audio only background music**
 
 ```bash
 yt-x -l fzf -p mpv --disown-player --listen-all -sp "lofi hip hop radio" # skip playlist results menu
@@ -474,61 +430,106 @@ yt-x -l fzf -p mpv --disown-player --listen-all -sp "lofi hip hop radio" # skip 
 yt-x -l fzf -p mpv --disown-player --listen -sp "lofi hip hop radio" # choose specific video to listen to
 ```
 
-**4. Non‑Interactive Actions (Scripting)**  
-Automatically play the first video in a search result, then exit:
-
-```bash
-yt-x --playlist-skip --play -s "cute cats"
-```
-
-**5. Play Whole Playlist Immediately**  
-Skip both the main menu and the item selection – jump straight into playing a whole playlist:
+**Binge your watch later**
 
 ```bash
 yt-x --play-all --watch-later
 ```
 
-**6. Save Current Playlist Without Any Menus**  
-When browsing a playlist, save it as a custom playlist and exit:
+**Save the playlist and exit**
 
 ```bash
-yt-x --save-playlist --media-exit
+yt-x --save-playlist --media-exit --search-playlist "anatomy"
 ```
 
-**7. Jump Directly to a Channel**  
-Open a subscribed channel’s videos without going through the main menu:
+**Download playlist and exit**
 
 ```bash
-yt-x channels -n "Linus Tech Tips" -v
+yt-x --download-all --media-exit --search-playlist "general relativity"
 ```
 
-**8. Generate a Desktop Entry (Linux)**  
-Create a native application shortcut in your desktop environment:
+**Search a channel and play a video**
+
+```bash
+# though i already think its obvious lol
+yt-x channels -n "Linus Tech Tips" -s "linux or mac" --play
+```
+
+**create a desktop entry**
 
 ```bash
 yt-x -E > ~/.local/share/applications/yt-x.desktop
-update-desktop-database ~/.local/share/applications/
 ```
 
-**9. Shell Completions**  
-Generate and apply autocomplete scripts for your shell (e.g., Fish):
+**Shell completions**
 
 ```bash
+# NOTE: incase of updates the completions may change or more maybe added
 yt-x completions --fish > ~/.config/fish/completions/yt-x.fish
 ```
 
-**10. Open a Specific Saved Video**  
-Bypass the saved videos menu and jump straight to a particular saved video:
+**listen to a saved video**
 
 ```bash
-yt-x -sv "My favourite video"
+yt-x --listen --media-exit -sv "podcast"
+```
+
+**listen to a custom playlist**
+
+```bash
+# you could easily keybind this
+yt-x --launcher rofi --no-disown-player --listen-all --media-exit -cp "study music"
+```
+
+**Explore a custom sites playlist and play the video**
+
+```bash
+# you could easily keybind this
+yt-x --launcher rofi --no-disown-player --play --media-exit -cc "my custom cmd for exploring a different streaming site that yt-dlp supports"
+```
+
+**search for shorts and download**
+
+```bash
+yt-x --download --media-exit -ss "linux meme"
+```
+
+**Explore the latest news and play on selection**
+
+```bash
+# you could easily keybind this
+yt-x --launcher rofi --no-disown-player --play --media-exit -s ":today world news"
+```
+
+**create convinience aliases**
+
+```fish
+function play
+    yt-x --play --media-exit $argv
+end
+
+funcsave play
+
+play -s "Top Movies"
+
+# you could do sth similar for zsh or bash
+# if you want auto complete for play just dump the completions to play.fish and find and replace yt-x with play
+
+# also do channel aliases
+function freecodecamp
+    yt-x --launcher fzf channel -n "freeCodeCamp.org" $argv
+end
+
+function freecodecamp-app
+    yt-x --launcher rofi --no-disown-player channel -n "freeCodeCamp.org" $argv
+end
+
+funcsave freecodecamp
+
+freecodecamp --search "how llms work"
 ```
 
 ## Configuration
-
-`yt-x` is highly customizable. On its first run, it automatically generates a configuration file. Because the configuration file is sourced natively as a shell script, it remains lightweight and extremely fast, while allowing for dynamic shell evaluations if needed.
-
-### Configuration File Location
 
 By default, the main configuration file is located at:
 
@@ -538,7 +539,7 @@ By default, the main configuration file is located at:
 
 _(Note: It respects the `$XDG_CONFIG_HOME` environment variable if set)._
 
-**Quick Edit:** You can open your configuration file in your default text editor at any time directly from the CLI:
+You can open it using the cli
 
 ```bash
 yt-x --edit-config
@@ -547,8 +548,6 @@ yt-x --edit-config
 ---
 
 ### Configuration Variables
-
-Below is a categorized breakdown of the available configuration options you can define in your `config` file.
 
 #### Display & Interface
 
@@ -565,13 +564,16 @@ Below is a categorized breakdown of the available configuration options you can 
 | Variable                       | Default | Description                                                                     |
 | :----------------------------- | :------ | :------------------------------------------------------------------------------ |
 | `CONFIG_ENABLE_PREVIEW`        | `false` | Enable or disable the preview window (metadata & descriptions).                 |
-| `CONFIG_ENABLE_PREVIEW_IMAGES` | `false` | Download and render high-quality thumbnails in the preview window.              |
+| `CONFIG_ENABLE_PREVIEW_IMAGES` | `false` | whether to render thumbnails in the preview window.                             |
 | `CONFIG_IMAGE_RENDERER`        | `chafa` | Tool used to render images in the terminal. Options: `chafa`, `icat`, `imgcat`. |
 | `CONFIG_CHAFA_ARGS`            | `""`    | Pass custom arguments to `chafa` (e.g., `--polite on`).                         |
 | `CONFIG_ICAT_ARGS`             | `""`    | Pass custom arguments to `icat` / `kitty +kitten icat`.                         |
 | `CONFIG_IMGCAT_ARGS`           | `""`    | Pass custom arguments to `imgcat`.                                              |
 
 #### Playback & Media Handling
+
+For configuring a player prefer its config file which you can also edit from why yt-x in the misc menu
+They exist purely for convinience and is more useful when passing from cmdline or env vars
 
 | Variable               | Default | Description                                                                |
 | :--------------------- | :------ | :------------------------------------------------------------------------- |
@@ -583,12 +585,12 @@ Below is a categorized breakdown of the available configuration options you can 
 
 #### Web Integration & `yt-dlp`
 
-| Variable             | Default | Description                                                                                                                                                                                     |
-| :------------------- | :------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `CONFIG_BROWSER`     | `""`    | Highly Recommended. Specify a browser (`brave`, `chrome`, `firefox`, `edge`, etc.) to securely extract cookies. Grants access to YouTube Subscriptions, age-restricted, and member-only videos. |
-| `CONFIG_YT_DLP_ARGS` | `""`    | Global fallback arguments passed directly to the `yt-dlp` backend.                                                                                                                              |
+| Variable             | Default | Description                                                                            |
+| :------------------- | :------ | :------------------------------------------------------------------------------------- |
+| `CONFIG_BROWSER`     | `""`    | Which browser yt-dlp should use to get browser cookies to access private playlists etc |
+| `CONFIG_YT_DLP_ARGS` | `""`    | pass custom arguments _though prefer yt-dlp config file_                               |
 
-#### Downloading & Archival
+#### Downloading
 
 | Variable                     | Default         | Description                                                                     |
 | :--------------------------- | :-------------- | :------------------------------------------------------------------------------ |
@@ -603,19 +605,21 @@ Below is a categorized breakdown of the available configuration options you can 
 | `CONFIG_NO_OF_RECENT`          | `10`    | The number of recent "Watch History" items to retain locally.                          |
 | `CONFIG_CACHE_RETENTION_DAYS`  | `7`     | Auto-clean stale preview images, autogen playlists, and logs older than this duration. |
 
-#### Advanced UI Tuning (FZF & Rofi)
+#### Fzf and Rofi
 
-| Variable                    | Default        | Description                                                                                                |
-| :-------------------------- | :------------- | :--------------------------------------------------------------------------------------------------------- |
-| `CONFIG_FZF_HEADER`         | _(logo)_       | A custom header string displayed at the top of the `fzf` menu (defaults to the `yt-x` ASCII logo).         |
-| `CONFIG_FZF_OPTS`           | _(see config)_ | Fine‑tune `fzf` layout, colors, pointers, and keybindings. Defaults to a fully‑themed "Tokyo Night" style. |
-| `CONFIG_ROFI_THEME_MAIN`    | `""`           | Path to a custom Rofi `.rasi` theme for the main menu.                                                     |
-| `CONFIG_ROFI_THEME_PREVIEW` | `""`           | Path to a custom Rofi `.rasi` theme for the preview menu.                                                  |
-| `CONFIG_ROFI_THEME_PROMPT`  | `""`           | Path to a custom Rofi `.rasi` theme for prompt dialogs.                                                    |
-| `CONFIG_ROFI_THEME_CONFIRM` | `""`           | Path to a custom Rofi `.rasi` theme for confirmation dialogs.                                              |
-| `CONFIG_ROFI_THEME_PAGER`   | `""`           | Path to a custom Rofi `.rasi` theme for the pager.                                                         |
+Check the repo for pre-configured rofi themes
 
-#### System & Extensions
+| Variable                    | Default        | Description                                                                                        |
+| :-------------------------- | :------------- | :------------------------------------------------------------------------------------------------- |
+| `CONFIG_FZF_HEADER`         | _(logo)_       | A custom header string displayed at the top of the `fzf` menu (defaults to the `yt-x` ASCII logo). |
+| `CONFIG_FZF_OPTS`           | _(see config)_ | Fine‑tune `fzf` layout, colors, pointers, and keybindings. Defaults to "Tokyo Night" .             |
+| `CONFIG_ROFI_THEME_MAIN`    | `""`           | Path to a custom Rofi `.rasi` theme for the main menu.                                             |
+| `CONFIG_ROFI_THEME_PREVIEW` | `""`           | Path to a custom Rofi `.rasi` theme for the preview menu.                                          |
+| `CONFIG_ROFI_THEME_PROMPT`  | `""`           | Path to a custom Rofi `.rasi` theme for prompt dialogs.                                            |
+| `CONFIG_ROFI_THEME_CONFIRM` | `""`           | Path to a custom Rofi `.rasi` theme for confirmation dialogs.                                      |
+| `CONFIG_ROFI_THEME_PAGER`   | `""`           | Path to a custom Rofi `.rasi` theme for the pager.                                                 |
+
+#### Others
 
 | Variable                       | Default | Description                                                                 |
 | :----------------------------- | :------ | :-------------------------------------------------------------------------- |
@@ -1327,9 +1331,9 @@ and it just works.
 
 </details>
 
-## Support & Contribution
+## Contribution
 
-Pull requests are highly welcome! Whether it's adding new extension logic, fixing bugs, or expanding search parameters, feel free to fork and contribute.
+Pull requests are highly welcome :)
 
 ### Supporting the Project
 
