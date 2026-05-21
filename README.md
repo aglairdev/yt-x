@@ -45,7 +45,7 @@
 
 </details>
 
-## 📖 Table of Contents
+## Table of Contents
 
 - [Features](#-features)
   - [Search & Discovery](#-search--discovery)
@@ -289,7 +289,7 @@ yt-x
 
 ### Command‑Line Options
 
-#### 🔍 Search & Discovery
+#### Search & Discovery
 
 - `-s, --search <term>` : Immediately execute a video search and bypass the main menu.
 - `-sp, --search-playlist <term>` : Immediately execute a playlist search.
@@ -297,13 +297,13 @@ yt-x
 - `-ss, --search-short <term>` : Immediately execute a short search.
 - `-sm, --search-movie <term>` : Immediately execute a movie search.
 
-#### 🔖 Access saved items
+#### Access saved items
 
 - `-cp, --custom-playlist <name>` : Open a specific custom playlist by its saved name
 - `-cc, --custom-cmd <name>` : Execute a specific custom command by its saved name
 - `-sv, --saved-video <title>` : Open a specific saved video by its title
 
-#### 🖥️ UI & Interface
+#### UI & Interface
 
 - `-l, --launcher <fzf|rofi>` : Override the default menu launcher.
 - `--preview` : Enable the preview window (images/text)
@@ -315,7 +315,7 @@ yt-x
 - `-ps, --playlist-skip` : Skip the item selection menu and automatically pick the first entry in a playlist.
 - `-me, --media-exit` : Exit after performing a media action (watch, listen, download, etc.).
 
-#### 🎬 Media Action Shortcuts (skip the media action menu)
+#### Media Action Shortcuts (skip the media action menu)
 
 - `--play` : Immediately watch the selected video (you still choose from the list).
 - `--play-all` : Immediately play the whole playlist (implies `--playlist-skip`).
@@ -770,7 +770,7 @@ By default, `yt-x` blocks the terminal until the media player is closed. To brow
 </details>
 
 <details>
-<summary><b>🍎 I'm on macOS and getting `command not found`, `_load_config`, or `jq` errors.</b></summary>
+<summary><b>I'm on macOS and getting `command not found`, `_load_config`, or `jq` errors.</b></summary>
 <br>
 
 macOS ships with an outdated version of Bash (v3.x) and older standard utilities. `yt-x` requires modern tooling. Ensure you have installed the core dependencies via Homebrew (`brew install yt-dlp fzf jq chafa mpv`). If you encounter shell-specific errors, ensure your terminal is executing the script using a modern, Homebrew-installed shell environment rather than Apple's legacy `/bin/sh`.
