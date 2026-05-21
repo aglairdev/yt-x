@@ -49,7 +49,7 @@
 
 - [Features](#-features)
 - [Installation](#-installation)
-  - [Prerequisites](#️-prerequisites)
+  - [Prerequisites](#-prerequisites)
   - [Universal Installation](#-universal-installation)
   - [Platform-Specific Instructions](#-platform-specific-instructions)
 - [Usage](#usage)
@@ -700,8 +700,6 @@ Something like this
 ```
 
 </details>
-
-<details>
 
 <details>
 <summary><b>Why are my image previews not showing up?</b></summary>
