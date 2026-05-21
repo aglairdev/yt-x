@@ -141,7 +141,9 @@
   - `icat` _(Recommended for Kitty and Ghostty)_
   - `imgcat` _(For iTerm2/WezTerm)_
 - **Alternate Launcher:** `rofi` _(Great if you want a desktop app launcher, you could even keybind the command, its really cool)._
-- **Terminal QoL** `gum` _(Better terminal ui; loaders, prompts etc)._
+- **Terminal QoL:**
+  - `gum` _(Better terminal ui; loaders, prompts etc)._
+  - `bat` _to show update diffs in a nicer way_
 
 ---
 
