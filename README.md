@@ -711,8 +711,6 @@ Something like this
 <details>
 
 <details>
-
-<details>
 <summary><b>Why are my image previews not showing up?</b></summary>
 <br>
 
@@ -845,8 +843,6 @@ works supprisingly well
 </details>
 
 <details>
-
-<details>
 <summary><b>How do I populate the Channels/Subscriptions tab? It says my JSON is empty.</b></summary>
 <br>
 
@@ -908,8 +904,6 @@ yt-x --save-playlist --media-exit
 _read usage for more examples and cmdline docs_
 
 </details>
-
-<details>
 
 <details>
 <summary><b>What is the `--shell` flag and when should I use it?</b></summary>
