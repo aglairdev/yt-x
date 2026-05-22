@@ -702,7 +702,7 @@ __post_config_load() {
 ░░░╚═╝░░░░░░╚═╝░░░░░░░░░╚═╝░░╚═╝$(printf '%s' "$THEME_RESET")"
 
   if [ -n "$CONFIG_AUTOLOADED_EXTENSIONS" ]; then
-    for ext in $(echo "$CONFIG_AUTOLOADED_EXTENSIONS" | tr ',' '\n'); do
+    for ext in $(printf '%s' "$CONFIG_AUTOLOADED_EXTENSIONS" | tr ',' '\n'); do
       [ -s "$CLI_EXTENSIONS_DIR/$ext" ] && . "$CLI_EXTENSIONS_DIR/$ext"
     done
   fi
@@ -947,7 +947,7 @@ _util_generate_hash() {
 }
 
 _util_byebye() {
-  echo "$TXT_BYEBYE $USER"
+  printf '%s %s\n' "$TXT_BYEBYE" "$USER"
   exit
 }
 # ==============================================================================
@@ -956,11 +956,11 @@ _util_byebye() {
 __ui_notify_terminal() {
   #TODO: finish implementation
   case "$1" in
-  info) echo "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
-  warning) echo "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
-  error) echo "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
-  critical) echo "$2" >&2 && exit 1 ;;
-  *) echo "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
+  info) printf '%s\n' "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
+  warning) printf '%s\n' "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
+  error) printf '%s\n' "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
+  critical) printf '%s\n' "$2" >&2 && exit 1 ;;
+  *) printf '%s\n' "$2" >&2 && sleep "$CONFIG_NOTIFICATION_DURATION" ;;
   esac
 
 }
@@ -1060,7 +1060,7 @@ __ui_rofi_launcher() {
     sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g" |
       rofi -no-config -theme "$CONFIG_ROFI_THEME_MAIN" -dmenu -i $custom_opts -p "$1"
   )
-  echo "$selection"
+  printf '%s' "$selection"
 }
 
 _ui_launcher() {
@@ -1122,7 +1122,7 @@ __ui_rofi_launcher_with_preview() {
     sed -E "s/$THEME_ESC(\[[0-9;]*[a-zA-Z]|\(B)//g" |
       rofi -no-config -theme "$CONFIG_ROFI_THEME_PREVIEW" -dmenu -i $custom_opts -p "$1"
   )
-  echo "$selection"
+  printf '%s' "$selection"
 }
 
 _ui_launcher_with_preview() {
@@ -1303,7 +1303,7 @@ __ui_default_loader() {
     # shellcheck disable=SC2086
     gum spin --show-output -- $cmd
   else
-    echo "$TXT_LOADING" >/dev/stderr
+    printf '%s\n' "$TXT_LOADING" >/dev/stderr
     $cmd
   fi
 
@@ -1413,7 +1413,7 @@ __preview_fzf_generate_script_for_item() {
 
   data_item="$1"
 
-  eval "$(printf "%s\n" "$data_item" | jq -r '
+  eval "$(printf "%s" "$data_item" | jq -r '
     def format_number:
       tostring | split("") | reverse | join("") |
       gsub("(?<thousands>[0-9]{3})(?=[0-9])"; "\(.thousands),") |
@@ -1489,13 +1489,13 @@ __preview_fzf_generate_script_for_item() {
     ] | join("\n")
 ')"
 
-  preview_script_path="$CLI_PREVIEW_SCRIPTS_DIR/$(printf "%s\n" "$raw_title" | _util_generate_hash).sh"
+  preview_script_path="$CLI_PREVIEW_SCRIPTS_DIR/$(printf "%s" "$raw_title" | _util_generate_hash).sh"
 
   case "$img_url" in
   //*) img_url="https:$img_url" ;;
   esac
 
-  image_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s\n" "$img_url" | _util_generate_hash).jpg"
+  image_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s" "$img_url" | _util_generate_hash).jpg"
 
   cat <<EOF >"$preview_script_path"
 #!/usr/bin/env sh
@@ -1520,7 +1520,7 @@ if [ '$CONFIG_ENABLE_PREVIEW_IMAGES' = 'true' ];then
   if [ -s "$image_path" ];then 
     fzf_preview "$image_path" 2>/dev/null;
   else
-    printf "$TXT_FZF_PREVIEW_IMAGE_LOADING\n";
+    printf '%s\n' "$TXT_FZF_PREVIEW_IMAGE_LOADING";
   fi
 fi
 
@@ -1574,7 +1574,7 @@ _preview_fzf_generate_script() {
 
   __preview_fzf_create_shared_script
 
-  printf "%s\n" "$data_to_preview" | jq -c '.entries[]' | while IFS= read -r data_item; do
+  printf "%s" "$data_to_preview" | jq -c '.entries[]' | while IFS= read -r data_item; do
     __preview_fzf_generate_script_for_item "$data_item"
   done
 }
@@ -1588,8 +1588,8 @@ __preview_download_image() {
   images_to_download_file="$3"
 
   if ! [ -s "$output_path" ]; then
-    echo "url=$url" >>"$images_to_download_file"
-    echo "output=$output_path" >>"$images_to_download_file"
+    printf 'url=%s\n' "$url" >>"$images_to_download_file"
+    printf 'output=%s\n' "$output_path" >>"$images_to_download_file"
   fi
 }
 
@@ -1606,7 +1606,7 @@ _preview_fzf_download_imgs() {
     //*) url="https:$url" ;;
     esac
 
-    output_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s\n" "$url" | _util_generate_hash).jpg"
+    output_path="$CLI_PREVIEW_IMGS_DIR/$(printf "%s" "$url" | _util_generate_hash).jpg"
     __preview_download_image "$url" "$output_path" "$images_to_download_file"
   done
   [ -s "$images_to_download_file" ] && curl -sL --parallel --parallel-max 5 --config "$images_to_download_file" >/dev/null 2>&1 && rm "$images_to_download_file" 2>/dev/null
@@ -1615,9 +1615,9 @@ _preview_fzf_download_imgs() {
 _preview_fzf() {
   while IFS= read -r line; do
     if [ "$CONFIG_ENABLE_PREVIEW" = "true" ]; then
-      echo "$CLI_PREVIEW_SCRIPTS_DIR/$(echo "$line" | _util_generate_hash).sh|$line"
+      printf '%s/%s.sh|%s\n' "$CLI_PREVIEW_SCRIPTS_DIR" "$(printf '%s' "$line" | _util_generate_hash)" "$line"
     else
-      echo "$line"
+      printf '%s\n' "$line"
     fi
   done
 
@@ -1653,13 +1653,13 @@ _preview_rofi() {
 
     # shellcheck disable=SC2141
     printf "%s" "$data_to_preview" | jq --compact-output -r '.entries[]' | while IFS='\n' read -r entry; do
-      url=$(echo "$entry" | jq -r '.thumbnails[-1].url')
-      title=$(echo "$entry" | jq -r '.title')
+      url=$(printf '%s' "$entry" | jq -r '.thumbnails[-1].url')
+      title=$(printf '%s' "$entry" | jq -r '.title')
       if [ -n "$url" ] && [ "$url" != "null" ]; then
         case "$url" in
         //*) url="https:$url" ;;
         esac
-        url_hash="$(printf "%s\n" "$url" | _util_generate_hash)"
+        url_hash="$(printf "%s" "$url" | _util_generate_hash)"
         img_path="$CLI_PREVIEW_IMGS_DIR/${url_hash}.jpg"
 
         __preview_download_image "$url" "$img_path" "$images_to_download_file"
@@ -1677,7 +1677,7 @@ _preview_rofi() {
 
     cat "$output"
     if [ "$others" -gt 0 ]; then
-      echo "$input_titles" | tail -n "$others"
+      printf '%s' "$input_titles" | tail -n "$others"
     fi
   fi
 }
@@ -1895,7 +1895,7 @@ _fetch_playlist() {
   )"
 
   STATE_CURRENT_PLAYLIST_URL="$url"
-  STATE_CURRENT_PLAYLIST_TITLE="$(echo "$STATE_CURRENT_PLAYLIST_RESULTS" | jq '.title' -r)"
+  STATE_CURRENT_PLAYLIST_TITLE="$(printf '%s' "$STATE_CURRENT_PLAYLIST_RESULTS" | jq '.title' -r)"
 }
 
 fetch_playlist() {
@@ -1943,8 +1943,8 @@ _fetch_playlists() {
           "
   )"
 
-  STATE_CURRENT_PLAYLISTS_RESULTS_URL="$(echo "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.original_url' -r)"
-  STATE_CURRENT_PLAYLISTS_RESULTS_TITLE="$(echo "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.title' -r)"
+  STATE_CURRENT_PLAYLISTS_RESULTS_URL="$(printf '%s' "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.original_url' -r)"
+  STATE_CURRENT_PLAYLISTS_RESULTS_TITLE="$(printf '%s' "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.title' -r)"
 }
 
 fetch_playlists() {
@@ -1988,7 +1988,7 @@ _fetch_channels() {
           "
   )"
 
-  STATE_CURRENT_CHANNEL_RESULTS_URL="$(echo "$STATE_CURRENT_CHANNEL_RESULTS" | jq '.original_url' -r)"
+  STATE_CURRENT_CHANNEL_RESULTS_URL="$(printf '%s' "$STATE_CURRENT_CHANNEL_RESULTS" | jq '.original_url' -r)"
 }
 
 fetch_channels() {
@@ -2030,7 +2030,7 @@ _fetch_yt_subs() {
 
     channels_data=$(yt-dlp "https://www.youtube.com/feed/channels" --flat-playlist --dump-single-json --cookies-from-browser "$CONFIG_BROWSER")
     if [ -n "$channels_data" ]; then
-      echo "$channels_data" >"$CLI_SUBSCRIPTIONS_FILE"
+      printf '%s' "$channels_data" >"$CLI_SUBSCRIPTIONS_FILE"
     else
       ui_notify_error "$TXT_MENU_MISC_SYNC_SUBS_FAILED"
     fi
@@ -2047,27 +2047,27 @@ fetch_yt_subs() {
 # ==============================================================================
 _parse_search_filter() {
   case "$1" in
-  hour) echo "EgIIAQ%253D%253D" ;;
-  today) echo "EgIIAg%253D%253D" ;;
-  week) echo "EgIIAw%253D%253D" ;;
-  month) echo "EgIIBA%253D%253D" ;;
-  year) echo "EgIIBQ%253D%253D" ;;
-  video) echo "EgIQAQ%253D%253D" ;;
-  movie) echo "EgIQBA%253D%253D" ;;
-  live) echo "EgJAAQ%253D%253D" ;;
-  short) echo "EgQQARgB" ;;
-  long) echo "EgQQARgC" ;;
-  4k) echo "EgJwAQ%253D%253D" ;;
-  hd) echo "EgIgAQ%253D%253D" ;;
-  subtitles) echo "EgIoAQ%253D%253D" ;;
-  360) echo "EgJ4AQ%253D%253D" ;;
-  vr) echo "EgLIAQ%253D%253D" ;;
-  3d) echo "EgI4AQ%253D%253D" ;;
-  hdr) echo "EgPIAQ%253D%253D" ;;
-  local) echo "EgO4AQ%253D%253D" ;;
-  newest) echo "CAISAhAB" ;;
-  views) echo "CAMSAhAB" ;;
-  rating) echo "CAESAhAB" ;;
+  hour) printf '%s' "EgIIAQ%253D%253D" ;;
+  today) printf '%s' "EgIIAg%253D%253D" ;;
+  week) printf '%s' "EgIIAw%253D%253D" ;;
+  month) printf '%s' "EgIIBA%253D%253D" ;;
+  year) printf '%s' "EgIIBQ%253D%253D" ;;
+  video) printf '%s' "EgIQAQ%253D%253D" ;;
+  movie) printf '%s' "EgIQBA%253D%253D" ;;
+  live) printf '%s' "EgJAAQ%253D%253D" ;;
+  short) printf '%s' "EgQQARgB" ;;
+  long) printf '%s' "EgQQARgC" ;;
+  4k) printf '%s' "EgJwAQ%253D%253D" ;;
+  hd) printf '%s' "EgIgAQ%253D%253D" ;;
+  subtitles) printf '%s' "EgIoAQ%253D%253D" ;;
+  360) printf '%s' "EgJ4AQ%253D%253D" ;;
+  vr) printf '%s' "EgLIAQ%253D%253D" ;;
+  3d) printf '%s' "EgI4AQ%253D%253D" ;;
+  hdr) printf '%s' "EgPIAQ%253D%253D" ;;
+  local) printf '%s' "EgO4AQ%253D%253D" ;;
+  newest) printf '%s' "CAISAhAB" ;;
+  views) printf '%s' "CAMSAhAB" ;;
+  rating) printf '%s' "CAESAhAB" ;;
   *) return 1 ;;
   esac
 }
@@ -2128,7 +2128,7 @@ _download_playlist_video() {
   local enumerate_playlist
   local playlist_title
 
-  playlist_title="$(echo "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_ENTER_PLAYLIST_TITLE" "$STATE_CURRENT_PLAYLIST_TITLE")"
+  playlist_title="$(printf '%s' "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_ENTER_PLAYLIST_TITLE" "$STATE_CURRENT_PLAYLIST_TITLE")"
   [ -z "$playlist_title" ] && return
 
   [ "$CONFIG_DOWNLOADS_ENUMERATE" = "true" ] && enumerate_playlist="%(playlist_index)s - "
@@ -2150,7 +2150,7 @@ _download_playlist_audio() {
   local enumerate_playlist
   local playlist_title
 
-  playlist_title="$(echo "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_ENTER_PLAYLIST_TITLE" "$STATE_CURRENT_PLAYLIST_TITLE")"
+  playlist_title="$(printf '%s' "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_ENTER_PLAYLIST_TITLE" "$STATE_CURRENT_PLAYLIST_TITLE")"
   [ -z "$playlist_title" ] && return
 
   [ "$CONFIG_DOWNLOADS_ENUMERATE" = "true" ] && enumerate_playlist="%(playlist_index)s - "
@@ -2178,35 +2178,35 @@ __cached_mix_path() {
   local cached_mix_path
 
   url="$1"
-  video_id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r | sed 's/RD//g')
+  video_id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r | sed 's/RD//g')
 
   cached_mix_path="$CLI_AUTO_GEN_PLAYLISTS/$(_util_generate_hash "https://www.youtube.com/watch?v=${video_id}&list=RD$video_id").m3u8"
 
   if ! [ -s "$cached_mix_path" ]; then
     _mix_data="$(yt-dlp "https://www.youtube.com/watch?v=${video_id}&list=RD$video_id" --flat-playlist --dump-single-json 2>/dev/null)"
-    [ -z "$_mix_data" ] && echo "$url" && return
+    [ -z "$_mix_data" ] && printf '%s' "$url" && return
 
     # NOTE: the extended metadata below is not available in the mix data of yt
     # but other sites may have them. You could easily inject them using jq like:
     # "#EXTALB:\(.album)\n#EXTGENRE:\(.genre)\n#EXTGRP:\(.group)\n"
 
-    echo "$_mix_data" | jq -r '
+    printf '%s' "$_mix_data" | jq -r '
       "#EXTM3U",
       (.entries[]? | "#EXTINF:-1,\(.title)\n\(.url)\n")
     ' >"$cached_mix_path"
   fi
 
-  echo "$cached_mix_path"
+  printf '%s' "$cached_mix_path"
 }
 
 _cached_mix_path_or_url() {
   local url
   url="$1"
 
-  if echo "$url" | grep -q "list=RD"; then
+  if printf '%s' "$url" | grep -q "list=RD"; then
     __cached_mix_path "$url"
   else
-    echo "$url"
+    printf '%s' "$url"
   fi
 }
 
@@ -2379,10 +2379,10 @@ _update_recent() {
   current_recent='{"entries":[]}'
   [ -s "$CLI_RECENT_FILE" ] && current_recent=$(cat "$CLI_RECENT_FILE")
 
-  id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r)
-  video_entry="$(echo "$STATE_CURRENT_VIDEO" | jq '.title |= sub("^[0-9]+ "; "")')"
+  id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r)
+  video_entry="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.title |= sub("^[0-9]+ "; "")')"
 
-  echo "$current_recent" |
+  printf '%s' "$current_recent" |
     jq --arg id "$id" --argjson video_entry "$video_entry" '
     {
       "entries":[
@@ -2404,10 +2404,10 @@ _update_saved_videos() {
   current_saved_videos='{"entries":[]}'
   [ -s "$CLI_SAVED_VIDEOS_FILE" ] && current_saved_videos=$(cat "$CLI_SAVED_VIDEOS_FILE")
 
-  id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r)
-  video_entry="$(echo "$STATE_CURRENT_VIDEO" | jq '.title |= sub("^[0-9]+ "; "")')"
+  id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r)
+  video_entry="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.title |= sub("^[0-9]+ "; "")')"
 
-  echo "$current_saved_videos" |
+  printf '%s' "$current_saved_videos" |
     jq --arg id "$id" --argjson video_entry "$video_entry" '
     {
       "entries":[
@@ -2428,11 +2428,11 @@ _update_saved_playlists() {
   custom_playlists="[]"
   [ -s "$CLI_CUSTOM_PLAYLISTS_FILE" ] && custom_playlists=$(cat "$CLI_CUSTOM_PLAYLISTS_FILE")
 
-  playlist_name=$(echo "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_MENU_PLAYLIST_ACTIONS_PROMPT_SAVE_PLAYLIST" "$STATE_CURRENT_PLAYLIST_TITLE")
+  playlist_name=$(printf '%s' "$STATE_CURRENT_PLAYLIST_TITLE" | ui_prompt "$TXT_MENU_PLAYLIST_ACTIONS_PROMPT_SAVE_PLAYLIST" "$STATE_CURRENT_PLAYLIST_TITLE")
   [ -z "$playlist_name" ] && return
-  playlist_id=$(echo "$STATE_CURRENT_PLAYLIST_RESULTS" | jq -r ".id")
+  playlist_id=$(printf '%s' "$STATE_CURRENT_PLAYLIST_RESULTS" | jq -r ".id")
 
-  echo "$custom_playlists" | jq \
+  printf '%s' "$custom_playlists" | jq \
     --arg id "$playlist_id" \
     --arg name "$playlist_name" \
     --arg url "$STATE_CURRENT_PLAYLIST_URL" '
@@ -2453,9 +2453,9 @@ _remove_recent() {
   current_recent='{"entries":[]}'
   [ -s "$CLI_RECENT_FILE" ] && current_recent=$(cat "$CLI_RECENT_FILE")
 
-  id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r)
+  id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r)
 
-  echo "$current_recent" |
+  printf '%s' "$current_recent" |
     jq --arg id "$id" '{
     "entries":[
       .entries[]
@@ -2471,9 +2471,9 @@ _remove_saved_video() {
   current_saved_videos='{"entries":[]}'
   [ -s "$CLI_SAVED_VIDEOS_FILE" ] && current_saved_videos=$(cat "$CLI_SAVED_VIDEOS_FILE")
 
-  id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r)
+  id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r)
 
-  echo "$current_saved_videos" |
+  printf '%s' "$current_saved_videos" |
     jq --arg id "$id" '{
     "entries":[
       .entries[]
@@ -2489,9 +2489,9 @@ _remove_saved_playlist() {
   custom_playlists="[]"
   [ -s "$CLI_CUSTOM_PLAYLISTS_FILE" ] && custom_playlists=$(cat "$CLI_CUSTOM_PLAYLISTS_FILE")
 
-  playlist_id=$(echo "$STATE_CURRENT_PLAYLIST_URL" | sed 's/.*list=//g')
+  playlist_id=$(printf '%s' "$STATE_CURRENT_PLAYLIST_URL" | sed 's/.*list=//g')
 
-  echo "$custom_playlists" |
+  printf '%s' "$custom_playlists" |
     jq --arg id "$playlist_id" 'select(.id != $id)' >"$CLI_CUSTOM_PLAYLISTS_FILE"
 }
 
@@ -2543,7 +2543,7 @@ __menu_playlist_actions_mix() {
   local video_id
   local url
 
-  video_id=$(echo "$STATE_CURRENT_VIDEO" | jq '.id' -r)
+  video_id=$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.id' -r)
   url="watch?v=${video_id}&list=RD$video_id"
 
   fetch_playlist "$url"
@@ -2668,14 +2668,14 @@ __menu_playlist_actions_visit_channel() {
   local uploader_id
   local channel_entry
 
-  channel_url="$(echo "$STATE_CURRENT_VIDEO" | jq -r ".channel_url // .uploader_url // empty")"
+  channel_url="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r ".channel_url // .uploader_url // empty")"
   case "$channel_url" in
   //*) channel_url="https:$channel_url" ;;
   esac
 
   if [ -z "$channel_url" ]; then
-    channel_id="$(echo "$STATE_CURRENT_VIDEO" | jq -r ".channel_id // empty")"
-    uploader_id="$(echo "$STATE_CURRENT_VIDEO" | jq -r ".uploader_id // empty")"
+    channel_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r ".channel_id // empty")"
+    uploader_id="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq -r ".uploader_id // empty")"
 
     if [ -n "$channel_id" ]; then
       channel_url="https://www.youtube.com/channel/$channel_id"
@@ -2689,7 +2689,7 @@ __menu_playlist_actions_visit_channel() {
 
   if [ -z "$channel_url" ] || [ "$channel_url" = "null" ]; then
     if [ -n "$STATE_CURRENT_PLAYLIST_RESULTS" ]; then
-      channel_url="$(echo "$STATE_CURRENT_PLAYLIST_RESULTS" | jq -r ".channel_url // .uploader_url // empty")"
+      channel_url="$(printf '%s' "$STATE_CURRENT_PLAYLIST_RESULTS" | jq -r ".channel_url // .uploader_url // empty")"
     fi
   fi
 
@@ -2707,7 +2707,7 @@ __menu_playlist_actions_visit_channel() {
   fi
 
   if ! channel_entry="$(
-    echo "$STATE_CURRENT_VIDEO" |
+    printf '%s' "$STATE_CURRENT_VIDEO" |
       jq -c --arg url "$channel_url" '{
       "id": (.channel_id // .uploader_id // ""),
       "title": (.channel // .uploader // $url),
@@ -2717,13 +2717,13 @@ __menu_playlist_actions_visit_channel() {
     ui_notify_error "$TXT_MENU_PLAYLIST_ACTIONS_CHANNEL_NOT_FOUND"
     return
   fi
-  if ! echo "$channel_entry" | jq -e ". != null" >/dev/null 2>&1; then
+  if ! printf '%s' "$channel_entry" | jq -e ". != null" >/dev/null 2>&1; then
     ui_notify_error "$TXT_MENU_PLAYLIST_ACTIONS_CHANNEL_NOT_FOUND"
     return
   fi
 
   STATE_CURRENT_CHANNEL_URL="$channel_url"
-  STATE_CURRENT_CHANNEL_TITLE="$(echo "$channel_entry" | jq -r ".title")"
+  STATE_CURRENT_CHANNEL_TITLE="$(printf '%s' "$channel_entry" | jq -r ".title")"
   if ! STATE_CURRENT_CHANNEL_RESULTS="$(jq -n --argjson channel "$channel_entry" '{"entries":[$channel]}')"; then
     ui_notify_error "$TXT_MENU_PLAYLIST_ACTIONS_CHANNEL_NOT_FOUND"
     return
@@ -2837,11 +2837,11 @@ __menu_playlist_explorer() {
   id=$(printf "%s" "$title" | sed -E 's/^0*([0-9]+) .*/\1/')
 
   STATE_CURRENT_VIDEO="$(
-    echo "$STATE_CURRENT_PLAYLIST_RESULTS" |
+    printf '%s' "$STATE_CURRENT_PLAYLIST_RESULTS" |
       jq --argjson id "$((id - 1))" '.entries[$id]'
   )"
-  STATE_CURRENT_VIDEO_URL="$(echo "$STATE_CURRENT_VIDEO" | jq '.url' -r)"
-  STATE_CURRENT_VIDEO_TITLE="$(echo "$title" | sed -E 's/^[0-9]+ //g')"
+  STATE_CURRENT_VIDEO_URL="$(printf '%s' "$STATE_CURRENT_VIDEO" | jq '.url' -r)"
+  STATE_CURRENT_VIDEO_TITLE="$(printf '%s' "$title" | sed -E 's/^[0-9]+ //g')"
   _state_push
 
   menu_playlist_actions
@@ -2862,10 +2862,10 @@ $TXT_MENU_BACK
 $TXT_MENU_EXIT"
 
   while true; do
-    titles=$(echo "$STATE_CURRENT_PLAYLIST_RESULTS" | jq '.entries[].title' -r)
+    titles=$(printf '%s\n' "$STATE_CURRENT_PLAYLIST_RESULTS" | jq '.entries[].title' -r)
 
     if [ "$CMD_PLAYLIST_RESULTS_SKIP" = "true" ]; then
-      choice="$(echo "$titles" | head -n 1)"
+      choice="$(printf '%s' "$titles" | head -n 1)"
       unset -v CMD_PLAYLIST_RESULTS_SKIP
     else
       choice="$(
@@ -2913,10 +2913,10 @@ __menu_playlists_explorer() {
   id=$(printf "%s" "$title" | sed -E 's/^0*([0-9]+) .*/\1/')
 
   current_playlist="$(
-    echo "$STATE_CURRENT_PLAYLISTS_RESULTS" |
+    printf '%s' "$STATE_CURRENT_PLAYLISTS_RESULTS" |
       jq --argjson id "$((id - 1))" '.entries[$id]'
   )"
-  url="$(echo "$current_playlist" | jq '.url' -r)"
+  url="$(printf '%s' "$current_playlist" | jq '.url' -r)"
 
   fetch_playlist "$url"
   menu_playlist_explorer
@@ -2937,7 +2937,7 @@ $TXT_MENU_BACK
 $TXT_MENU_EXIT"
 
   while true; do
-    titles=$(echo "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.entries[].title' -r)
+    titles=$(printf '%s' "$STATE_CURRENT_PLAYLISTS_RESULTS" | jq '.entries[].title' -r)
     choice="$(
       printf "%s\n%s" "$titles" "$other_choices" |
         preview "$STATE_CURRENT_PLAYLISTS_RESULTS" |
@@ -2978,14 +2978,14 @@ __menu_channel_actions_subscribe() {
   fi
 
   channel="$(
-    echo "$STATE_CURRENT_CHANNEL_RESULTS" |
+    printf '%s' "$STATE_CURRENT_CHANNEL_RESULTS" |
       jq --arg title "$STATE_CURRENT_CHANNEL_TITLE" '.entries | map(select(.title == $title)) | .[0]'
   )"
-  channel="$(echo "$channel" | jq '.title |= sub("^[0-9]+ "; "")')"
+  channel="$(printf '%s' "$channel" | jq '.title |= sub("^[0-9]+ "; "")')"
 
-  id=$(echo "$channel" | jq '.id' -r)
+  id=$(printf '%s' "$channel" | jq '.id' -r)
 
-  echo "$_channels_data" |
+  printf '%s' "$_channels_data" |
     jq --arg id "$id" --argjson channel "$channel" '{
     "entries":[
       .entries[]
@@ -3078,7 +3078,7 @@ ${THEME_FZF_ICON_COLOR_ERROR}󰈆${THEME_RESET}  ${TXT_MENU_EXIT}"
       ;;
     "$TXT_MENU_CHANNEL_ACTIONS_SEARCH")
       if [ -n "$CMD_CHANNEL_ACTION" ] && [ -n "$CMD_INPUT" ]; then
-        search_term="$(echo "$CMD_INPUT" | jq -Rr '@uri')"
+        search_term="$(printf '%s' "$CMD_INPUT" | jq -Rr '@uri')"
         unset -v CMD_CHANNEL_ACTION CMD_INPUT
       else
         local search_term
@@ -3127,12 +3127,12 @@ __menu_channels_explorer() {
   channel_name="$1"
 
   channel="$(
-    echo "$STATE_CURRENT_CHANNEL_RESULTS" |
+    printf '%s' "$STATE_CURRENT_CHANNEL_RESULTS" |
       jq --arg name "$channel_name" '.entries|map(select(.title == $name))|.[0]'
   )"
 
-  STATE_CURRENT_CHANNEL_URL="$(echo "$channel" | jq '.url' -r)"
-  STATE_CURRENT_CHANNEL_TITLE="$(echo "$channel" | jq '.title' -r)"
+  STATE_CURRENT_CHANNEL_URL="$(printf '%s' "$channel" | jq '.url' -r)"
+  STATE_CURRENT_CHANNEL_TITLE="$(printf '%s' "$channel" | jq '.title' -r)"
   _state_push
 
   menu_channel_actions
@@ -3153,7 +3153,7 @@ $TXT_MENU_BACK
 $TXT_MENU_EXIT"
 
   while true; do
-    channels=$(echo "$STATE_CURRENT_CHANNEL_RESULTS" | jq '.entries[].title' -r)
+    channels=$(printf '%s' "$STATE_CURRENT_CHANNEL_RESULTS" | jq '.entries[].title' -r)
     choice="$(
       printf "%s\n%s" "$channels" "$other_choices" |
         preview "$STATE_CURRENT_CHANNEL_RESULTS" |
@@ -3181,7 +3181,7 @@ __menu_miscellaneous_explore_channels() {
   local url
 
   if [ -n "$CMD_INPUT" ]; then
-    search_term="$(echo "$CMD_INPUT" | jq -Rr '@uri')"
+    search_term="$(printf '%s' "$CMD_INPUT" | jq -Rr '@uri')"
     unset -v CMD_MAIN_ACTION CMD_MISC_ACTION CMD_INPUT
   else
     search_term=$(ui_prompt "$TXT_MENU_MISC_EXPLORE_CHANNELS_PROMPT" | jq -Rr '@uri')
@@ -3202,7 +3202,7 @@ __menu_miscellaneous_explore_playlists() {
   local url
 
   if [ -n "$CMD_INPUT" ]; then
-    search_term="$(echo "$CMD_INPUT" | jq -Rr '@uri')"
+    search_term="$(printf '%s' "$CMD_INPUT" | jq -Rr '@uri')"
     unset -v CMD_MAIN_ACTION CMD_MISC_ACTION CMD_INPUT
   else
     search_term=$(ui_prompt "$TXT_MENU_MISC_EXPLORE_PLAYLISTS_PROMPT" | jq -Rr '@uri')
@@ -3223,7 +3223,7 @@ __menu_miscellaneous_explore_shorts() {
   local url
 
   if [ -n "$CMD_INPUT" ]; then
-    search_term="$(echo "$CMD_INPUT" | jq -Rr '@uri')"
+    search_term="$(printf '%s' "$CMD_INPUT" | jq -Rr '@uri')"
     unset -v CMD_INPUT
   else
     search_term=$(ui_prompt "$TXT_MENU_MISC_EXPLORE_SHORTS_PROMPT" | jq -Rr '@uri')
@@ -3244,7 +3244,7 @@ __menu_miscellaneous_explore_movies() {
   local url
 
   if [ -n "$CMD_INPUT" ]; then
-    search_term="$(echo "$CMD_INPUT" | jq -Rr '@uri')"
+    search_term="$(printf '%s' "$CMD_INPUT" | jq -Rr '@uri')"
     unset -v CMD_INPUT
   else
     search_term=$(ui_prompt "$TXT_MENU_MISC_EXPLORE_MOVIES_PROMPT" | jq -Rr '@uri')
@@ -3277,7 +3277,7 @@ __menu_miscellaneous_new_custom_command() {
     [ -s "$CLI_CUSTOM_CMDS_FILE" ] && custom_cmds=$(cat "$CLI_CUSTOM_CMDS_FILE")
 
     # TODO: maybe switch to a map
-    echo "$custom_cmds" | jq \
+    printf '%s' "$custom_cmds" | jq \
       --arg name "$custom_cmd_name" \
       --arg url "$custom_cmd_url" \
       --arg opts "$custom_cmd_yt_dlp_opts" '
@@ -3331,8 +3331,8 @@ __menu_miscellaneous_custom_commands() {
           | .[0]' "$CLI_CUSTOM_CMDS_FILE"
         )
 
-        url="$(echo "$custom_cmd" | jq -r ".url")"
-        yt_dlp_opts="$(echo "$custom_cmd" | jq -r '.["yt-dlp-opts"]')"
+        url="$(printf '%s' "$custom_cmd" | jq -r ".url")"
+        yt_dlp_opts="$(printf '%s' "$custom_cmd" | jq -r '.["yt-dlp-opts"]')"
 
         # shellcheck disable=SC2086
         _fetch_playlist "$url" $yt_dlp_opts
@@ -3696,7 +3696,7 @@ __menu_main_channels_explorer() {
         fi
       else
         channel=$(
-          printf "%s\n%s" "$(echo "$channels" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
+          printf "%s\n%s" "$(printf '%s' "$channels" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
             preview "$channels" |
             ui_launcher_with_preview "$TXT_MENU_MAIN_CHANNELS_PROMPT"
         )
@@ -3797,7 +3797,7 @@ __menu_main_saved_videos() {
         unset -v CMD_INPUT
       else
         selection=$(
-          printf "%s\n%s" "$(echo "$saved_videos" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
+          printf "%s\n%s" "$(printf '%s' "$saved_videos" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
             preview "$saved_videos" |
             ui_launcher_with_preview "$TXT_MENU_MAIN_SAVED_PROMPT"
         )
@@ -3807,15 +3807,15 @@ __menu_main_saved_videos() {
       "$TXT_MENU_BACK" | "") break ;;
       *)
         video=$(
-          echo "$saved_videos" | jq -r --arg title "$selection" '
+          printf '%s' "$saved_videos" | jq -r --arg title "$selection" '
           .entries
           | map(select(.title == $title ))[0]
           '
         )
 
         STATE_CURRENT_VIDEO="$video"
-        STATE_CURRENT_VIDEO_URL="$(echo "$video" | jq -r ".url")"
-        STATE_CURRENT_VIDEO_TITLE="$(echo "$selection" | sed -E 's/^[0-9]+ //g')"
+        STATE_CURRENT_VIDEO_URL="$(printf '%s' "$video" | jq -r ".url")"
+        STATE_CURRENT_VIDEO_TITLE="$(printf '%s' "$selection" | sed -E 's/^[0-9]+ //g')"
 
         _state_push
         menu_playlist_actions
@@ -3851,7 +3851,7 @@ __menu_main_recent() {
 
     while true; do
       selection=$(
-        printf "%s\n%s" "$(echo "$saved_videos" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
+        printf "%s\n%s" "$(printf '%s' "$saved_videos" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
           preview "$saved_videos" |
           ui_launcher_with_preview "$TXT_MENU_MAIN_SAVED_PROMPT"
       )
@@ -3860,15 +3860,15 @@ __menu_main_recent() {
       "$TXT_MENU_BACK" | "") break ;;
       *)
         video=$(
-          echo "$saved_videos" | jq -r --arg title "$selection" '
+          printf '%s' "$saved_videos" | jq -r --arg title "$selection" '
           .entries
           | map(select(.title == $title ))[0]
           '
         )
 
         STATE_CURRENT_VIDEO="$video"
-        STATE_CURRENT_VIDEO_URL="$(echo "$video" | jq -r ".url")"
-        STATE_CURRENT_VIDEO_TITLE="$(echo "$selection" | sed -E 's/^[0-9]+ //g')"
+        STATE_CURRENT_VIDEO_URL="$(printf '%s' "$video" | jq -r ".url")"
+        STATE_CURRENT_VIDEO_TITLE="$(printf '%s' "$selection" | sed -E 's/^[0-9]+ //g')"
 
         _state_push
         menu_playlist_actions
@@ -3979,7 +3979,7 @@ _app_update_check() {
   is_update="$(printf "%s" "$update" | diff -u "$CLI_PATH" -)"
 
   if [ -n "$is_update" ]; then
-    ui_confirm "$TXT_UPDATE_FOUND" && echo "$is_update" | ui_pager
+    ui_confirm "$TXT_UPDATE_FOUND" && printf '%s' "$is_update" | ui_pager
     ui_confirm "$TXT_UPDATE_CONFIRM" && _app_update_script "$update"
   else
     return 1
@@ -3996,13 +3996,13 @@ _app_auto_update() {
 
     interval=$((12 * 60 * 60))
 
-    last_check_time=$(cat "$timestamp_file" 2>/dev/null || echo 0)
+    last_check_time=$(cat "$timestamp_file" 2>/dev/null || printf '0')
 
     if [ "$((CLI_START_TIME - last_check_time))" -ge "$interval" ]; then
       _app_cache_clean_up &
 
       _app_update_check
-      echo "$CLI_START_TIME" >"$timestamp_file"
+      printf '%s' "$CLI_START_TIME" >"$timestamp_file"
     fi
   fi
 }
@@ -4213,8 +4213,8 @@ _app_cmd_line_parser() {
     shift_count=1
     case "$1" in
     -h | --help) _app_usage ;;
-    -v | --version) echo "$CLI_NAME v$CLI_VERSION MIT Copyright © 2024 $CLI_AUTHOR projects" && exit 0 ;;
-    -U | --update) _app_update_check || echo "$TXT_UPDATE_NOT_FOUND" && exit 1 ;;
+    -v | --version) printf '%s v%s MIT Copyright © 2024 %s\n' "$CLI_NAME" "$CLI_VERSION" "$CLI_AUTHOR" && exit 0 ;;
+    -U | --update) _app_update_check || printf '%s\n' "$TXT_UPDATE_NOT_FOUND" && exit 1 ;;
     -e | --edit-config) _app_edit_config ;;
     -E | --generate-desktop-entry) _app_generate_desktop_entry ;;
     -ce | --cmd-exit) CMD_EXIT=true ;;
@@ -4443,8 +4443,8 @@ _app_cmd_line_parser() {
       [ -n "$2" ] || _app_usage 1
       case "$2" in
       -f | --fish) _app_completions_fish ;;
-      -b | --bash) echo "Contribute to $CLI_NAME by writing bash completions" && exit 1 ;;
-      -z | --zsh) echo "Contribute to $CLI_NAME by writing zsh completions" && exit 1 ;;
+      -b | --bash) printf '%s\n' "Contribute to $CLI_NAME by writing bash completions" && exit 1 ;;
+      -z | --zsh) printf '%s\n' "Contribute to $CLI_NAME by writing zsh completions" && exit 1 ;;
       -h | --help) _app_usage_completions ;;
       *) _app_usage_completions 1 ;;
       esac
