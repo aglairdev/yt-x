@@ -3698,7 +3698,7 @@ __menu_main_channels_explorer() {
         fi
       else
         channel=$(
-          printf "%s\n%s" "$(printf '%s' "$channels" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
+          printf "%s\n%s\n" "$(printf '%s' "$channels" | jq -r '.entries[].title')" "$TXT_MENU_BACK" |
             preview "$channels" |
             ui_launcher_with_preview "$TXT_MENU_MAIN_CHANNELS_PROMPT"
         )
