@@ -94,7 +94,7 @@
 - **Saved Videos & Playlists**: Create local "Saved Videos" and "Custom Playlists for watching later without having to download them
 - **Browser Cookies**: optionally configure a browser (`CONFIG_BROWSER` passes to yt-dlp's `--cookies-from-browser`) to access age-restricted or account-specific content.
 - **Custom Commands**: Create custom cmds that execute specific URLs and `yt-dlp` options (e.g., setting up a command to browse a completely different streaming site that yt-dlp supports).
-- **Extensions**: extend yt-c with custom scripts, sites, themes, and commands placed in `$HOME/.config/yt-x/extensions/`.
+- **Extensions**: extend yt-x with custom scripts, sites, themes, and commands placed in `$HOME/.config/yt-x/extensions/`.
 - **Stateful Sub-Shell Execution**: Drop into a shell pre-loaded with the environment variables of your current session (current video title, URL, channel info, etc.) for custom scripting
 - **Desktop Integration**: generate a `.desktop` file, to be launched natively from application menus (Linux).
 - **Cache Management**: Automatically cleans up stale preview images, auto-generated playlists, and logs older than a set period (Default: 7 days)
@@ -696,7 +696,19 @@ Something like this
 --merge-output-format mkv
 --no-warnings
 --quiet
---match-filter "!unavailable"
+--reject-title "\[Deleted video\]|\[Private video\]"
+```
+
+</details>
+
+<details>
+<summary><b>How do i filter out deleted or private videos?</b></summary>
+<br>
+
+Add something like this to yt-dlp config
+
+```conf
+--reject-title "\[Deleted video\]|\[Private video\]"
 ```
 
 </details>
