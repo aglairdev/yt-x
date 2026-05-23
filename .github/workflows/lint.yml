@@ -2,15 +2,15 @@ name: Lint & Format
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
-      - 'yt-x'
-      - 'extensions/**'
+      - "yt-x"
+      - "extensions/**"
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
     paths:
-      - 'yt-x'
-      - 'extensions/**'
+      - "yt-x"
+      - "extensions/**"
 
 jobs:
   lint:
@@ -33,4 +33,4 @@ jobs:
         run: |
           shellcheck --shell=sh --severity=warning extensions/*/**
 
-   # TODO: add a formatting check
+    # TODO: add a formatting check
