@@ -2,7 +2,7 @@
 
 # 📺 yt-x
 
-**Browse YouTube and other `yt-dlp` supported sites directly from your terminal.**
+**Browse YouTube and other `yt-dlp` supported sites directly from your terminal or app launcher.**
 
 [![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/Benex254/yt-x?style=flat-square)](https://github.com/Benex254/yt-x/issues)
 [![GitHub License](https://img.shields.io/github/license/Benex254/yt-x?style=flat-square)](https://github.com/Benex254/yt-x/blob/master/LICENSE)
